@@ -1,0 +1,20 @@
+{
+  "bundle_id": "E01-XIANYU-DEMO-001",
+  "sku_id": "E01",
+  "title": "Modbus RTU诊断与模板工具包（合成演练）",
+  "version": "0.1.0-demo",
+  "rights_status": "ORIGINAL",
+  "listing_title": "【演练草稿】STM32/GD32 Modbus RTU报文诊断工具包",
+  "listing_description": "这是合成测试数据，不得发布。",
+  "buyer_notice": [
+    "购买前确认兼容范围",
+    "演练数据，不提供真实交付"
+  ],
+  "reply_rules": [
+    {
+      "keyword": "支持什么芯片",
+      "response": "请提供芯片型号、板卡和工具链，我会先判断是否在支持范围。",
+      "mode": "fixed_template"
+    }
+  ]
+}

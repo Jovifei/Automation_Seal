@@ -1,0 +1,13 @@
+product_id: E01
+name: Modbus RTU Diagnostic Toolkit
+version: 0.1.0-alpha
+owner: Jovi
+rights_status: original
+supported_platforms: []
+supported_toolchains: []
+inputs: []
+deliverables: []
+acceptance_criteria: []
+third_party_dependencies: []
+prohibited_content_confirmed_absent: false
+human_approver: Jovi

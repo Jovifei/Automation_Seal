@@ -1,0 +1,7 @@
+# Optional authoring and enhanced-validation tools.
+# Phase 0/A/X0 works with Python 3.11+ standard library only; missing PyYAML or
+# jsonschema causes reduced-but-security-equivalent local checks, not installation.
+PyYAML>=6.0
+jsonschema>=4.20
+# Only needed when regenerating the human DOCX manuals from Markdown.
+python-docx>=1.1

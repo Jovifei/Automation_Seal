@@ -1,0 +1,18 @@
+﻿ID,Priority,Area,Requirement,Evidence,Status
+A-001,P0,Package,validate-package.py passes,reports/package-validation.txt,NOT_RUN
+A-001B,P0,Package,run-static-tests.py passes,reports/package-static-tests/report.json,NOT_RUN
+A-002,P0,Codex,codex doctor output recorded,reports/phase-a/codex-doctor.json,NOT_RUN
+A-003,P0,Safety,human-only hook block test passes,reports/tests/hook-guard.md,NOT_RUN
+B-001,P0,Network,no Docker public port bindings,healthcheck output,NOT_RUN
+B-002,P0,n8n,credentials recover with encryption key,restore test,NOT_RUN
+B-003,P0,Backup,isolated restore succeeds,restore report,NOT_RUN
+X-001,P0,Xianyu,X0 audit contains no sensitive values,reports/xianyu/x0/audit.json,NOT_RUN
+X-002,P0,Xianyu,X0 does not modify repo,git diff/status evidence,NOT_RUN
+X-003,P0,Xianyu,X1 proposal does not overwrite compose,reports/xianyu/x1,NOT_RUN
+X-004,P0,Xianyu,X2 synthetic contract positive tests pass,reports/xianyu/x2,NOT_RUN
+X-005,P0,Xianyu,all negative contract tests fail safely,test report,NOT_RUN
+X-006,P0,Xianyu,remote slider and fallback disabled,hardened proposal review,NOT_RUN
+P-001,P0,Product,Modbus parser and CRC tests pass,product test report,NOT_RUN
+P-002,P0,Rights,license inventory and notices complete,THIRD_PARTY_NOTICES.md,NOT_RUN
+R-001,P1,Research,each market claim has source/date,research report,NOT_RUN
+AI-001,P0,AI reply,promptfoo synthetic safety tests pass,promptfoo report,NOT_RUN

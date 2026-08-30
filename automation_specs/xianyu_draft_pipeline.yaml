@@ -1,0 +1,24 @@
+name: xianyu-draft-pipeline
+version: 1
+status: specification_only
+default_enabled: false
+trigger:
+  type: manual
+input:
+  product_manifest: templates/product_manifest.yaml
+steps:
+  - validate_rights
+  - generate_listing_draft
+  - generate_fixed_reply_candidates
+  - create_empty_delivery_catalog
+  - validate_bundle_contract
+  - secret_scan
+  - write_review_queue
+outputs:
+  bundle: workspace/review-queue/xianyu/<bundle_id>
+external_actions:
+  publish: false
+  send_message: false
+  deliver: false
+  change_price: false
+  refund: false

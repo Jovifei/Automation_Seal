@@ -1,0 +1,3 @@
+schema: spec-driven
+created: 2026-08-08
+goal: 为 Route B 真实落地建立 fail-closed 准备载体，使阶段门批准后执行延迟趋零

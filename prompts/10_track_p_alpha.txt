@@ -1,0 +1,3 @@
+请读取PROJECT_STATE.json、FAST_TRACK.md、CODEX_MASTER_TASK.md中的Track P，以及products/modbus-rtu-toolkit/README.md。
+先验证workspace/approvals/GATE_A.P.approval.json与当前GATE_A计划完全匹配；不匹配就停止。
+本轮只执行Track P：运行现有Alpha测试、审查并改进主机侧Modbus工具、生成可复现Alpha包、测试报告、SBOM、SHA256、用户访谈材料和闲鱼商品草稿。不得启动Docker核心服务，不得修改闲鱼工程，不得执行平台动作。完成后更新STATUS.md并停止。

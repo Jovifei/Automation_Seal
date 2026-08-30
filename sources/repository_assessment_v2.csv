@@ -1,0 +1,20 @@
+﻿project,role,decision,license,risk,source
+openai/codex,local coding agent,CORE,Apache-2.0,sandbox and approval configuration must be current,https://github.com/openai/codex
+github/spec-kit,spec-driven development,CORE,verify current,templates require product judgment,https://github.com/github/spec-kit
+n8n-io/n8n,workflow orchestration,CORE,fair-code,credential persistence and licensing,https://github.com/n8n-io/n8n
+dgtlmoon/changedetection.io,page change monitoring,RECOMMENDED,verify current,request frequency and login pages,https://github.com/dgtlmoon/changedetection.io
+GuDong2003/xianyu-auto-reply-fix,existing Xianyu execution adapter,REUSE_STAGED,AGPL-3.0 + README notice,account/platform/license/secrets,https://github.com/GuDong2003/xianyu-auto-reply-fix
+promptfoo/promptfoo,LLM eval and red team,HIGH_PRIORITY,MIT,synthetic data only,https://github.com/promptfoo/promptfoo
+gitleaks/gitleaks,secret scanning,CORE_SECURITY,MIT,false negatives possible,https://github.com/gitleaks/gitleaks
+aquasecurity/trivy,container/filesystem scanning,CORE_SECURITY,Apache-2.0,needs current vulnerability DB,https://github.com/aquasecurity/trivy
+docling-project/docling,document normalization,OPTIONAL_RECOMMENDED,MIT; model licenses separate,resource use and model terms,https://github.com/docling-project/docling
+Future-House/paper-qa,scientific literature RAG,OPTIONAL,Apache-2.0,LLM/API cost and changing behavior,https://github.com/Future-House/paper-qa
+mkdocs/mkdocs,product documentation,CORE,BSD-2-Clause,plugin licenses,https://github.com/mkdocs/mkdocs
+ThrowTheSwitch/Unity,embedded C tests,CORE_EMBEDDED,MIT,hardware tests still needed,https://github.com/ThrowTheSwitch/Unity
+harry0703/MoneyPrinterTurbo,video drafts,OPTIONAL_LATER,MIT,asset rights and quality,https://github.com/harry0703/MoneyPrinterTurbo
+openclaw/openclaw,persistent orchestrator,OPTIONAL_LATER,verify current,large permission surface and rapid change,https://github.com/openclaw/openclaw
+GeniusHTX/SWE-Skills-Bench,skill effectiveness research,REFERENCE_ONLY,verify paper/code,do not install as runtime,https://github.com/GeniusHTX/SWE-Skills-Bench
+sansan0/TrendRadar,trend and keyword aggregation,OPTIONAL_RESEARCH,verify current,source quality and duplicated hype,https://github.com/sansan0/TrendRadar
+DIYgod/RSSHub,RSS normalization,OPTIONAL_RESEARCH,verify current,route terms and request frequency,https://github.com/DIYgod/RSSHub
+czlonkowski/n8n-skills,n8n skill design reference,REFERENCE_SKILLS,verify current,review every script before reuse,https://github.com/czlonkowski/n8n-skills
+remotion-dev/remotion,programmatic video,OPTIONAL_LATER,scenario-dependent license,commercial license and asset rights,https://github.com/remotion-dev/remotion

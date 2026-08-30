@@ -1,0 +1,152 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "jovi://schemas/xianyu-draft-bundle-v1",
+  "title": "Jovi Xianyu Draft Bundle",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "bundle_id",
+    "stage",
+    "mode",
+    "generated_at",
+    "sku",
+    "rights",
+    "external_actions",
+    "payload",
+    "approval"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "bundle_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9._-]+$"
+    },
+    "stage": {
+      "enum": [
+        "X2_DRY_RUN",
+        "X3_FIXED_REPLY_CANDIDATE",
+        "X4_SINGLE_SKU_CANDIDATE"
+      ]
+    },
+    "mode": {
+      "enum": [
+        "draft_only",
+        "manual_import_only"
+      ]
+    },
+    "sku": {
+      "type": "object",
+      "required": [
+        "sku_id",
+        "title",
+        "version"
+      ],
+      "properties": {
+        "sku_id": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": true
+    },
+    "rights": {
+      "type": "object",
+      "required": [
+        "status"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "ORIGINAL",
+            "VERIFIED_LICENSE",
+            "PENDING",
+            "BLOCKED"
+          ]
+        },
+        "evidence_files": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": true
+    },
+    "external_actions": {
+      "type": "object",
+      "required": [
+        "publish",
+        "send_message",
+        "deliver",
+        "change_price",
+        "refund"
+      ],
+      "properties": {
+        "publish": {
+          "const": false
+        },
+        "send_message": {
+          "const": false
+        },
+        "deliver": {
+          "const": false
+        },
+        "change_price": {
+          "const": false
+        },
+        "refund": {
+          "const": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "payload": {
+      "type": "object",
+      "required": [
+        "listing_draft",
+        "reply_rules",
+        "delivery_catalog"
+      ],
+      "properties": {
+        "listing_draft": {
+          "type": "object"
+        },
+        "reply_rules": {
+          "type": "array"
+        },
+        "delivery_catalog": {
+          "type": "array"
+        }
+      },
+      "additionalProperties": true
+    },
+    "approval": {
+      "type": "object",
+      "required": [
+        "status"
+      ],
+      "properties": {
+        "status": {
+          "const": "PENDING"
+        }
+      },
+      "additionalProperties": true
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "source_input_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    }
+  },
+  "additionalProperties": false
+}

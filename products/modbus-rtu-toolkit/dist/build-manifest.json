@@ -1,0 +1,24 @@
+{
+  "schema_version": 2,
+  "product": "modbus-rtu-toolkit",
+  "version": "0.1.0-alpha",
+  "built_at": "2026-07-12T07:48:33.944378+00:00",
+  "archive": "modbus-rtu-toolkit-alpha.zip",
+  "sha256": "30ee95c3cbce75f12d4a8d59e7aac8ab19cb5cda9b7809469ea8025205457abe",
+  "deterministic_zip_timestamp": "2026-01-01T00:00:00Z",
+  "source_files": [
+    "LICENSE.txt",
+    "PRODUCT_SPEC.md",
+    "README.md",
+    "SBOM.cdx.json",
+    "THIRD_PARTY_NOTICES.md",
+    "examples/sample_frames.txt",
+    "modbus_toolkit/__init__.py",
+    "modbus_toolkit/cli.py",
+    "modbus_toolkit/crc.py",
+    "modbus_toolkit/parser.py",
+    "pyproject.toml",
+    "tests/test_crc.py",
+    "tests/test_parser.py"
+  ]
+}

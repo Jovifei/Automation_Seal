@@ -1,0 +1,27 @@
+name: product_build_pipeline
+version: 2
+status: specification_only
+default_enabled: false
+trigger: manual_approved_job
+inputs:
+  - approved product manifest
+  - locked source repository or owned source files
+  - acceptance criteria
+steps:
+  - verify the relevant stage-gate receipt
+  - create isolated worktree or build directory
+  - run spec and task readiness checks
+  - build portable components
+  - run tests and static analysis
+  - run license and secret audits
+  - build documentation
+  - generate release candidate package and SHA256 manifest
+outputs:
+  - workspace/review-queue/releases/<product>/<version>/
+external_actions: forbidden
+acceptance:
+  - all P0 tests pass
+  - no secrets
+  - license inventory complete
+  - package hash generated
+  - no real platform action

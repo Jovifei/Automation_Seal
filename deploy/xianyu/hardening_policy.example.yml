@@ -1,0 +1,26 @@
+policy_version: 1
+stage: X1_PROPOSAL_ONLY
+local_repo_path: 'E:\project\xianyu-auto-reply'
+network:
+  bind_admin_to_loopback: true
+  publish_vnc: false
+  publish_novnc: false
+  enable_nginx_profile: false
+features:
+  auto_reply: false
+  ai_reply: false
+  auto_delivery: false
+  public_registration: false
+  remote_slider: false
+  slider_fallback: false
+  auto_update: false
+secrets:
+  require_new_admin_password: true
+  require_new_jwt_secret: true
+  require_data_encryption_key: true
+  never_log_values: true
+integration:
+  direct_sqlite_write: false
+  direct_platform_api_write: false
+  initial_mode: manual_import
+  approved_bundle_required: true

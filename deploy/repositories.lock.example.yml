@@ -1,0 +1,105 @@
+schema_version: 1
+snapshot_date: '2026-07-12'
+policy:
+  production_must_pin: true
+  allow_latest_tag: false
+  image_digest_required_before_start: true
+  target_codex_must_refresh: true
+repositories:
+  codex:
+    repo: openai/codex
+    decision: CORE
+    observed: refresh_on_target
+    license: Apache-2.0
+  spec_kit:
+    repo: github/spec-kit
+    decision: CORE
+    observed: refresh_on_target
+    license: verify_current
+  n8n:
+    repo: n8n-io/n8n
+    decision: CORE
+    observed_release: n8n@2.29.10
+    observed_published_at: '2026-07-10T07:57:16Z'
+    license: fair-code; verify current production rights
+  changedetection:
+    repo: dgtlmoon/changedetection.io
+    decision: RECOMMENDED
+    observed_version: 0.55.7
+    license: Apache-2.0; verify current
+  xianyu_adapter:
+    repo: GuDong2003/xianyu-auto-reply-fix
+    decision: REUSE_STAGED
+    observed_version: v2.0.5
+    observed_commit: 837497d576b1b864a7294b8565348531a6ce7039
+    license: AGPL-3.0 plus README usage notice; clarification required
+  promptfoo:
+    repo: promptfoo/promptfoo
+    decision: HIGH_PRIORITY
+    observed: refresh_on_target
+    license: MIT
+  gitleaks:
+    repo: gitleaks/gitleaks
+    decision: CORE_SECURITY
+    observed: refresh_on_target
+    license: MIT
+  trivy:
+    repo: aquasecurity/trivy
+    decision: CORE_SECURITY
+    observed: refresh_on_target
+    license: Apache-2.0
+  docling:
+    repo: docling-project/docling
+    decision: OPTIONAL_RECOMMENDED
+    observed: refresh_on_target
+    license: MIT; model licenses separate
+  paperqa:
+    repo: Future-House/paper-qa
+    decision: OPTIONAL
+    observed: refresh_on_target
+    license: Apache-2.0
+  mkdocs:
+    repo: mkdocs/mkdocs
+    decision: CORE
+    observed: refresh_on_target
+    license: BSD-2-Clause
+  unity_test:
+    repo: ThrowTheSwitch/Unity
+    decision: CORE_EMBEDDED
+    observed: refresh_on_target
+    license: MIT
+  trendradar:
+    repo: sansan0/TrendRadar
+    decision: OPTIONAL_RESEARCH
+    observed: refresh_on_target
+    license: verify_current
+  rsshub:
+    repo: DIYgod/RSSHub
+    decision: OPTIONAL_RESEARCH
+    observed: refresh_on_target
+    license: verify_current
+  n8n_skills:
+    repo: czlonkowski/n8n-skills
+    decision: REFERENCE_SKILLS
+    observed: refresh_on_target
+    license: verify_current
+  openclaw:
+    repo: openclaw/openclaw
+    decision: OPTIONAL_LATER
+    observed: refresh_on_target
+    license: verify_current
+  moneyprinterturbo:
+    repo: harry0703/MoneyPrinterTurbo
+    decision: OPTIONAL_LATER
+    observed: refresh_on_target
+    license: MIT; asset rights separate
+  remotion:
+    repo: remotion-dev/remotion
+    decision: OPTIONAL_LATER
+    observed: refresh_on_target
+    license: scenario-dependent; verify before commercial use
+  swe_skills_bench:
+    repo: GeniusHTX/SWE-Skills-Bench
+    decision: REFERENCE_ONLY
+    observed: refresh_on_target
+    license: verify_current

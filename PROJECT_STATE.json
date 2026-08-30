@@ -1,0 +1,64 @@
+{
+  "approvals": {
+    "track_i": "workspace/approvals/GATE_A.I.approval.json",
+    "track_p": "workspace/approvals/GATE_A.P.approval.json"
+  },
+  "commerce_mainline": {
+    "gate_state": "GATE_A_P_VERIFIED",
+    "hook": "DO_NOT_TRUST",
+    "modbus_role": "SEPARATE_SKU",
+    "real_platform_actions": false,
+    "status": "CONTROL_PLANE_C_APPLY",
+    "videofactory_role": "SEPARATE_PROJECT"
+  },
+  "completed": [
+    "market_and_channel_research",
+    "user_research_plan",
+    "business_model_and_product_portfolio",
+    "embedded_and_photography_prds",
+    "90_day_execution_sop",
+    "copyright_and_risk_manual",
+    "github_and_research_project_review",
+    "system_architecture_and_security_boundaries",
+    "xianyu_adapter_integration_decision",
+    "codex_rules_skills_hooks_and_stage_gates",
+    "offline_synthetic_test_harness",
+    "working_modbus_host_side_alpha",
+    "human_handoff_documents"
+  ],
+  "control_plane": {
+    "canonical_state": "config/control-plane-state.json",
+    "phase_status": "APPLY",
+    "stage": "C",
+    "state_id": "commerce-c-apply-v16",
+    "state_revision": 3
+  },
+  "current_state": "AWAITING_GATE_A_TRACK_APPROVALS",
+  "decisions": {
+    "broad_research": "FROZEN_UNLESS_REFRESH_TRIGGER",
+    "first_product": "MODBUS_RTU_DIAGNOSTIC_TOOLKIT",
+    "infrastructure_is_optional_before_alpha": true,
+    "product_first": true,
+    "real_platform_actions": "HUMAN_CONTROLLED",
+    "xianyu_integration": "REUSE_AS_SEPARATE_ADAPTER"
+  },
+  "final_goal": "Build a local, auditable Commerce Engine for product assets, listings, human-confirmed payment, entitlement, delivery preparation, support and synthetic commerce validation, while keeping real platform actions human-controlled.",
+  "first_codex_command": ".\\scripts\\00-run-readonly-audit.ps1 -XianyuRepoPath 'E:\\project\\xianyu-auto-reply'",
+  "first_stop_condition": "GATE_A_PLAN_GENERATED",
+  "generated_at": "2026-07-12",
+  "not_verified_on_target_machine": [
+    "windows_and_filesystem_state",
+    "codex_installation_and_hook_trust",
+    "docker_wsl_and_gpu_state",
+    "current_upstream_releases_and_security",
+    "real_xianyu_local_commit_configuration_and_runtime",
+    "real_platform_rules_and_commercial_license_boundary",
+    "backup_and_restore_on_target_machine"
+  ],
+  "package_version": "3.0.0",
+  "recommended_paths": {
+    "project_root": "E:\\project\\jovi-automation",
+    "xianyu_adapter_root": "E:\\project\\xianyu-auto-reply"
+  },
+  "schema_version": 1
+}

@@ -1,0 +1,17 @@
+{
+  "approval_binding": {
+    "approval_kind": "permission-expansion",
+    "patch_sha256": "7ed5fb13b73054e70b51c41bf8d2e35c0c77fe10a34cb7fbb7a13e4bd9cf466c",
+    "plan_sha256": "7db47094bb256223840cc3c685e22d7b7e240d8365ccc60841c5a6e4c6c16bb7",
+    "stage": "C",
+    "target_set_sha256": "abb4bddc07a3240f8fb89623ee77320010ba0874eab231619ccc6e4e0eaed612"
+  },
+  "blockers": [],
+  "permission_class": "permission-expansion",
+  "phase_status": "APPLY",
+  "previous_state_hash": "50f36bbf852744fea613fead46df340dfabf96460511f63d27ac9369e06da56a",
+  "schema_version": 2,
+  "stage": "C",
+  "state_id": "commerce-c-apply-v16",
+  "state_revision": 3
+}

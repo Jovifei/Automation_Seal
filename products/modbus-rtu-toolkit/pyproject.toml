@@ -1,0 +1,13 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "jovi-modbus-rtu-toolkit"
+version = "0.1.0"
+description = "Host-side Modbus RTU CRC and frame diagnostic toolkit"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.scripts]
+modbus-rtu-diagnose = "modbus_toolkit.cli:main"

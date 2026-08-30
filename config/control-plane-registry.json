@@ -1,0 +1,42 @@
+{
+  "canonical_state": "config/control-plane-state.json",
+  "control_classes": [
+    "security-tightening",
+    "compatibility-fix",
+    "permission-expansion"
+  ],
+  "immutable_state_pointers": [
+    "CODEX_START_PROMPT.txt",
+    "config/control-plane-state.json"
+  ],
+  "prompt_integrity_manifest": "FRAMEWORK_MANIFEST.sha256",
+  "protected_controls": [
+    "PROJECT_STATE.json",
+    "STATUS.md",
+    "CODEX_START_PROMPT.txt",
+    "config/control-plane-registry.json",
+    "config/control-plane-state.json",
+    "scripts/control_plane.py",
+    "scripts/validate-control-plane.py",
+    ".codex/hooks.json",
+    "scripts/codex/Invoke-PreToolGuard.ps1",
+    "scripts/codex/pre_tool_guard.py",
+    "FRAMEWORK_MANIFEST.sha256",
+    "MANIFEST.sha256"
+  ],
+  "report_inputs_allowed": false,
+  "revisioned_mirrors": [
+    "PROJECT_STATE.json",
+    "STATUS.md"
+  ],
+  "schema_version": 2,
+  "target_classes": {
+    "CODEX_START_PROMPT.txt": "security-tightening",
+    "PROJECT_STATE.json": "security-tightening",
+    "STATUS.md": "security-tightening",
+    "config/control-plane-registry.json": "security-tightening",
+    "config/control-plane-state.json": "security-tightening",
+    "scripts/control_plane.py": "security-tightening",
+    "scripts/validate-control-plane.py": "security-tightening"
+  }
+}

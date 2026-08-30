@@ -1,0 +1,13 @@
+{
+  "agent": {
+    "model": "<provider>/<model-id>"
+  },
+  "agents": {
+    "defaults": {
+      "workspace": "E:/project/jovi-automation/workspace",
+      "sandbox": {
+        "mode": "<verify-current-official-schema-before-use>"
+      }
+    }
+  }
+}

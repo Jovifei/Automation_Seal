@@ -1,0 +1,3 @@
+请读取CODEX_MASTER_TASK.md中的Track I和docs/05_验收测试_回滚与运维手册.md。
+先验证workspace/approvals/GATE_A.I.approval.json；不匹配就停止。
+本轮只部署核心本地服务，锁定正式版本和镜像Digest，运行健康检查、备份和隔离恢复。不要修改闲鱼工程，不要启用公网端口，不要在报告中输出秘密。完成后生成证据、更新STATUS.md并停止。

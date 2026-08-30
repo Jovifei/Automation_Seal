@@ -1,0 +1,13 @@
+# H0 proposal only. Do not copy this into a user-level Codex config automatically.
+# Validate the keys against the locally installed Codex version before manual use.
+
+approval_policy = "on-request"
+sandbox_mode = "workspace-write"
+
+[sandbox_workspace_write]
+network_access = false
+
+# Keep writable_roots unset: this profile must not add E:\project\xianyu-auto-reply
+# or any other external directory. The workspace itself is the only intended write
+# scope; users should grant separate temporary read roots only through an explicit,
+# reviewed invocation.

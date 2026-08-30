@@ -1,0 +1,41 @@
+请把当前打开目录视为 Jovi Automation V3.0 工程根目录，并严格遵守根目录 AGENTS.md、CODEX_MASTER_TASK.md、PROJECT_STATE.json 和当前已信任的项目Hook。
+
+本包已经包含此前对话中所有与决策和执行有关的结构化上下文。请先读取：
+- README_FIRST.md
+- PROJECT_STATE.json
+- context/04_CONVERSATION_CONTEXT.md
+- context/05_COMPLETED_WORK.md
+- context/06_RESEARCH_FREEZE_POLICY.md
+- AGENTS.md
+- CODEX_MASTER_TASK.md
+
+不要重新进行大范围市场、渠道、产品或开源选型调研。只有Phase A规定的易变版本、安全、许可证和本机事实允许做窄范围刷新。
+
+本轮只允许Phase 0、Phase A和X0。不要安装、部署、修改真实系统或开始产品写入。
+
+执行前确认并报告：
+1. 当前根目录包含AGENTS.md和PROJECT_STATE.json；
+2. `.codex/hooks.json`已经由我通过`/hooks`审阅并信任；若未信任、Hash变化或Hook报错，立即停止；
+3. 当前sandbox只允许写Jovi工程，对`E:\project\xianyu-auto-reply`只有读取权限；若不能读取，提示我运行`/sandbox-add-read-dir E:\project\xianyu-auto-reply`并停止；
+4. 不使用任何绕过审批、sandbox或Hook信任的参数。
+
+确认后只运行这一条入口：
+
+```powershell
+.\scripts\00-run-readonly-audit.ps1 `
+  -XianyuRepoPath 'E:\project\xianyu-auto-reply'
+```
+
+不要重复单独运行入口已经包含的验证和测试，除非入口明确失败且需要定位。
+
+对现有闲鱼工程：不得修改文件，不得读取SQLite表内容、Cookie值、浏览器Profile内容、买家消息、卡密、密码、Token或API Key；不得启动、停止或重启容器；不得调用发布、回复、发货、订单写入、改价、退款、滑块、验证码或远程验证接口。
+
+不要运行任何`human-only`脚本，不要创建或修改`workspace/approvals/*.approval.json`，不要推送远程Git。
+
+完成后必须停止，并明确输出：
+- 包测试通过/失败及检查数量；
+- Phase A和X0是否完成；
+- `reports/gates/GATE_A_PLAN.json`路径和SHA256；
+- Track P和Track I各自包含的动作与阻塞；
+- 我本人只批准Track P的准确命令；
+- 在批准前你不会做的事情。

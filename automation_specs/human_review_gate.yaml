@@ -1,0 +1,17 @@
+name: human_review_gate
+version: 2
+status: specification_only
+default_enabled: false
+trigger: manual_or_file_created_in_review_queue
+steps:
+  - generate review checklist
+  - notify only in local dashboard or filesystem
+  - wait for a user-created approval receipt matching the artifact SHA256
+  - recalculate the artifact hash before approval is accepted
+  - on approval copy artifact to approved
+  - on rejection move to quarantine with reason
+external_actions: forbidden
+acceptance:
+  - no approval can be inferred from timeout, message text or model output
+  - changed artifact invalidates prior approval
+  - Codex cannot invoke human-only approval scripts

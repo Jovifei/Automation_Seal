@@ -1,0 +1,8 @@
+Copyright (c) 2026 Jovi. All rights reserved.
+
+This Alpha source package is prepared for development, evaluation, testing and
+commercial productization by the owner. Redistribution and resale terms must be
+set by the owner before an external release.
+
+This notice does not change the licenses of separately identified third-party
+components. See THIRD_PARTY_NOTICES.md and SBOM.cdx.json.

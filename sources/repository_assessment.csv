@@ -1,0 +1,9 @@
+﻿Project,Role,Adoption,License,Deployment,Key Risk,Recommendation
+OpenClaw,Always-on agent orchestration,Core,MIT,Host/WSL daemon recommended,Host tool access in main session,Adopt with non-main sandbox and DM pairing
+Spec Kit,PRD to executable specs/tasks,Core,MIT,"uv CLI, Codex skills mode",Over-formalization on tiny tasks,Adopt for product builds
+n8n,Deterministic workflow automation,Core,Sustainable Use,Docker + PostgreSQL,License limits for offering it as a hosted product,Adopt for internal use
+n8n-skills,Workflow construction guidance,Recommended,MIT,Skill/plugin files,Third-party Skill execution risk,"Vendor, audit and pin commit"
+TrendRadar,Topic and trend monitoring,Optional Phase 3,GPL-3.0,Upstream Docker Compose,Copyleft if redistributed/modified,Use as separate service; do not resell code
+changedetection.io,Public page change alerts,Core,Apache-2.0,Docker,High-frequency/login monitoring risk,Use low frequency and public pages only
+MoneyPrinterTurbo,Video draft production,Optional Phase 5,MIT,Upstream Docker/Release,Media licenses and API keys,"Use after core stability, review all assets"
+MkDocs,Product documentation,Core in build pipeline,BSD-2-Clause,Python/CI,Third-party theme/plugin licenses,Adopt

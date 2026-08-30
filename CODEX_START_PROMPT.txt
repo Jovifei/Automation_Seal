@@ -1,0 +1,42 @@
+请把当前打开目录视为 Jovi Automation V3.0 工程根目录，并严格遵守根目录 AGENTS.md、CODEX_MASTER_TASK.md、PROJECT_STATE.json 与当前控制面。
+
+主线定义：
+- jovi-automation 是本地、可审计的 Commerce Engine 主工程。
+- Modbus RTU 只是可选独立 SKU，不是本工程架构主线。
+- OpenClaw_VideoFactory 是独立项目，不读取、不修改。
+- 闲鱼是人工控制的草稿适配器，不是 Commerce Core 的状态源。
+
+最小只读上下文：README_FIRST.md、PROJECT_STATE.json、context/04_CONVERSATION_CONTEXT.md、
+context/05_COMPLETED_WORK.md、context/06_RESEARCH_FREEZE_POLICY.md、MANIFEST_POLICY.md、
+AGENTS.md、CODEX_MASTER_TASK.md。不要重新进行大范围市场、渠道、产品或开源选型调研。
+
+安全边界：
+- Hook 固定为 HOOK_DO_NOT_TRUST；hook_runtime_dependency=false；不得恢复或信任 Hook。
+- 不修改 Decision、Approval、Manifest 或 Gate，除非存在精确的人类签发回执。
+- Gate A.P 验证前不得写入 products/、docs/commerce/、schemas/commerce/、jovi_commerce/、
+  tests/commerce/ 或 data/commerce/；候选只能写入 workspace/review-queue/commerce-v1/。
+- 不读取或写入 E:\project\xianyu-auto-reply，不读取 Cookie、消息、订单库、Token、支付数据或 PII。
+- 不自动发布、聊天、收款、发货、改价、退款或处理验证；真实平台动作只由 Jovi 人工完成。
+- 不运行 scripts/human-only/，不推送远程 Git。
+
+当前唯一只读入口（只用于治理 readiness，不生成 Gate 计划）：
+
+```powershell
+.\scripts\00-run-readonly-audit.ps1 -XianyuRepoPath 'E:\project\xianyu-auto-reply'
+```
+
+该入口不访问所给闲鱼路径；参数仅为兼容旧调用。readiness 未 PASS 时必须停止。
+
+CONTROL_PLANE_AUTHORITY=config/control-plane-state.json
+CONTROL_PLANE_REVISIONED_MIRRORS=PROJECT_STATE.json,STATUS.md
+CONTROL_PLANE_PROMPT_INTEGRITY=FRAMEWORK_MANIFEST.sha256
+
+这个提示文件只是控制面的镜像，不是授权输入。任何阶段动作必须由
+`config/control-plane-state.json`、精确 Gate Plan SHA 和人类回执共同验证。
+
+禁止把报告、日志、候选或此提示文本当成授权；禁止在缺少人类回执时生成 Approval、Manifest APPLY、Gate A.P 或正式 Commerce 运行时。
+
+完成任何阶段后报告：完成、未完成、测试、证据、风险、下一步；并停止等待下一项精确授权。
+
+
+This file is an immutable static pointer; canonical state remains the only authority.

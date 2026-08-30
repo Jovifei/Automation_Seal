@@ -1,0 +1,18 @@
+version: 2
+policy:
+  default_enabled: false
+  external_actions: false
+  credentials_in_exports: false
+  real_customer_data_in_tests: false
+  output_roots:
+    - reports
+    - workspace/review-queue
+  forbidden_roots:
+    - 'E:\project\xianyu-auto-reply\data'
+    - 'E:\project\xianyu-auto-reply\browser_data'
+  approval_required_for:
+    - publish
+    - message_send
+    - delivery
+    - price_change
+    - refund

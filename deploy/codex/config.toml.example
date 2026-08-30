@@ -1,0 +1,17 @@
+# This is an example only. Codex must compare it with the installed version schema.
+approval_policy = "on-request"
+sandbox_mode = "workspace-write"
+project_doc_max_bytes = 65536
+
+[sandbox_workspace_write]
+writable_roots = ["E:\\project\\jovi-automation"]
+network_access = false
+exclude_tmpdir_env_var = true
+exclude_slash_tmp = true
+
+[history]
+persistence = "save-all"
+max_bytes = 52428800
+
+[analytics]
+enabled = false

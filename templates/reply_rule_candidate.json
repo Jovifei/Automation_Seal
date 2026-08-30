@@ -1,0 +1,9 @@
+{
+  "rule_id": "RULE-001",
+  "scope": "product",
+  "keyword": "支持什么芯片",
+  "response": "请提供芯片型号、开发板、IDE/编译器和当前错误信息，我会先人工判断是否在支持范围。",
+  "mode": "fixed_template",
+  "auto_send": false,
+  "requires_human_escalation": false
+}

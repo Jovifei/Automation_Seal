@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "shipment_manifest": "MANIFEST.sha256",
+  "sealed_ignored_files": [
+    "MANIFEST.sha256"
+  ],
+  "mutable_files": [
+    "PROJECT_STATE.json",
+    "STATUS.md"
+  ],
+  "mutable_roots": [
+    "backups",
+    "data",
+    "logs",
+    "reports/gates",
+    "reports/runtime",
+    "reports/security/runtime",
+    "workspace/approvals",
+    "workspace/approved",
+    "workspace/quarantine",
+    "workspace/review-queue"
+  ],
+  "blocked_mutable_suffixes": [
+    ".bat",
+    ".cmd",
+    ".com",
+    ".dll",
+    ".exe",
+    ".js",
+    ".mjs",
+    ".ps1",
+    ".py",
+    ".pyw",
+    ".sh"
+  ],
+  "protected_roots": [
+    ".agents",
+    ".codex",
+    "config",
+    "deploy",
+    "products",
+    "prompts",
+    "scripts",
+    "skills",
+    "tests"
+  ],
+  "framework_candidate_paths": [
+    ".codex/hooks.json",
+    "config/package-integrity-scope.json",
+    "scripts/codex/Invoke-PreToolGuard.ps1",
+    "scripts/codex/pre_tool_guard.py",
+    "scripts/package_integrity.py",
+    "scripts/run-hook-tests.ps1",
+    "scripts/run-static-tests.py",
+    "scripts/static_test_support.py",
+    "scripts/validate-package.py",
+    "tests/hooks/pre_tool_bootstrap.ps1",
+    "tests/hooks/test_pre_tool_guard.py",
+    "tests/test_s1_integrity.py"
+  ]
+}

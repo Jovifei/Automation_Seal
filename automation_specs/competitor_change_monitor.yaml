@@ -1,0 +1,22 @@
+name: competitor_change_monitor
+version: 2
+status: specification_only
+default_enabled: false
+trigger: changedetection_webhook_or_manual_poll
+inputs:
+  - approved public competitor pages
+  - platform rule pages
+  - official repository release pages
+steps:
+  - receive or manually import a public change event
+  - store before/after excerpt and timestamp
+  - ignore cosmetic-only changes
+  - classify price, scope, license, policy, release or unknown
+  - create human-readable impact summary with source URL
+outputs:
+  - workspace/review-queue/change-events/
+external_actions: forbidden
+acceptance:
+  - original URL and timestamps retained
+  - login-only pages and anti-bot bypass not used
+  - request frequency is conservative and user-approved

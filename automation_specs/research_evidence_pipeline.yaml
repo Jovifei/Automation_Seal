@@ -1,0 +1,18 @@
+name: research-evidence-pipeline
+version: 1
+status: specification_only
+default_enabled: false
+steps:
+  - collect_public_sources
+  - deduplicate
+  - record_source_date_and_url
+  - extract_claims
+  - assign_confidence
+  - flag_license_and_recency
+  - produce_markdown_report
+outputs:
+  report: reports/research
+rules:
+  no_unattributed_numbers: true
+  no_private_data: true
+  no_scraping_login_required_pages: true

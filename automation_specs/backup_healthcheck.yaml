@@ -1,0 +1,18 @@
+name: backup_healthcheck
+version: 2
+status: specification_only
+default_enabled: false
+trigger: daily_schedule
+steps:
+  - call local healthcheck script
+  - verify last backup age and SHA256 manifest
+  - report disk free space and failed containers
+  - create local alert file on failure
+outputs:
+  - logs/health/YYYY-MM-DD.json
+  - workspace/review-queue/system-alerts/ when failed
+external_actions: forbidden
+acceptance:
+  - failure exits nonzero
+  - no credentials included in report
+  - missing backup or unknown state is a failure, not success

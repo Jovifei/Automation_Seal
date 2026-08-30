@@ -1,0 +1,26 @@
+Jovi Automation 最终交付包 V3.0
+
+你只需要做 4 件事：
+
+1. 将整个压缩包解压到 E:\project，最终目录必须是：
+   E:\project\jovi-automation
+
+2. 保留现有闲鱼工程：
+   E:\project\xianyu-auto-reply
+   两个工程必须并列，不能互相覆盖。
+
+3. 用 Codex App 或 Codex CLI 打开：
+   E:\project\jovi-automation
+
+4. 把根目录 CODEX_START_PROMPT.txt 的全文发送给 Codex。
+
+第一次 Codex 只会执行只读审计、生成本机事实报告和下一阶段计划，然后停止。
+它不会自动发布、回复、发货、改价、退款，也不会读取闲鱼 Cookie、买家消息或卡密。
+
+详细说明：README_FIRST.md
+用户操作：USER_ACTION_CHECKLIST.md
+Codex总任务：CODEX_MASTER_TASK.md
+项目完整上下文：context/04_CONVERSATION_CONTEXT.md
+已完成工作：context/05_COMPLETED_WORK.md
+
+后续每个阶段使用哪一份提示词：NEXT_STEP_MAP.md

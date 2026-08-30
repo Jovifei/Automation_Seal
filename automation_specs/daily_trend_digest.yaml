@@ -1,0 +1,28 @@
+name: daily_trend_digest
+version: 2
+status: specification_only
+default_enabled: false
+trigger: weekday_schedule_after_manual_enable
+schedule: "08:00 Asia/Shanghai"
+inputs:
+  required:
+    - approved RSS feeds or manually supplied public source files
+  optional:
+    - TrendRadar local output, only after separate approval and installation
+    - public GitHub release feeds
+steps:
+  - collect only new items since last successful run
+  - normalize title, event date, publish date, source, URL and topic
+  - deduplicate by canonical URL and semantic similarity
+  - classify embedded, photography, platform-rule or irrelevant
+  - score pain_signal, product_fit, timeliness, evidence_quality and rights_risk
+  - generate a concise report with citations, dates and confidence
+outputs:
+  - workspace/research/YYYY-MM-DD-daily-digest.md
+  - workspace/review-queue/YYYY-MM-DD-topic-candidates.json
+external_actions: forbidden
+acceptance:
+  - every factual item has a source URL and date
+  - no invented sales, order or engagement numbers
+  - repeat rate below 10 percent
+  - unavailable optional inputs do not fail the whole workflow

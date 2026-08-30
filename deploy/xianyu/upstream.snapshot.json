@@ -1,0 +1,13 @@
+{
+  "as_of": "2026-07-12",
+  "repository": "GuDong2003/xianyu-auto-reply-fix",
+  "reference_commit": "837497d576b1b864a7294b8565348531a6ce7039",
+  "reference_version": "v2.0.5",
+  "reference_release_date": "2026-07-10",
+  "license_file": "AGPL-3.0",
+  "readme_usage_notice": "仅供学习研究使用（需进一步澄清商业边界）",
+  "local_expected_path": "E:\\project\\xianyu-auto-reply",
+  "integration_decision": "reuse_as_isolated_execution_adapter",
+  "default_stage": "X0_READ_ONLY",
+  "note": "Target Codex must compare this snapshot with the actual local commit and current upstream."
+}

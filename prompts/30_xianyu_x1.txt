@@ -1,0 +1,1 @@
+本轮只执行X1加固提案。先验证对应计划回执。读取本地闲鱼工程只读事实，在Jovi reports目录生成并行Compose提案、差异、风险和回滚说明。不得覆盖、复制到或重启E:\project\xianyu-auto-reply。完成后停止。

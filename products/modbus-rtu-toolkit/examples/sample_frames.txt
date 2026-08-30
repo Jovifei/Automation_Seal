@@ -1,0 +1,4 @@
+# FC03 request: slave 1, start 0, quantity 10
+01 03 00 00 00 0A C5 CD
+
+# Other examples can be generated with append_crc() and added after validation.
