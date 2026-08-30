@@ -29,4 +29,15 @@ Jovi Automation 是一个本地优先、可审计、可回滚的数字产品工�
 
 ## 验证说明
 
-Modbus 产品测试和 Medusa 隔离验证证据保留在本地 review queue，不随本精简提交上传。当前 Python 全量测试仍有一项历史基线导入错误：Commerce pre-decision 测试依赖旧 validator facade 的缺失导出；该问题已记录，不能把本仓库初始提交描述为全量测试通过。
+Modbus 产品测试在设置模块路径后为 `12 passed`：
+
+```powershell
+$env:PYTHONPATH='products/modbus-rtu-toolkit'
+python -m pytest products/modbus-rtu-toolkit/tests -q
+```
+
+Medusa 隔离验证证据保留在本地 review queue，不随本精简提交上传。当前 Python 全量测试仍有一项历史基线导入错误：Commerce pre-decision 测试依赖旧 validator facade 的缺失导出；该问题已记录，不能把本仓库初始提交描述为全量测试通过。
+
+## 远端仓库
+
+本精简快照已提交到 [Jovifei/Automation_Seal](https://github.com/Jovifei/Automation_Seal)，当前 `main` 提交为 `f370e8dec3cc1abfa093eb52a3bdba7661c69a15`。
