@@ -9,12 +9,16 @@ Jovi Automation 是一个本地优先、可审计、可回滚的数字产品工�
 - Python `jovi_commerce`：状态机、边界规则和 synthetic X2 oracle。
 - 闲鱼：独立人工执行适配器，不共享数据库、Cookie、Token 或浏览器资料。
 - n8n：未来 Track I 内部编排候选，不作为订单、付款或 Entitlement 权威账本。
-- 当前 Medusa 采用门：`READY_FOR_INDEPENDENT_AUDIT`；`production_integration_allowed=false`。
+- 当前 Medusa 采用门：旧 R5 与 R2 审阅 R1 失败均保留；R2-R1 已完成修复、重建和第二轮独立审阅，结论为 `MEDUSA_SPIKE_PASS_WITH_GAPS`，仅剩 Jest 自然收尾和交互式 Admin smoke 两项非阻断缺口；`production_integration_allowed=false`。详见 [R2 修复记录](docs/commerce/MEDUSA_R2_REMEDIATION.md)、[R2 审阅 R1](docs/commerce/MEDUSA_R2_INDEPENDENT_AUDIT_R1_RESULT.md)、[R2 审阅 R2](docs/commerce/MEDUSA_R2_INDEPENDENT_AUDIT_R2_RESULT.md) 与 [R2-R1 集成指针](docs/commerce/MEDUSA_R2_INTEGRATION_POINTER.md)。
 
 ## 文档入口
 
 - [项目状态与首次阅读](README_FIRST.md)
 - [Medusa 采用与修复框架](docs/commerce/MEDUSA_ADOPTION_FRAMEWORK.md)
+- [Medusa R2 合成闭环修复](docs/commerce/MEDUSA_R2_REMEDIATION.md)
+- [Medusa R2 独立审阅 R1 结果](docs/commerce/MEDUSA_R2_INDEPENDENT_AUDIT_R1_RESULT.md)
+- [Medusa R2 独立审阅 R2 结果](docs/commerce/MEDUSA_R2_INDEPENDENT_AUDIT_R2_RESULT.md)
+- [Medusa R2 集成指针](docs/commerce/MEDUSA_R2_INTEGRATION_POINTER.md)
 - [开源复用决策矩阵](docs/commerce/oss-reuse/README.md)
 - [文档目录](docs/README.md)
 - [当前阶段图](NEXT_STEP_MAP.md)
@@ -40,4 +44,4 @@ Medusa 隔离验证证据保留在本地 review queue，不随本精简提交上
 
 ## 远端仓库
 
-本精简快照已提交到 [Jovifei/Automation_Seal](https://github.com/Jovifei/Automation_Seal)，当前 `main` 提交为 `f370e8dec3cc1abfa093eb52a3bdba7661c69a15`。
+本精简快照已提交到 [Jovifei/Automation_Seal](https://github.com/Jovifei/Automation_Seal)；本次文档与审核同步提交会更新 `main`，最新提交以远端 `main` 为准。

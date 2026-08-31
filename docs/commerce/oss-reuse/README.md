@@ -4,6 +4,14 @@
 
 当前 Medusa spike 的采用与修复框架见 [Medusa 采用与修复框架](../MEDUSA_ADOPTION_FRAMEWORK.md)；修复完成后使用 [独立审核 Prompt](../MEDUSA_REMEDIATION_INDEPENDENT_AUDIT_PROMPT.md)。
 
+## 本轮吸收范围
+
+本目录已经把开源项目的可复用能力、许可义务、依赖风险和采用触发条件吸收到 `jovi-automation` 的架构知识库。吸收的是经过边界审查的设计与集成契约，不是把所有上游源码、`node_modules`、示例素材或运行数据复制进正式工程。
+
+- Medusa R2 的源码仍位于隔离目录，当前只通过 [R2 集成指针](../MEDUSA_R2_INTEGRATION_POINTER.md) 绑定版本、证据和后续采用门。
+- n8n、OpenMeter、Kill Bill、Saleor、Vendure、Lago、Keygen、Lemon Squeezy 按下表结论处理；没有把 `REFERENCE_ONLY`、`FUTURE_TRIGGER` 或 `REJECT_CURRENT_PHASE` 项误当成已安装组件。
+- 任何正式代码导入都必须在独立审核和 Jovi Decision 之后新建受控 Medusa 仓库；本根仓库继续保存规格、边界、审计提示和可复核证据索引。
+
 ## 固定决策矩阵
 
 | 组件 | 固定结论 | 本期边界 |

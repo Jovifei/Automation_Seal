@@ -63,6 +63,39 @@
 
 ## Review
 
+## Medusa synthetic closure remediation R2 (2026-08-31)
+
+- [x] R2-1: verify isolated source/runtime baseline, image digests, and container network boundaries.
+- [x] R2-2: fix the Medusa 2.19 production Admin build path and prove backend/Admin health on loopback.
+- [x] R2-3: run R2 unit and database integration tests, including strategy rejection and transaction rollback behavior.
+- [x] R2-4: run synthetic X2 replay, 10-way concurrency, negative payment/asset/evidence cases, and database cardinality checks.
+- [x] R2-5: add deterministic staging/package evidence and crash/recovery checks without public failure controls.
+- [x] R2-6: generate complete R2 source/environment/test/oracle/license/SBOM evidence and SHA sidecars.
+- [x] R2-7: update project docs, Obsidian checkpoints, and lessons; freeze an independent-audit package without issuing a PASS.
+
+### R2 review
+
+- Scope: isolated synthetic X2 only; no manual payment, real providers, Storefront, Xianyu, production, Git baseline, remote, or root import.
+- Evidence: `workspace/review-queue/commerce-v1/medusa-v2-spike-remediation-r2/`, package manifest SHA `da31915c0fa11935ff262593ad06c926af927a6d4c23f73ecb65c95dd64145e3`, 103 members.
+- Verified: source/fixture snapshot, fixed Node/Medusa container, loopback health/Admin shell, unit 12/12, integration 5/5, X2 replay, 10-way concurrency, negative 6/6, oracle manifest/file SHA 7/7, CycloneDX SBOM. The first independent audit then returned `MEDUSA_SPIKE_FAIL`; these are candidate results, not adoption proof.
+- Remaining independent-review items: four Admin license Unknowns, process-kill windows beyond the DB transaction adapter, interactive browser smoke, and final PASS/PASS_WITH_GAPS/FAIL decision.
+- Required final state: `SYNTHETIC_REPAIR_VERIFIED_PENDING_AUDIT`; production integration remains false.
+
+### R2 independent audit R1 follow-up
+
+- [x] Recorded the immutable R2 audit failure and preserved the original 103-member package.
+- [x] Close workflow-only capability and service-side Medusa revalidation in a new isolated revision.
+- [x] Bind runtime image/build/lock/source evidence and close all four Admin license Unknowns.
+- [x] Add process-level kill/restart recovery evidence; interactive Admin browser smoke remains a documented low gap.
+- [x] Re-freeze and obtain a new independent read-only audit; result is `MEDUSA_SPIKE_PASS_WITH_GAPS`, not an adoption PASS.
+
+### R2-R1 candidate rerun (2026-09-01)
+
+- [x] Rebuilt the isolated source with workflow capability, service-side Medusa revalidation, order-level lock and 120-second recovery wait.
+- [x] Added SIGKILL-after-receipt, Backend restart and replay evidence; closed image ID/manifest/source-tree/lock binding and four Admin tarball/integrity/SBOM records.
+- [x] Frozen package `workspace/review-queue/commerce-v1/medusa-v2-spike-remediation-r2-r1/`, SHA `748ec4bcc2eb7061b2280ef367e43fcc0458bb21ff46583aacf882e1cd90a4c6`, 117 members; source tree SHA `d15eb73e94a1fcf8b19ac2c8e03b317fa5ea94f7d8242548aa3eac4dec334e8d`.
+- [x] Obtained second independent read-only audit; result `MEDUSA_SPIKE_PASS_WITH_GAPS` recorded in `docs/commerce/MEDUSA_R2_INDEPENDENT_AUDIT_R2_RESULT.md`. Remaining gates are Jest natural shutdown and interactive Admin smoke; `production_integration_allowed=false`.
+
 ## QH1 V1 Independent Audit Recovery
 
 - [x] Reproduce the V1 Hook fixture writes in an owned TEMP Shadow.

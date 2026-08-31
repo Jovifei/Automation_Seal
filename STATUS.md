@@ -68,3 +68,11 @@
 
 - Control-plane mirror: `C/APPLY/3`; Gate A.P is verified for Track P only. Hook remains `DO_NOT_TRUST`; real platform actions remain false.
 - This transition does not initialize Git, import Commerce code, run main X2, create products, or access the external Xianyu adapter.
+
+## Medusa v2 synthetic closure R2-R1 (2026-09-01)
+
+- R2-R1 is implemented only in the isolated external source `E:\Claude_allow\Download\jovi-medusa-v2-spike-r2-r1`; root Commerce/Git baseline, R12, Hook, Xianyu, remote and production directories were not touched.
+- Current state: `MEDUSA_SPIKE_PASS_WITH_GAPS`; package manifest has 117 members and SHA `748ec4bcc2eb7061b2280ef367e43fcc0458bb21ff46583aacf882e1cd90a4c6`; source snapshot tree SHA `d15eb73e94a1fcf8b19ac2c8e03b317fa5ea94f7d8242548aa3eac4dec334e8d`.
+- Fresh fixed-image verification: TypeScript, unit and module integration exit 0; X2 replay stable; 10-way concurrency one logical result; six negative cases rejected with unchanged database; Backend PID1 SIGKILL 后 `RECOVERY_PENDING` 保留、重启健康并在 120 秒窗口内单一重放；oracle manifest/file SHA 7/7；CycloneDX 1.5；实际 Node v22.17.1 process evidence.
+- Backend, PostgreSQL and Redis have no host ports and backend external probe is `ENETUNREACH`; the separate Admin edge is loopback-only at `127.0.0.1:19002`. Backend image ID, manifest digest, source-tree label and lock label are recorded in the environment evidence.
+- R2 audit R1 remains `MEDUSA_SPIKE_FAIL` in `docs/commerce/MEDUSA_R2_INDEPENDENT_AUDIT_R1_RESULT.md`; R2 audit R2 is `MEDUSA_SPIKE_PASS_WITH_GAPS` in `docs/commerce/MEDUSA_R2_INDEPENDENT_AUDIT_R2_RESULT.md`. Remaining gaps are Jest natural shutdown and interactive Admin browser smoke; `production_integration_allowed=false`.

@@ -11,8 +11,9 @@
 1. E:\project\jovi-automation\AGENTS.md
 2. E:\project\jovi-automation\docs\commerce\MEDUSA_ADOPTION_FRAMEWORK.md
 3. E:\project\jovi-automation\docs\commerce\oss-reuse\README.md
-4. 最新 Medusa remediation review package 及其 source manifest、lockfile/SBOM、test results、oracle comparison、license review 和 SHA sidecar
-5. 当前隔离 Medusa 源码；只读复算所有关键 SHA
+4. 固定审核对象：`E:\project\jovi-automation\workspace\review-queue\commerce-v1\medusa-v2-spike-remediation-r2-r1\`，package manifest SHA `748ec4bcc2eb7061b2280ef367e43fcc0458bb21ff46583aacf882e1cd90a4c6`，117 个成员；source snapshot tree SHA `d15eb73e94a1fcf8b19ac2c8e03b317fa5ea94f7d8242548aa3eac4dec334e8d`
+5. 上述 Medusa remediation review package 及其 source manifest、lockfile/SBOM、test results、oracle comparison、license review 和 SHA sidecar
+6. 当前隔离 Medusa 源码；只读复算所有关键 SHA
 
 必须独立检查：
 - Entitlement/DeliveryReceipt 是否只能经事务化策略 Workflow 创建，是否仍有 CRUD 绕过路径。
