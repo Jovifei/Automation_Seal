@@ -44,4 +44,4 @@ Medusa 隔离验证证据保留在本地 review queue，不随本精简提交上
 
 ## 远端仓库
 
-本精简快照已提交到 [Jovifei/Automation_Seal](https://github.com/Jovifei/Automation_Seal)；本次文档与审核同步提交会更新 `main`，最新提交以远端 `main` 为准。
+本精简快照已提交到 [Jovifei/Automation_Seal](https://github.com/Jovifei/Automation_Seal)；本次文档与审核同步已更新 `main`，当前提交为 `a3ddede2ca8477ab594370ec9d94d30f41fc2f6c`。
