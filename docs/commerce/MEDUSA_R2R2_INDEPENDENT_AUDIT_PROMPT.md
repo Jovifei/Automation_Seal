@@ -15,7 +15,7 @@
 4. E:\project\jovi-automation\docs\commerce\MEDUSA_R2_INTEGRATION_POINTER.md
 5. E:\project\jovi-automation\docs\commerce\MEDUSA_R2_INDEPENDENT_AUDIT_R2_RESULT.md（R2-R1 审核基线）
 6. 固定审核对象：`E:\project\jovi-automation\workspace\review-queue\commerce-v1\medusa-v2-spike-remediation-r2-r2\`
-   - package manifest SHA `34170cb96fd6fbc506ca08641505e84f4c07c87a7dae0598339e6227ed5b800c`，132 个成员
+   - package manifest SHA `a1e07b28ac3ec3753e55da20b342f911a54b6bd3de1492b13d9b7ae5434009e5`，135 个成员
    - source snapshot tree SHA `e533f0ce0010cc0f75848b9854d8ccd4da364768f31174349d8981827342f8aa`，74 个成员
    - source snapshot manifest SHA `186c836b9996a9e22f0bb86018c20db7854a1d9936180b134ad1638928ec3753`
    - pnpm lockfile SHA `9855eabfc4fc37d916af0ac64585f15594b44a90dc6d8488d594789956237119`
@@ -29,7 +29,8 @@
 - R1 策略/写入口：service.ts 中 capability mint 是否仍为词法私有、是否只通过事务化 workflow 写入 Entitlement/Receipt；R2-R2 新增的 `apps/backend/src/api/admin/jovi-commerce/receipts/route.ts` 是否严格只读（无 create/update/delete）。
 - R2 provenance：synthetic provenance（environment/synthetic_only/test_run_id/source_fixture_sha256/real_commerce_pilot_started）是否在所有终态持久化。
 - R3 事务/恢复：RECOVERY_PENDING + Backend PID1 SIGKILL + 120 秒重放单一 Entitlement/Receipt 证据是否可复算。
-- R4 证据：74 项 source、117→132 项 package、image/lock labels、oracle 7/7、SBOM、license scope 可复算。
+- R4 证据：74 项 source、117→135 项 package、image/lock labels、oracle 7/7、SBOM、license scope 可复算。
+- 初始源树 SHA 匹配（任务第 III 条）：`MEDUSA_R2R2_INITIAL_SOURCE_PROOF.json` 记录 reconstructed initial source tree SHA == R2-R1 audited source SHA `d15eb73e...`，delta 仅 3 处文档化变更（M1 package.json、L1 新增 receipts route.ts、隔离改名 docker-compose.r2.yml）、`undocumented_drift_entries=0`；可用 `tools/prove_initial_source.py` 或等效只读方法独立复算。
 - M1 Jest natural shutdown：Run A/B/C（unit + integration）全部 exit_code=0、自然退出、open_handles=0、forced_exit=false、--detectOpenHandles 诊断无 handle 报告。
 - L1 Admin 浏览器冒烟：Chromium headless 启动、/app 200、login page 渲染（React/i18next）、synthetic admin 鉴权 round-trip（/auth/user/emailpass 200 + /auth/session 200）、匿名 /admin/* 401、external_requests=0、pageerror=0；并独立评估"dashboard React 客户端在 auth API 200 后跳回 /app/login"这一未关闭的 Low 缺口是否需要进入下一轮 R2-R3 修复，还是可由独立审核签署为可接受。
 - Backend/Admin 边界：仅 loopback（Admin 通过 127.0.0.1:19003 → backend:9000）；backend 容器无宿主机端口；ENETUNREACH 外部探测。
@@ -55,7 +56,8 @@
 |---|---|
 | Source tree SHA | `e533f0ce0010cc0f75848b9854d8ccd4da364768f31174349d8981827342f8aa` |
 | Source snapshot manifest SHA | `186c836b9996a9e22f0bb86018c20db7854a1d9936180b134ad1638928ec3753` |
-| Package manifest SHA（132 项） | `34170cb96fd6fbc506ca08641505e84f4c07c87a7dae0598339e6227ed5b800c` |
+| Package manifest SHA（135 项） | `a1e07b28ac3ec3753e55da20b342f911a54b6bd3de1492b13d9b7ae5434009e5` |
+| Initial source SHA match proof | `MEDUSA_R2R2_INITIAL_SOURCE_PROOF.json` — verdict `R2R2_INITIAL_SOURCE_SHA_MATCH_PROVEN`（initial == `d15eb73e...`，undocumented drift = 0） |
 | pnpm lockfile SHA | `9855eabfc4fc37d916af0ac64585f15594b44a90dc6d8488d594789956237119` |
 | Backend image ID | `sha256:19da68692a32b02d98ada22d8a83633600978c2d19823c7aa104a43c8ac1ad62` |
 | Backend image manifest digest | `sha256:31a3e509a7cb67c01f31cdb310ff108f659de0d2b83352c80777b94fd0498ff3` |
