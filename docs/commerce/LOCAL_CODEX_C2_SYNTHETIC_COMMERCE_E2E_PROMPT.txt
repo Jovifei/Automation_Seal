@@ -1,0 +1,595 @@
+你现在接管本地受控 Commerce 仓：
+
+E:\project\jovi-medusa-commerce-v1
+
+角色：
+Commerce C2 Synthetic E2E Executor
+
+你不是独立审核员。
+
+最终目标：
+在不触发任何真实平台/真实付款/真实客户动作的前提下，完成第一条正式、可重复、可审计的数字产品 Synthetic Commerce E2E：
+
+Product Manifest
+→ Digital Release
+→ Private Asset
+→ Listing Candidate
+→ Synthetic Order
+→ Synthetic Payment Evidence
+→ Jovi Entitlement
+→ Deterministic Delivery Package
+→ Download Grant
+→ DeliveryReceipt
+→ Xianyu Draft Bundle
+
+完成后停在：
+
+READY_FOR_C2_INDEPENDENT_AUDIT
+
+==================================================
+0. 先重新核验前置状态
+==================================================
+
+不要相信聊天摘要。
+
+读取并验证：
+
+1. 当前 Git 分支/HEAD/worktree；
+2. R6 Post-Import audit result + sidecar；
+3. R2-R3 independent audit result + sidecar；
+4. 当前 R2-R3 audited feature HEAD；
+5. 6 项商业边界全部 false；
+6. remote 状态；
+7. main SHA 未漂移；
+8. 当前 source tree SHA；
+9. pnpm lock SHA；
+10. Gitleaks/Syft evidence。
+
+预期根据最近审计报告至少应看到：
+
+- R6_POST_IMPORT_PASS；
+- R2R3_INDEPENDENT_AUDIT_PASS；
+- R2-R3 audited feature HEAD `cf257020a817e2d80f1a6540ebfef371f8a60b8a`；
+- main `8290392c7fb91b1266d37591524d09005feac39d` 未修改；
+- production_integration_allowed=false；
+- real_payment=false；
+- real_customer=false；
+- xianyu=false；
+- auto_delivery=false；
+- n8n_production=false。
+
+任何审计 SHA、sidecar、HEAD 或边界不匹配：
+
+停止，输出 `C2_PRECONDITION_FAIL`。
+
+==================================================
+1. 读取治理/开源参考
+==================================================
+
+只读读取：
+
+E:\project\jovi-automation\templates\product_manifest.yaml
+E:\project\jovi-automation\templates\xianyu_listing_draft.md
+E:\project\jovi-automation\automation_specs\product_build_pipeline.yaml
+E:\project\jovi-automation\automation_specs\xianyu_draft_pipeline.yaml
+
+并读取远端/本地同步后的：
+
+- COMMERCE_C2_SYNTHETIC_E2E_DIGITAL_DELIVERY_PLAN.md
+- OSS_DIGITAL_DELIVERY_ADOPTION_V1.md
+
+开源参考固定：
+
+makepay-apps/medusa-plugin-digital-downloads
+commit:
+a5343ba18cee85b3eed674ed55d0de7e32aaa448
+license:
+MIT
+
+只参考/选择性复用，不直接 npm install 整插件。
+
+优先阅读：
+
+README.md
+docs/ARCHITECTURE.md
+docs/TESTING.md
+
+吸收：
+
+- immutable release；
+- private asset；
+- local private storage；
+- ownership Entitlement 与短时 DownloadGrant 分离；
+- idempotent delivery state。
+
+禁止让第三方插件接管：
+
+- payment authority；
+- Jovi Entitlement authority；
+- DeliveryReceipt authority；
+- real customer delivery；
+- refund/revoke policy；
+- email；
+- Storefront；
+- S3。
+
+如果复制 MIT 源码片段：
+
+必须新增 THIRD_PARTY_NOTICES.md，记录：
+
+repo
+commit
+license
+upstream_path
+local_path
+copied_or_adapted
+modifications
+
+不得无来源复制。
+
+==================================================
+2. 创建短生命周期开发分支
+==================================================
+
+从已独立审核通过的 R2-R3 feature HEAD 创建：
+
+feature/c2-synthetic-commerce-e2e
+
+不要修改 main。
+
+不要先合并到 development 再开发，保持 audit lineage 清晰。
+
+记录：
+
+C2_BASELINE.json
+
+包括：
+
+- parent commit
+- source tree SHA
+- lockfile SHA
+- audit result SHA
+- boundary flags
+
+==================================================
+3. 实现最小 Digital Delivery Domain
+==================================================
+
+目标不是再造完整插件，只补 Jovi 当前缺少的 delivery 层。
+
+至少实现：
+
+A. DigitalRelease
+
+字段至少：
+
+release_id
+product_id
+variant_id
+version
+state
+release_manifest_sha256
+source_product_manifest_sha256
+rights_evidence_sha256
+created_at
+
+状态：
+DRAFT
+READY
+FROZEN
+
+FROZEN 后不可原地改；升级必须新 release。
+
+B. DeliveryAsset
+
+字段至少：
+
+asset_id
+release_id
+relative_path
+sha256
+size
+media_type
+rights_status
+private_storage_key
+
+要求：
+
+- private root 在 static/public 之外；
+- relative path canonicalize；
+- `..`、absolute path、drive escape、symlink/reparse escape fail-closed；
+- build 前后 hash 校验。
+
+C. DeliveryPackage
+
+字段至少：
+
+package_id
+release_id
+artifact_sha256
+manifest_sha256
+deterministic_build_id
+file_count
+total_bytes
+
+相同 release + 相同输入：
+
+两次 build 字节完全相同。
+
+D. DownloadGrant
+
+注意：不是 ownership。
+
+字段至少：
+
+grant_id
+entitlement_id
+package_id
+token_hash
+expires_at
+revoked_at
+synthetic_only=true
+
+只有已有、有效、未 revoke 的 Jovi Entitlement 才能创建 grant。
+
+opaque token 明文不得持久化。
+
+==================================================
+4. Synthetic Product Fixture
+==================================================
+
+本轮不要触碰真实 Modbus 产品仓。
+
+创建一个完全 synthetic 的数字产品 fixture，例如：
+
+Synthetic Commerce Validation Pack
+
+包含至少：
+
+README.txt
+checklist.json
+sample-report.html
+
+所有文件本轮自己生成，不使用网络下载素材。
+
+Product Manifest 必须包含：
+
+- product_id
+- version
+- rights_status=original
+- prohibited_content_confirmed_absent=true
+- deliverables
+- acceptance_criteria
+- file hashes
+
+任何 rights / prohibited / deliverables / hash 缺失：
+
+fail-closed。
+
+==================================================
+5. Deterministic Delivery Package
+==================================================
+
+创建确定性 package builder。
+
+要求：
+
+- stable file ordering；
+- normalized timestamps/metadata；
+- no absolute paths；
+- no machine-specific metadata；
+- manifest inside package；
+- package SHA；
+- build twice -> same bytes/SHA。
+
+输出仅到受控 local private delivery root。
+
+不得写 static/public。
+
+==================================================
+6. Listing Candidate + Xianyu Draft Bundle
+==================================================
+
+基于：
+
+product manifest
+release manifest
+verified acceptance results
+
+生成：
+
+- title
+- description
+- verified features
+- version
+- system requirements
+- delivery contents
+- FAQ
+- support boundary
+- copyright/rights statement
+- delivery instructions
+
+禁止：
+
+- 生成未经测试的夸大描述；
+- 写“自动发货已上线”；
+- 真实访问 xianyu-auto-reply；
+- publish；
+- send_message；
+- deliver；
+- change_price；
+- refund。
+
+输出：
+
+C2_LISTING_CANDIDATE.json
+C2_XIANYU_DRAFT_BUNDLE.json
+
+必须：
+
+candidate_only=true
+platform_action_allowed=false
+
+==================================================
+7. 完整 Synthetic Commerce E2E
+==================================================
+
+跑一条新 run_id：
+
+1. ingest product manifest；
+2. create Product/Variant；
+3. create/freeze DigitalRelease；
+4. build deterministic DeliveryPackage；
+5. generate Listing Candidate；
+6. create synthetic Order；
+7. bind synthetic payment evidence；
+8. Jovi policy re-read Order/Payment/Asset/Rights；
+9. issue exactly one Entitlement；
+10. generate exactly one DeliveryReceipt；
+11. issue DownloadGrant；
+12. loopback-only download package using grant；
+13. recompute downloaded SHA == package SHA；
+14. generate Xianyu Draft Bundle；
+15. replay same run；
+16. prove no duplicate Entitlement/Receipt/Package；
+17. kill/restart recovery；
+18. prove same logical result。
+
+最终状态只能是：
+
+READY_FOR_HUMAN_DELIVERY
+
+不是：
+
+DELIVERED
+PUBLISHED
+PAID_REAL
+
+==================================================
+8. Negative Tests
+==================================================
+
+至少：
+
+1. tampered product manifest
+2. rights missing
+3. prohibited_content flag false
+4. empty deliverables
+5. asset hash mismatch
+6. `../` path traversal
+7. absolute path
+8. Windows drive escape
+9. symlink/reparse escape（环境支持则跑；否则 NOT_VERIFIED）
+10. order/product mismatch
+11. payment evidence mismatch
+12. expired grant
+13. revoked grant
+14. revoked entitlement
+15. grant belongs to other order
+16. package tamper
+17. duplicate replay
+18. platform_action_allowed=true injection
+19. real_payment=true + synthetic mode
+20. real_customer=true + synthetic mode
+
+每个负测：
+
+- expected error code
+- DB before/after
+- asset state before/after
+- fail_closed=true
+
+==================================================
+9. Admin / Playwright
+==================================================
+
+复用已经通过独立审核的 cookie-session。
+
+浏览器验证：
+
+login
+→ Product
+→ Order
+→ Entitlement
+→ Receipt
+→ DigitalRelease
+→ DeliveryPackage metadata
+→ refresh
+
+要求：
+
+- Cookie session only；
+- no Bearer injection for UI acceptance；
+- pageerror=0；
+- fatal console=0；
+- external network requests=0。
+
+不做 public Storefront。
+
+==================================================
+10. OSS Security
+==================================================
+
+保留：
+
+- existing Python secret scanner；
+- Gitleaks v8.24.0；
+- Syft v1.20.0。
+
+对 C2 新代码重新执行正负测。
+
+可选 Trivy：
+
+只有核心 C2 E2E 全绿后再做。
+
+如果使用：
+
+- pin exact image tag + digest；
+- filesystem scan；
+- image scan；
+- HIGH/CRITICAL policy；
+- DB 无法获取时 NOT_VERIFIED，不得假 PASS。
+
+不要让 Trivy 集成阻塞核心 C2 业务链的实现证据。
+
+==================================================
+11. Full Regression
+==================================================
+
+必须重跑：
+
+- TypeScript
+- all unit tests natural exit
+- integration tests natural exit
+- R2-R3 cookie tests
+- R2-R3 Playwright session
+- prior X2 initial/replay
+- concurrency
+- previous negative cases
+- PID1 recovery
+- Oracle 7/7
+- deterministic build
+- sidecars
+- Gitleaks positive/negative
+- Syft source/image
+- C2 E2E
+- C2 negative suite
+- C2 replay/recovery
+
+所有旧能力不能因 C2 回归。
+
+==================================================
+12. Evidence Package
+==================================================
+
+生成：
+
+C2_BASELINE.json
+C2_CHANGE_MANIFEST.json
+C2_PRODUCT_MANIFEST.json
+C2_DIGITAL_RELEASE.json
+C2_ASSET_MANIFEST.json
+C2_DELIVERY_PACKAGE_MANIFEST.json
+C2_LISTING_CANDIDATE.json
+C2_XIANYU_DRAFT_BUNDLE.json
+C2_SYNTHETIC_E2E_RESULT.json
+C2_NEGATIVE_TEST_RESULTS.json
+C2_REPLAY_RECOVERY_RESULT.json
+C2_ADMIN_E2E_RESULT.json
+C2_OSS_PROVENANCE.json
+C2_SOURCE_MANIFEST.json
+C2_ROLLBACK_PLAN.json
+C2_INDEPENDENT_AUDIT_PROMPT.md
+
+关键文件全部生成 SHA256 sidecar。
+
+==================================================
+13. Git / Remote
+==================================================
+
+实现完成：
+
+commit 到本地：
+
+feature/c2-synthetic-commerce-e2e
+
+不得修改 main。
+
+如果 remote 仍为 none：
+
+不要猜远端。
+不要把 Commerce runtime 推到 Automation_Seal。
+
+输出：
+
+COMMERCE_RUNTIME_REMOTE_REQUIRED.md
+
+建议远端名：
+
+Jovifei/jovi-medusa-commerce-v1
+
+但不要自行创建/绑定，等待 Jovi 明确远端授权。
+
+==================================================
+14. Independent Audit
+==================================================
+
+当前 Executor 不得自审。
+
+成功停止：
+
+READY_FOR_C2_INDEPENDENT_AUDIT
+
+然后用全新、只读、未参与实现的会话执行：
+
+C2_INDEPENDENT_AUDIT_PROMPT.md
+
+审计结论只能：
+
+C2_INDEPENDENT_AUDIT_PASS
+C2_INDEPENDENT_AUDIT_FAIL
+
+只有 PASS 后才进入：
+
+C3_REAL_SKU_STAGING
+
+优先真实 SKU：Modbus RTU Diagnostic Toolkit。
+
+==================================================
+15. 最终回复必须包含
+==================================================
+
+1. precondition verdict
+2. base commit
+3. feature commit
+4. source tree SHA
+5. exact changed files
+6. third-party copied/adapted paths
+7. THIRD_PARTY_NOTICES status
+8. DigitalRelease result
+9. private storage root
+10. deterministic package SHA run1/run2
+11. Listing Candidate
+12. Synthetic Order
+13. Payment evidence binding
+14. Entitlement count
+15. DeliveryReceipt count
+16. DownloadGrant
+17. downloaded package SHA verification
+18. Xianyu Draft Bundle
+19. replay uniqueness
+20. recovery
+21. negative tests
+22. Playwright Admin
+23. full regression
+24. Gitleaks
+25. Syft
+26. Trivy if run
+27. 6 boundary flags
+28. main modified? yes/no
+29. remote status
+30. push status
+31. evidence package SHA
+32. independent audit prompt SHA
+33. final stop state
+34. next unique action
