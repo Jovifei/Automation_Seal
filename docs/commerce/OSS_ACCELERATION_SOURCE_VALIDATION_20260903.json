@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-03",
+  "verdict": "SOURCE_VALIDATED_READY_FOR_LOCAL_RUNTIME_VALIDATION",
+  "base_branch": "r2r2-gap-closure-and-r6-adoption-prep-20260901",
+  "base_sha": "85401855c24b83e0dea035b0f225fc5a9fbba563",
+  "medusa": {
+    "repository": "medusajs/medusa",
+    "ref": "v2.19.0",
+    "session_route": {
+      "path": "packages/medusa/src/api/auth/session/route.ts",
+      "blob_sha": "c943f8a0a003b14f25c39b76b2b024f176a94bfc",
+      "observed_behavior": "POST assigns req.session.auth_context=req.auth_context and returns 200"
+    },
+    "express_loader": {
+      "path": "packages/core/framework/src/http/express-loader.ts",
+      "blob_sha": "e2ec6fe9b77f6b577c85e3deceb7f4dbf0c8ef44",
+      "observed_behavior": "production_or_staging_defaults_secure_cookie_true_and_sameSite_lax; projectConfig.cookieOptions is spread after defaults"
+    },
+    "config_types": {
+      "path": "packages/core/types/src/common/config-module.ts",
+      "blob_sha": "ef99164edffa4f908294f20409fdba64ef2157e6",
+      "observed_behavior": "CookieOptions exposes secure/sameSite/httpOnly and related fields"
+    },
+    "auth_integration_test": {
+      "path": "integration-tests/http/__tests__/auth/admin/auth-asymetric.spec.ts",
+      "blob_sha": "d9a911c5314feb47832dccf01402bc29caa50333",
+      "observed_behavior": "official test asserts POST /auth/session returns Set-Cookie containing connect.sid, then authenticates /admin/products using the cookie"
+    },
+    "source_validated_inference": "Jovi synthetic Admin uses loopback HTTP while production-mode Medusa defaults secure=true; this is sufficient to explain 200 response without Set-Cookie and justifies a synthetic-loopback-only cookieOptions.secure=false validation candidate. Runtime acceptance still requires local Playwright evidence."
+  },
+  "oss_candidates": [
+    {
+      "repository": "microsoft/playwright",
+      "decision": "DIRECT_REUSE_TESTING",
+      "runtime_validation_required": true
+    },
+    {
+      "repository": "gitleaks/gitleaks",
+      "decision": "DIRECT_REUSE_CI_WAVE1",
+      "runtime_validation_required": true
+    },
+    {
+      "repository": "anchore/syft",
+      "decision": "DIRECT_REUSE_SBOM_WAVE1",
+      "runtime_validation_required": true
+    },
+    {
+      "repository": "aquasecurity/trivy",
+      "decision": "DIRECT_REUSE_SECURITY_WAVE2",
+      "runtime_validation_required": true
+    },
+    {
+      "repository": "step-security/harden-runner",
+      "decision": "ADOPT_AFTER_COMMERCE_REMOTE_EXISTS",
+      "runtime_validation_required": true
+    },
+    {
+      "repository": "actions/dependency-review-action",
+      "decision": "CONDITIONAL_ON_REPOSITORY_PLAN",
+      "runtime_validation_required": true
+    },
+    {
+      "repository": "slsa-framework/slsa-github-generator",
+      "decision": "DEFER_TO_RELEASE_PHASE",
+      "runtime_validation_required": true
+    }
+  ],
+  "not_claimed": [
+    "local_jovi_medusa_commerce_runtime_was_not_executed_by_this_remote_review",
+    "R6_POST_IMPORT_PASS_not_yet_verified_by_this_remote_review",
+    "cookie_fix_not_yet_applied_to_local_controlled_repo",
+    "new_CI_tools_not_yet_installed_in_local_controlled_repo"
+  ]
+}

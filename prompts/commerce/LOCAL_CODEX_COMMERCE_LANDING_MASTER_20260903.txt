@@ -1,0 +1,178 @@
+你现在接管 Jovi Automation 的 Commerce 落地主线。
+
+本地工程：
+- Governance: E:\project\jovi-automation
+- Commerce Runtime: E:\project\jovi-medusa-commerce-v1
+- First real SKU: E:\project\jovi-modbus-diagnostic-toolkit-v1
+- Legacy Commerce: E:\project\jovi-commerce-engine-v1
+
+角色：Commerce Landing Executor。
+
+最终目标：
+把原创数字产品从产品字节推进到“可由 Jovi 人工批准发布与交付”的完整链：
+Product Source → Product Manifest → DigitalRelease → Private Asset → Listing Candidate → Order → Human-confirmed Payment Evidence → Entitlement → Deterministic Delivery Package → DeliveryReceipt → Platform Draft。
+
+真实发布、聊天、付款确认、退款和最终交付继续由 Jovi 人工控制。
+
+==================================================
+0. 先做现场事实核验，不要继承摘要结论
+==================================================
+
+先读取：
+E:\project\jovi-automation\docs\commerce\COMMERCE_PROJECT_TOPOLOGY_AND_AUTHORITY_V1.md
+E:\project\jovi-automation\docs\commerce\COMMERCE_LANDING_MAINLINE_C2_C4_V1.md
+E:\project\jovi-automation\docs\commerce\COMMERCE_LANDING_HANDOFF_20260903.md
+E:\project\jovi-automation\docs\commerce\COMMERCE_C2_SYNTHETIC_E2E_DIGITAL_DELIVERY_PLAN.md
+E:\project\jovi-automation\docs\commerce\OSS_DIGITAL_DELIVERY_ADOPTION_V1.md
+E:\project\jovi-automation\docs\commerce\C3_MODBUS_REAL_SKU_STAGING_PLAN_V1.md
+E:\project\jovi-automation\docs\commerce\C4_HUMAN_PILOT_PLAN_V1.md
+E:\project\jovi-automation\docs\commerce\COMMERCE_RUNTIME_REMOTE_GOVERNANCE_PLAN_V1.md
+
+检查 Commerce Runtime：
+- git status
+- branch / HEAD / main / development
+- remote
+- R6 Post-Import audit + sidecar
+- R2-R3 audit + sidecar
+- source tree SHA
+- lock SHA
+- six boundary flags
+
+用户最新报告的值只能当预期，不是事实：
+main 8290392c7fb91b1266d37591524d09005feac39d
+development e8c8a783daefc9cf9fead22091ebc4bf190e3d54
+R2-R3 feature cf257020a817e2d80f1a6540ebfef371f8a60b8a
+R2-R3 source tree 664d73663ffce757bdf394a293c5642720fad5cb0afa1564619f53e845090602
+R6 audit SHA 32f973736f8729ae417a7d253ae1cb9e6b9454e3b780c4c38bfc1374562f1e69
+
+若不匹配，先报告实际值并 fail-closed；不要自动 rebase 历史证据。
+
+==================================================
+1. 自动选择当前阶段
+==================================================
+
+A. 如果 R2R3_INDEPENDENT_AUDIT_PASS 不存在或 SHA 不匹配：停止，状态 R2R3_AUDIT_NOT_TRUSTED。
+
+B. 如果 R2-R3 PASS 且 C2 尚未实现：执行 C2。
+
+C. 如果已经存在 READY_FOR_C2_INDEPENDENT_AUDIT，但没有独立 C2 PASS：不要继续开发；只输出独立审核启动指令并停止。
+
+D. 如果 C2_INDEPENDENT_AUDIT_PASS 已存在且可信，C3 尚未实现：执行 C3。
+
+E. 如果已经 READY_FOR_C3_INDEPENDENT_AUDIT 而无独立 C3 PASS：停止等待独立审核。
+
+F. 如果 C3 PASS：只准备 C4 Human Pilot package，不执行任何真实平台动作，等待 Jovi 新 Decision。
+
+==================================================
+2. C2 — Synthetic Digital Commerce E2E
+==================================================
+
+若进入 C2，严格执行：
+E:\project\jovi-automation\docs\commerce\COMMERCE_C2_SYNTHETIC_E2E_DIGITAL_DELIVERY_PLAN.md
+以及远端候选中的 LOCAL_CODEX_C2_SYNTHETIC_COMMERCE_E2E_PROMPT.txt。
+
+固定 OSS 参考：
+makepay-apps/medusa-plugin-digital-downloads
+commit a5343ba18cee85b3eed674ed55d0de7e32aaa448
+MIT
+
+仅吸收：immutable DigitalRelease、private asset、local private storage、short-lived DownloadGrant、idempotent delivery patterns。
+
+不得让第三方插件接管：Payment authority、Jovi Entitlement、DeliveryReceipt、license authority、email、S3、Storefront、自动客户交付。
+
+必须完成 synthetic product → release → deterministic package → listing candidate → synthetic order/payment evidence → exactly-one entitlement/receipt → grant → loopback download SHA → Xianyu Draft Bundle。
+
+必须有 replay/concurrency/crash-recovery/negative tests、Playwright、Gitleaks、Syft、sidecars。
+
+成功停止：READY_FOR_C2_INDEPENDENT_AUDIT。
+当前 Agent 不得自审。
+
+==================================================
+3. C3 — Real SKU Staging
+==================================================
+
+只有可信 C2 independent PASS 后进入。
+
+产品源只读：
+E:\project\jovi-modbus-diagnostic-toolkit-v1
+
+执行：C3_MODBUS_REAL_SKU_STAGING_PLAN_V1.md。
+
+先资格冻结真实产品仓：commit/dirty state/version/installer或ZIP SHA/tests/docs/license/third-party notices/known limitations。
+
+不要修改 Modbus 产品仓来迎合 Commerce；不满足发布条件时回产品仓独立修复。
+
+生成真实 E01 Product Manifest、immutable Release、private asset、deterministic DeliveryPackage、verified listing candidate。
+
+订单和付款仍 synthetic；真实平台仍 false。
+
+成功停止：READY_FOR_C3_INDEPENDENT_AUDIT。
+当前 Agent 不得自审。
+
+==================================================
+4. C4 — Human Pilot preparation
+==================================================
+
+只有可信 C3 PASS 后进入。
+
+读取 C4_HUMAN_PILOT_PLAN_V1.md。
+
+本轮只生成：Pilot runbook、per-order evidence schema、manual checklist、support/refund decision tree、metrics template、rollback/emergency stop。
+
+禁止自动发布/消息/改价/付款确认/交付/退款。
+
+最后停在 READY_FOR_JOVI_C4_PILOT_DECISION。
+
+==================================================
+5. Runtime remote
+==================================================
+
+若 Commerce Runtime remote 仍为空：不要猜 URL，不要 push。
+生成 COMMERCE_RUNTIME_REMOTE_REQUIRED.md，建议但不假定 Jovifei/jovi-medusa-commerce-v1。
+
+若 Jovi 已明确提供准确 remote URL：
+- push feature branch only
+- 回读 git ls-remote
+- 不直接 push main
+- 建议 PR-only main / required checks
+
+==================================================
+6. Legacy Python Commerce
+==================================================
+
+不要删除 E:\project\jovi-commerce-engine-v1。
+若时间允许，按 LEGACY_PYTHON_COMMERCE_ARCHIVE_PLAN_V1.md 生成只读归档快照和 ARCHIVED.md 候选；不得恢复成主路线。
+
+==================================================
+7. 不可越过边界
+==================================================
+
+始终保持 false：
+production_integration_allowed
+real_payment
+real_customer
+xianyu
+auto_delivery
+n8n_production
+
+不得访问真实闲鱼 Cookie/Token/Profile；不得 Stripe/public Storefront；不得伪造 Human Decision；不得用测试 PASS 自动翻真实权限。
+
+==================================================
+8. 每个阶段必须输出
+==================================================
+
+- 当前阶段
+- 现场实际 HEAD/SHA
+- 完成内容
+- changed files
+- tests/evidence SHA
+- OSS provenance
+- boundary flags
+- main 是否修改
+- remote/push 状态
+- 独立审核门状态
+- 当前产品价值
+- 唯一下一动作
+
+优先级：产品闭环 > 必需证据 > 安全回归 > 文档美化/额外自动化。
+不要重新做 Commerce 框架选型，不要重新研究已关闭的 cookie 问题，不要扩大治理框架。

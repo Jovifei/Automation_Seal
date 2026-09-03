@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "status": "REMOTE_PLAN_PACKAGE_READY_FOR_LOCAL_EXECUTION",
+  "base_branch": "r2r2-gap-closure-and-r6-adoption-prep-20260901",
+  "base_expected_sha": "85401855c24b83e0dea035b0f225fc5a9fbba563",
+  "landing_branch": "commerce-landing-mainline-c2-c3-pilot-20260903",
+  "local_runtime": {
+    "path": "E:\\project\\jovi-medusa-commerce-v1",
+    "remote_expected": "none-until-jovi-authorizes",
+    "reported_main": "8290392c7fb91b1266d37591524d09005feac39d",
+    "reported_development": "e8c8a783daefc9cf9fead22091ebc4bf190e3d54",
+    "reported_r2r3_feature": "cf257020a817e2d80f1a6540ebfef371f8a60b8a",
+    "reported_r2r3_source_tree": "664d73663ffce757bdf394a293c5642720fad5cb0afa1564619f53e845090602",
+    "reported_r6_audit_sha256": "32f973736f8729ae417a7d253ae1cb9e6b9454e3b780c4c38bfc1374562f1e69",
+    "trust_rule": "all reported values must be recomputed locally"
+  },
+  "oss_refs": [
+    {
+      "repo": "medusajs/medusa",
+      "ref": "v2.19.0",
+      "purpose": "official auth/session and cookie behavior"
+    },
+    {
+      "repo": "makepay-apps/medusa-plugin-digital-downloads",
+      "commit": "a5343ba18cee85b3eed674ed55d0de7e32aaa448",
+      "license": "MIT",
+      "purpose": "selective digital-release/private-asset/download-grant patterns only"
+    },
+    {
+      "repo": "gitleaks/gitleaks",
+      "version": "v8.24.0",
+      "purpose": "secret scanning"
+    },
+    {
+      "repo": "anchore/syft",
+      "version": "v1.20.0",
+      "purpose": "CycloneDX SBOM"
+    }
+  ],
+  "execution_order": [
+    "verify R2-R3 independent audit locally",
+    "C2 synthetic digital commerce E2E",
+    "C2 independent audit",
+    "C3 Modbus real SKU staging",
+    "C3 independent audit",
+    "C4 human pilot decision and preparation"
+  ],
+  "required_docs": [
+    "docs/commerce/COMMERCE_LANDING_HANDOFF_20260903.md",
+    "docs/commerce/COMMERCE_PROJECT_TOPOLOGY_AND_AUTHORITY_V1.md",
+    "docs/commerce/COMMERCE_LANDING_MAINLINE_C2_C4_V1.md",
+    "docs/commerce/COMMERCE_C2_SYNTHETIC_E2E_DIGITAL_DELIVERY_PLAN.md",
+    "docs/commerce/OSS_DIGITAL_DELIVERY_ADOPTION_V1.md",
+    "docs/commerce/C3_MODBUS_REAL_SKU_STAGING_PLAN_V1.md",
+    "docs/commerce/C4_HUMAN_PILOT_PLAN_V1.md",
+    "docs/commerce/COMMERCE_RUNTIME_REMOTE_GOVERNANCE_PLAN_V1.md",
+    "docs/commerce/LEGACY_PYTHON_COMMERCE_ARCHIVE_PLAN_V1.md",
+    "prompts/commerce/LOCAL_CODEX_COMMERCE_LANDING_MASTER_20260903.txt"
+  ],
+  "real_action_flags_required_false": [
+    "production_integration_allowed",
+    "real_payment",
+    "real_customer",
+    "xianyu",
+    "auto_delivery",
+    "n8n_production"
+  ]
+}

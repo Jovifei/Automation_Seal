@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "validated_at": "2026-09-03",
+  "purpose": "Source-validated selective reuse input for Commerce C2 digital delivery; not runtime proof.",
+  "sources": [
+    {
+      "repository": "makepay-apps/medusa-plugin-digital-downloads",
+      "commit": "a5343ba18cee85b3eed674ed55d0de7e32aaa448",
+      "tree": "e7b8355f3e2722bc8f8ee4353d1a2fe739daf4e2",
+      "license": "MIT",
+      "repo_state": "public_not_archived",
+      "medusa_compatibility": ">=2.18 <3",
+      "validated_patterns": [
+        "product_variant_linked_digital_configuration",
+        "immutable_release",
+        "private_local_storage",
+        "protected_asset_vs_public_preview",
+        "durable_entitlement_pattern",
+        "short_lived_opaque_grant_separate_from_ownership",
+        "idempotent_fulfillment_state",
+        "admin_observability"
+      ],
+      "explicit_non_adoption": [
+        "upstream_entitlement_authority",
+        "payment_trigger_authority",
+        "license_generator",
+        "email_notification",
+        "s3",
+        "public_storefront",
+        "drm",
+        "real_customer_delivery"
+      ]
+    }
+  ],
+  "existing_jovi_sources": [
+    "templates/product_manifest.yaml",
+    "templates/xianyu_listing_draft.md",
+    "automation_specs/product_build_pipeline.yaml",
+    "automation_specs/xianyu_draft_pipeline.yaml"
+  ],
+  "policy": {
+    "install_whole_plugin_in_c2": false,
+    "copying_code_requires_third_party_notice": true,
+    "jovi_policy_remains_entitlement_authority": true,
+    "jovi_policy_remains_delivery_receipt_authority": true,
+    "real_platform_actions_allowed": false,
+    "production_integration_allowed": false
+  },
+  "runtime_validation": "REQUIRED_LOCALLY",
+  "current_status": "SOURCE_VALIDATED_READY_FOR_LOCAL_C2_IMPLEMENTATION"
+}

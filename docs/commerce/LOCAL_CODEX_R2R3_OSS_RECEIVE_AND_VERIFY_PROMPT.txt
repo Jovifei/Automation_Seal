@@ -1,0 +1,257 @@
+你现在接管本地受控仓：
+
+E:\project\jovi-medusa-commerce-v1
+
+角色：
+R6 Post-Import Auditor / R2-R3 OSS Absorption Executor（分阶段执行，不能混成一次自审）。
+
+远端知识/候选来源：
+https://github.com/Jovifei/Automation_Seal
+
+远端分支：
+commerce-r2r3-oss-acceleration-20260903
+
+第一原则：
+先完成 R6 Post-Import Independent Audit，再允许任何 R2-R3 修改。
+如果 Post-Import Audit FAIL，只修该 audit finding；不要顺手做 OSS 优化。
+
+==================================================
+A. 接收并验证远端候选包
+==================================================
+
+先读取：
+
+1. docs/commerce/OSS_ACCELERATION_R2R3_20260903.md
+2. docs/commerce/MEDUSA_R2R3_SESSION_COOKIE_ADOPTION_PLAN.md
+3. docs/commerce/CI_SECURITY_OSS_ADOPTION_V1.md
+4. 本 Prompt
+
+重新核对来源，不要盲信总结：
+
+- medusajs/medusa tag v2.19.0
+- packages/medusa/src/api/auth/session/route.ts
+- packages/core/framework/src/http/express-loader.ts
+- packages/core/types/src/common/config-module.ts
+- 官方 auth integration tests 对 Set-Cookie/connect.sid 的断言
+
+必须确认：production/staging 默认 session cookie secure=true；cookieOptions 可以在 Jovi 配置层覆盖。
+
+==================================================
+B. 第一阶段：只读 R6 Post-Import Independent Audit
+==================================================
+
+严格执行本地：
+
+governance/r6/R6_POST_IMPORT_INDEPENDENT_AUDIT_PROMPT.md
+
+只允许结论：
+
+R6_POST_IMPORT_PASS
+R6_POST_IMPORT_FAIL
+
+不得因为本 Prompt 想做 R2-R3 就跳过该审计。
+
+如果 FAIL：
+
+输出 minimum fix plan，然后停止。
+
+如果 PASS：
+
+冻结 audit result + SHA，再进入 C。
+
+==================================================
+C. 第二阶段：R2-R3 Admin session-cookie 最小修复
+==================================================
+
+从新分支执行，例如：
+
+feature/r2r3-admin-session-cookie
+
+目标：关闭 R2-R2 Low F-1/F-2。
+
+不得 patch Medusa 上游/node_modules。
+
+在 Jovi 自己的 medusa-config / synthetic compose 层实现：
+
+- 新增显式 synthetic-loopback 开关，例如：
+  JOVI_SYNTHETIC_LOOPBACK_HTTP=true
+- 仅该开关为 true 时 cookieOptions.secure=false；
+- sameSite=lax；
+- httpOnly=true；
+- 真实 commerce / production candidate 下禁止该 override；
+- 127.0.0.1 / internal network 边界保持。
+
+增加 fail-closed guard：
+如果 synthetic-loopback override 与 real-commerce/prod deployment 标志同时启用，进程必须拒绝启动或测试必须 FAIL。
+
+==================================================
+D. 用 Playwright 做真实 cookie-session 验收
+==================================================
+
+不要用 Bearer 代替最终 UI session 验收。
+
+必须真实验证：
+
+1. /app/login 页面加载
+2. 提交 synthetic admin credentials
+3. /auth/user/emailpass = 200
+4. /auth/session = 200
+5. response headers 真实存在 Set-Cookie
+6. Set-Cookie 名包含 connect.sid
+7. browser context cookies 存在 connect.sid
+8. 浏览器离开 /app/login
+9. /admin/users/me 仅依赖 cookie-session = 200
+10. UI Product 可访问
+11. UI Order 可访问
+12. Receipt/Entitlement 只读页面或 route 可访问
+13. refresh 后 session 仍有效
+14. fatal console error = 0
+15. pageerror = 0
+16. unexpected failed request = 0
+17. external request = 0
+
+证据必须来自捕获值，不得硬编码“session cookie issued”。
+
+输出结构化 evidence：
+
+{
+  "emailpass_status": 200,
+  "session_status": 200,
+  "set_cookie_present": true,
+  "set_cookie_name": "connect.sid",
+  "browser_cookie_present": true,
+  "users_me_cookie_session_status": 200,
+  "bearer_used_for_ui_acceptance": false
+}
+
+==================================================
+E. R2-R3 全回归
+==================================================
+
+必须重跑：
+
+- TypeScript
+- Jest unit natural exit
+- Jest integration natural exit
+- X2 initial
+- X2 replay
+- 10 concurrency
+- negative cases
+- conflict replay
+- transaction rollback
+- PID1 recovery
+- Redis persistence
+- Oracle 7/7
+- SBOM/license
+- source manifest
+- deterministic build
+- current secret scan
+- Admin Playwright cookie-session
+
+保持：
+production_integration_allowed=false
+real_payment=false
+real_customer=false
+xianyu=false
+auto_delivery=false
+n8n_production=false
+
+==================================================
+F. 第三阶段：成熟 OSS CI 工具吸收
+==================================================
+
+只有 E 全绿后才做。
+
+Wave 1：
+
+1. Gitleaks
+   - 固定版本/commit
+   - clean repo PASS
+   - synthetic fake secret negative fixture 必须 FAIL
+   - fixture 删除后 PASS
+
+2. Syft
+   - source SBOM
+   - backend image SBOM
+   - CycloneDX JSON
+   - 与现有 SBOM 做 component diff
+   - output SHA 进入 provenance
+
+保留现有自研 scanner/validator，先双轨，不直接删除。
+
+Wave 2 先只生成 plan，不必本轮强制接入：
+
+- Trivy
+- step-security/harden-runner
+- dependency-review-action
+
+SLSA generator 继续 defer 到 release 阶段。
+
+==================================================
+G. 证据与独立审核
+==================================================
+
+生成新的：
+
+- R2R3_CHANGE_MANIFEST.json
+- R2R3_ADMIN_SESSION_EVIDENCE.json
+- R2R3_REGRESSION_RESULTS.json
+- R2R3_OSS_TOOL_EVIDENCE.json
+- R2R3_SOURCE_MANIFEST.json
+- R2R3_ROLLBACK_PLAN.json
+- R2R3_INDEPENDENT_AUDIT_PROMPT.md
+
+当前执行 Agent 不得自己完成最终 R2-R3 独立审核。
+
+成功停止状态：
+
+READY_FOR_R2R3_INDEPENDENT_AUDIT
+
+==================================================
+H. Git / 远端
+==================================================
+
+当前本地受控仓如果仍然没有 remote：
+
+不得猜 remote URL，不得把代码推到 Automation_Seal。
+
+只提交本地 Git，输出：
+
+- main SHA
+- feature SHA
+- changed files
+- source tree SHA
+- test evidence SHA
+
+如果 Jovi 已提供正式 jovi-medusa-commerce-v1 remote，则推 feature branch，不直接推 main，回读 ls-remote 验证。
+
+Automation_Seal 只存治理/研究/证据索引，不承载整个 Commerce runtime 源码。
+
+==================================================
+I. 最终回复
+==================================================
+
+必须给：
+
+1. R6 Post-Import Audit PASS/FAIL
+2. audit result SHA
+3. cookie root cause 是否与 Medusa v2.19.0 官方实现吻合
+4. exact code/config delta
+5. production secure-cookie 是否保持
+6. Playwright Set-Cookie 实测
+7. cookie-session users/me 实测
+8. UI Product/Order/Receipt 结果
+9. refresh session
+10. external requests
+11. full regression
+12. Gitleaks positive/negative test
+13. Syft source/image SBOM
+14. OSS versions/commits/licenses
+15. changed files
+16. rollback plan
+17. 是否修改 main
+18. 是否有 remote
+19. 是否推远端
+20. 下一唯一动作
+
+不要把“配置看起来正确”当成浏览器 session PASS。
