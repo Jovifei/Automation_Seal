@@ -1,0 +1,506 @@
+你现在接管 Jovi Commerce C2，实现阶段为：
+
+`C2 Synthetic Digital Commerce E2E Executor`
+
+目标执行仓：
+`E:\project\jovi-medusa-commerce-v1`
+
+治理/参考仓：
+`E:\project\jovi-automation`
+GitHub: `Jovifei/Automation_Seal`
+
+你不是最终独立审核员。成功停止状态只能是：
+`READY_FOR_C2_INDEPENDENT_AUDIT`
+
+==================================================
+0. 先同步云端参考包，不要重新设计
+==================================================
+
+先 fetch：
+
+- `origin/main`
+- `origin/commerce-c2-cloud-reference-20260904`
+
+不要直接 merge 参考分支到本地主分支。
+
+记录两个真实 remote HEAD。
+
+必须读取：
+
+- `docs/commerce/COMMERCE_C2_SYNTHETIC_E2E_DIGITAL_DELIVERY_PLAN.md`
+- `docs/commerce/C2_CLOUD_REFERENCE_README_20260904.md`
+- `docs/commerce/C2_CLOUD_REFERENCE_QA_CHECKLIST_20260904.md`
+- `reference/commerce/c2/REFERENCE_ACCEPTANCE.json`
+- `reference/commerce/c2/c2-contracts.schema.json`
+- `reference/commerce/c2/negative-test-matrix.json`
+- `reference/commerce/c2/test-vector.json`
+- `reference/commerce/c2/oracle/c2_reference_builder.py`
+- `reference/commerce/c2/oracle/download_grant_policy.py`
+
+不要重新定义另一套 deterministic ZIP 格式。
+
+==================================================
+1. 重新核验 R2-R3 独立审核 Gate
+==================================================
+
+本地 Runtime 必须现场复算：
+
+implementation target:
+`cf257020a817e2d80f1a6540ebfef371f8a60b8a`
+
+audit closure commit:
+`2fc2bd1a82d132408d5b6837a117f60a47565c18`
+
+audit result:
+`governance/r2r3/R2R3_INDEPENDENT_AUDIT_RESULT.md`
+
+expected SHA256:
+`854c49b3f5929cac282d4be6ebdf4a04f7a54ed70e5bbe8a16949a23d6703082`
+
+expected verdict:
+`R2R3_INDEPENDENT_AUDIT_PASS`
+
+source tree:
+`664d73663ffce757bdf394a293c5642720fad5cb0afa1564619f53e845090602`
+
+pnpm lock:
+`9855eabfc4fc37d916af0ac64585f15594b44a90dc6d8488d594789956237119`
+
+六项边界必须全部 false：
+
+- production_integration_allowed
+- real_payment
+- real_customer
+- xianyu
+- auto_delivery
+- n8n_production
+
+执行：
+`git diff --name-status cf257020a817e2d80f1a6540ebfef371f8a60b8a 2fc2bd1a82d132408d5b6837a117f60a47565c18`
+
+要求 closure commit 只能增加独立审核报告、sidecar、审计状态记录，不得包含未审核 runtime 业务代码。
+
+任一不匹配：
+`C2_PRECONDITION_FAIL`
+并停止。
+
+==================================================
+2. 先验收云端 Reference Pack
+==================================================
+
+在治理仓参考分支执行：
+
+`python scripts/commerce/c2_verify_cloud_reference.py`
+
+必须得到：
+
+- `C2_REFERENCE_TESTS_PASS`
+- `C2_DOWNLOAD_GRANT_POLICY_TESTS_PASS`
+- `C2_CLOUD_REFERENCE_PASS`
+
+固定 deterministic package test vector：
+
+package format:
+`C2_DETERMINISTIC_ZIP_V1`
+
+expected ZIP SHA256:
+`d13f5d95cc9e46bfa8a871e5a8542552a38964db1ff7fdd68cfedb83ab6623ca`
+
+product manifest SHA256:
+`71d638c59255b6a6520ecda3c36dccd77a44e42b0dc126e4514b09b0619ffade`
+
+package MANIFEST SHA256:
+`382a5a016905e1d5290d599e55abf36e3a766a62ad1b10dea1a2fc5dc4d391f0`
+
+如果 Reference Pack 自己不能复算 PASS：
+`C2_REFERENCE_PACK_FAIL`
+并停止。
+
+==================================================
+3. 创建 C2 Runtime 分支
+==================================================
+
+从可信 audit closure commit：
+`2fc2bd1a82d132408d5b6837a117f60a47565c18`
+
+创建：
+`feature/c2-synthetic-commerce-e2e`
+
+禁止修改 runtime main。
+
+创建：
+`governance/c2/C2_BASELINE.json`
+
+记录：
+- parent commit
+- R2-R3 audit SHA
+- source tree SHA
+- lock SHA
+- six boundary flags
+- governance reference branch + HEAD
+- reference test-vector SHA values
+
+==================================================
+4. 将云端参考资产作为验收输入导入 Runtime governance 区
+==================================================
+
+将以下云端参考文件精确复制到 Runtime：
+`governance/c2/reference/`
+
+至少：
+
+- fixture/README.txt
+- fixture/checklist.json
+- fixture/sample-report.html
+- fixture/product-manifest.json
+- fixture/SHA256SUMS.txt
+- test-vector.json
+- c2-contracts.schema.json
+- negative-test-matrix.json
+
+再生成：
+`governance/c2/reference/REFERENCE_SOURCE.json`
+
+记录：
+- source repo = Jovifei/Automation_Seal
+- source branch
+- source remote HEAD
+- 每个复制文件 SHA256
+- imported_at
+
+不得把 Python Oracle 当生产 runtime dependency。
+Oracle 只用于验收对照。
+
+==================================================
+5. 实现 deterministic DeliveryPackage，必须跨语言命中 Oracle
+==================================================
+
+Runtime TypeScript/Node 实现必须兼容：
+`C2_DETERMINISTIC_ZIP_V1`
+
+规则固定：
+- ZIP STORE，不压缩
+- POSIX relative member names
+- lexicographic member ordering
+- fixed timestamp = 1980-01-01 00:00:00
+- normalized mode 0644
+- no ZIP comment
+- no extra fields
+- no absolute/host path metadata
+- MANIFEST.json 为 UTF-8、sort keys、indent=2、结尾 LF
+
+用云端 fixture 连续 Build A / Build B。
+
+必须：
+- A bytes == B bytes
+- A SHA == B SHA
+- SHA == `d13f5d95cc9e46bfa8a871e5a8542552a38964db1ff7fdd68cfedb83ab6623ca`
+
+如果本地库默认 ZIP 实现无法产生相同字节：
+不要修改 Oracle 去适配本地库。
+应修改本地打包实现，或明确申请新的格式版本，不得静默漂移 V1。
+
+==================================================
+6. 实现 C2 Domain Objects
+==================================================
+
+至少实现并持久化：
+
+A. DigitalRelease
+- release_id
+- product_id
+- variant_id
+- version
+- state: DRAFT | READY | FROZEN
+- release_manifest_sha256
+- source_product_manifest_sha256
+- rights_evidence_sha256
+- created_at
+
+FROZEN 后禁止 update/delete。
+
+B. DeliveryAsset
+- asset_id
+- release_id
+- relative_path
+- sha256
+- size
+- media_type
+- rights_status
+- private_storage_key
+
+私有资产根必须在 public/static 之外。
+
+必须防：
+- ../
+- absolute path
+- Windows drive
+- UNC
+- symlink
+- junction/reparse point
+- TOCTOU byte change
+
+C. DeliveryPackage
+- package_id
+- release_id
+- artifact_sha256
+- manifest_sha256
+- deterministic_build_id
+- file_count
+- total_bytes
+
+D. DownloadGrant
+- grant_id
+- entitlement_id
+- order_id
+- package_id
+- token_hash
+- expires_at
+- revoked_at
+- synthetic_only=true
+
+Grant != Entitlement。
+Grant 不能签发 ownership。
+只有 valid + not revoked Entitlement 才能签发 Grant。
+明文 token 不得持久化，只保存 SHA256 hash。
+比较 token hash 使用 timing-safe comparison。
+
+==================================================
+7. Jovi Policy 权威不得被第三方插件替代
+==================================================
+
+可参考：
+`makepay-apps/medusa-plugin-digital-downloads`
+commit:
+`a5343ba18cee85b3eed674ed55d0de7e32aaa448`
+license: MIT
+
+只借鉴模式：
+- immutable release
+- private asset/storage
+- temporary grant
+- retry-safe digital delivery
+- Admin observation
+
+禁止第三方代码接管：
+- payment authority
+- Jovi Entitlement
+- DeliveryReceipt
+- license authority
+- email
+- S3
+- Storefront
+- real customer delivery
+
+如果复制/改写任何上游代码：
+生成 `THIRD_PARTY_NOTICES.md`，逐文件记录 upstream_path/local_path/license/commit/modification。
+
+==================================================
+8. Listing Candidate / Xianyu Draft Bundle
+==================================================
+
+生成：
+`C2_LISTING_CANDIDATE.json`
+
+必须满足 schema：
+- candidate_only=true
+- platform_action_allowed=false
+
+生成：
+`C2_XIANYU_DRAFT_BUNDLE.json`
+
+必须：
+- publish=false
+- send_message=false
+- deliver=false
+- change_price=false
+- refund=false
+
+禁止访问：
+`E:\project\xianyu-auto-reply`
+
+==================================================
+9. 完整 Synthetic Commerce E2E
+==================================================
+
+使用云端固定 Product Manifest 和全新 run_id：
+
+Product Manifest
+→ Medusa Product/Variant
+→ DigitalRelease FROZEN
+→ private DeliveryAsset
+→ deterministic DeliveryPackage
+→ Listing Candidate
+→ Synthetic Order
+→ Synthetic Payment Evidence
+→ Jovi Policy
+→ exactly one Entitlement
+→ exactly one DeliveryReceipt
+→ DownloadGrant
+→ loopback-only download
+→ downloaded package SHA verify
+→ Xianyu Draft Bundle
+
+最终状态：
+`READY_FOR_HUMAN_DELIVERY`
+
+禁止：
+DELIVERED / PUBLISHED / REAL_PAID
+
+==================================================
+10. Replay + Recovery
+==================================================
+
+同 run/order/payment evidence 重放：
+- Entitlement count = 1
+- DeliveryReceipt count = 1
+- DeliveryPackage count = 1
+- 不重复产生有效 Grant；若策略选择重新签发 Grant，旧 Grant 必须 revoke/expire 且必须有明确证据，不能存在两个同时有效 grant
+
+执行 Backend PID1 kill/restart + Redis recovery。
+恢复后业务逻辑结果不变。
+
+==================================================
+11. 负测必须覆盖云端 21-case matrix
+==================================================
+
+以：
+`reference/commerce/c2/negative-test-matrix.json`
+为最小集合，不得删减。
+
+每例记录：
+- expected_error
+- actual_error
+- DB before/after
+- asset before/after
+- fail_closed
+- no_partial_state
+
+必须保持 DB/asset 无不完整副作用。
+
+特别注意 Windows 本地必须真实测试：
+- junction/reparse escape
+- UNC escape
+
+云端 Python Oracle 不足以证明 Windows reparse 防护。
+
+==================================================
+12. Admin Playwright
+==================================================
+
+复用已独立审核通过的 cookie-session。
+UI acceptance 只允许 Cookie session，不允许注入 Bearer 代替。
+
+验证：
+- login
+- Product
+- Order
+- Entitlement
+- DeliveryReceipt
+- DigitalRelease
+- DeliveryPackage metadata
+- refresh
+
+要求：
+pageerror=0
+fatal_console=0
+external_request=0
+unexpected_failed_request=0
+
+==================================================
+13. 安全与供应链回归
+==================================================
+
+重新跑：
+- Python secret scanner
+- Gitleaks v8.24.0 clean PASS
+- fake secret fixture FAIL
+- remove fixture PASS
+- Syft v1.20.0 source SBOM
+- Syft v1.20.0 image SBOM
+- TypeScript
+- all unit/integration
+- R2-R3 cookie tests
+- R2-R3 Playwright
+- old X2/replay/concurrency/negative
+- PID1 recovery
+- Oracle 7/7
+- sidecars
+
+旧能力不得回归。
+
+==================================================
+14. C2 Evidence Package
+==================================================
+
+至少生成：
+- C2_BASELINE.json
+- C2_CHANGE_MANIFEST.json
+- C2_PRODUCT_MANIFEST.json
+- C2_DIGITAL_RELEASE.json
+- C2_ASSET_MANIFEST.json
+- C2_DELIVERY_PACKAGE_MANIFEST.json
+- C2_LISTING_CANDIDATE.json
+- C2_XIANYU_DRAFT_BUNDLE.json
+- C2_SYNTHETIC_E2E_RESULT.json
+- C2_NEGATIVE_TEST_RESULTS.json
+- C2_REPLAY_RECOVERY_RESULT.json
+- C2_ADMIN_E2E_RESULT.json
+- C2_OSS_PROVENANCE.json
+- C2_SOURCE_MANIFEST.json
+- C2_ROLLBACK_PLAN.json
+- C2_INDEPENDENT_AUDIT_PROMPT.md
+
+关键文件全部生成 SHA256 sidecar。
+
+==================================================
+15. Git / 停止点
+==================================================
+
+只提交：
+`feature/c2-synthetic-commerce-e2e`
+
+如果 Runtime `remote=none`：
+- 不猜 URL
+- 不 push 到 Automation_Seal
+- 生成 COMMERCE_RUNTIME_REMOTE_REQUIRED.md
+
+当前 Executor 不得自己做 C2 Independent Audit。
+
+成功停止：
+`READY_FOR_C2_INDEPENDENT_AUDIT`
+
+下一唯一动作：
+启动全新只读 C2 Independent Auditor。
+
+最终报告必须包含：
+- cloud reference remote HEAD
+- cloud reference verifier result
+- R2-R3 audit recomputation
+- C2 base/feature HEAD
+- source tree SHA
+- exact changed files
+- THIRD_PARTY_NOTICES status
+- ProductManifest hash
+- DigitalRelease
+- private asset result
+- package A SHA / B SHA / byte equality / oracle equality
+- Listing Candidate
+- Order / Payment Evidence
+- Entitlement count
+- DeliveryReceipt count
+- DownloadGrant state
+- download SHA equality
+- Xianyu Draft Bundle
+- replay/recovery
+- 21 negative cases
+- Playwright
+- full regression
+- Gitleaks/Syft
+- six boundary flags
+- runtime main modified?
+- runtime remote/push
+- evidence package SHA
+- independent audit prompt SHA
+- final stop state
+- next unique action
