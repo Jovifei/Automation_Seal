@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "status": "REFERENCE_ORACLE_READY_FOR_LOCAL_RUNTIME_ADOPTION",
+  "source_repo": "Jovifei/Automation_Seal",
+  "source_branch": "commerce-c2-cloud-reference-20260904",
+  "runtime_target": "E:\\project\\jovi-medusa-commerce-v1",
+  "runtime_remote_expected_before_jovi_authorization": "none",
+  "r2r3_reported_local_gate": {
+    "implementation_commit": "cf257020a817e2d80f1a6540ebfef371f8a60b8a",
+    "audit_closure_commit": "2fc2bd1a82d132408d5b6837a117f60a47565c18",
+    "audit_result_sha256": "854c49b3f5929cac282d4be6ebdf4a04f7a54ed70e5bbe8a16949a23d6703082",
+    "verdict": "R2R3_INDEPENDENT_AUDIT_PASS",
+    "trust_rule": "must be recomputed locally; governance mirror alone never unlocks C2"
+  },
+  "fixture": {
+    "product_id": "SYNTH-C2-VALIDATION-PACK",
+    "product_manifest_sha256": "71d638c59255b6a6520ecda3c36dccd77a44e42b0dc126e4514b09b0619ffade",
+    "delivery_package_format": "C2_DETERMINISTIC_ZIP_V1",
+    "delivery_package_sha256": "d13f5d95cc9e46bfa8a871e5a8542552a38964db1ff7fdd68cfedb83ab6623ca",
+    "package_manifest_sha256": "382a5a016905e1d5290d599e55abf36e3a766a62ad1b10dea1a2fc5dc4d391f0"
+  },
+  "cloud_self_test": {
+    "reference_builder": "C2_REFERENCE_TESTS_PASS",
+    "download_grant_policy": "C2_DOWNLOAD_GRANT_POLICY_TESTS_PASS",
+    "aggregate_verifier": "C2_CLOUD_REFERENCE_PASS",
+    "validated_before_remote_submission": true
+  },
+  "files": [
+    "docs/commerce/C2_CLOUD_REFERENCE_README_20260904.md",
+    "docs/commerce/C2_CLOUD_REFERENCE_QA_CHECKLIST_20260904.md",
+    "reference/commerce/c2/fixture/README.txt",
+    "reference/commerce/c2/fixture/checklist.json",
+    "reference/commerce/c2/fixture/sample-report.html",
+    "reference/commerce/c2/fixture/product-manifest.json",
+    "reference/commerce/c2/fixture/SHA256SUMS.txt",
+    "reference/commerce/c2/test-vector.json",
+    "reference/commerce/c2/c2-contracts.schema.json",
+    "reference/commerce/c2/negative-test-matrix.json",
+    "reference/commerce/c2/REFERENCE_ACCEPTANCE.json",
+    "reference/commerce/c2/oracle/c2_reference_builder.py",
+    "reference/commerce/c2/oracle/test_c2_reference_builder.py",
+    "reference/commerce/c2/oracle/download_grant_policy.py",
+    "reference/commerce/c2/oracle/test_download_grant_policy.py",
+    "scripts/commerce/c2_verify_cloud_reference.py",
+    "prompts/commerce/LOCAL_CODEX_C2_CLOUD_REFERENCE_HANDOFF_20260904.txt"
+  ],
+  "oss_design_reference": {
+    "repo": "makepay-apps/medusa-plugin-digital-downloads",
+    "commit": "a5343ba18cee85b3eed674ed55d0de7e32aaa448",
+    "license": "MIT",
+    "reuse_mode": "selective_patterns_only_no_upstream_source_copied_into_cloud_oracle"
+  },
+  "required_false": [
+    "production_integration_allowed",
+    "real_payment",
+    "real_customer",
+    "xianyu",
+    "auto_delivery",
+    "n8n_production"
+  ],
+  "success_stop": "READY_FOR_C2_INDEPENDENT_AUDIT"
+}
