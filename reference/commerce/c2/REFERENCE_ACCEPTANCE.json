@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "status": "C2_CLOUD_REFERENCE_READY",
+  "required_verifier_output": {
+    "verdict": "C2_CLOUD_REFERENCE_PASS",
+    "package_format": "C2_DETERMINISTIC_ZIP_V1",
+    "fixture_files": 4,
+    "delivery_package_sha256": "d13f5d95cc9e46bfa8a871e5a8542552a38964db1ff7fdd68cfedb83ab6623ca"
+  },
+  "required_self_tests": [
+    "C2_REFERENCE_TESTS_PASS",
+    "C2_DOWNLOAD_GRANT_POLICY_TESTS_PASS"
+  ],
+  "runtime_adoption_requirements": {
+    "typescript_package_must_match_test_vector_byte_for_byte": true,
+    "jovi_entitlement_authority_must_remain_unique": true,
+    "download_grant_must_not_create_ownership": true,
+    "token_plaintext_must_not_be_persisted": true,
+    "private_asset_root_must_be_outside_public_static": true,
+    "windows_reparse_and_junction_escape_must_be_rejected_locally": true,
+    "real_platform_flags_must_remain_false": true
+  },
+  "not_proven_by_cloud_reference": [
+    "Medusa database persistence",
+    "Medusa transactional atomicity",
+    "Redis replay/recovery",
+    "Windows reparse-point protection",
+    "Admin UI integration",
+    "actual Xianyu platform behavior",
+    "real payment or customer flow"
+  ]
+}
