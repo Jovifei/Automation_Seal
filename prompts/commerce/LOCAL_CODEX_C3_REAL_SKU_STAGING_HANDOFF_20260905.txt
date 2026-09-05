@@ -1,0 +1,618 @@
+你现在接手 Jovi Commerce C3：第一真实 SKU（Modbus RTU Diagnostic Toolkit）Staging。
+
+角色：
+C3 Real SKU Staging Executor。
+
+你不是最终独立审核员。
+
+最终成功停止状态只能：
+READY_FOR_C3_INDEPENDENT_AUDIT
+
+==================================================
+0. 权威路径
+==================================================
+
+治理母仓：
+E:\project\jovi-automation
+
+Commerce Runtime：
+E:\project\jovi-medusa-commerce-v1
+
+第一真实 SKU 产品仓：
+E:\project\jovi-modbus-diagnostic-toolkit-v1
+
+Legacy Commerce：
+E:\project\jovi-commerce-engine-v1
+
+禁止恢复 Legacy Commerce 主线。
+
+==================================================
+1. 同步并读取 C3 云端包
+==================================================
+
+GitHub：
+Jovifei/Automation_Seal
+
+C3 参考分支：
+commerce-c3-real-sku-readiness-20260905
+
+先 fetch，再用 git ls-remote / rev-parse 现场确认该分支真实 HEAD。
+不要相信聊天中的旧 HEAD。
+
+必须读取：
+
+docs/commerce/C3_REAL_SKU_READINESS_PACKAGE_20260905.md
+
+docs/commerce/C3_PRODUCT_READONLY_EXECUTION_PATTERN_20260905.md
+
+docs/commerce/C3_WINDOWS_RELEASE_CHECKLIST_20260905.md
+
+docs/commerce/C3_OSS_AND_WINDOWS_RELEASE_ACCELERATION_20260905.md
+
+reference/commerce/c3/C3_ACCEPTANCE_CONTRACT.json
+
+reference/commerce/c3/c3-source-qualification.schema.json
+
+reference/commerce/c3/c3-product-source-zero-write.schema.json
+
+reference/commerce/c3/c3-product-manifest.schema.json
+
+reference/commerce/c3/c3-listing-claim-evidence.schema.json
+
+reference/commerce/c3/c3-release-candidate.schema.json
+
+reference/commerce/c3/c3-negative-test-matrix.json
+
+scripts/commerce/c3_verify_real_sku_readiness.py
+
+scripts/commerce/c3_verify_product_zero_write.py
+
+不要重新设计另一套 C3 规则。
+
+==================================================
+2. 先验证云端工具自身
+==================================================
+
+在治理仓运行：
+
+python scripts/commerce/c3_verify_real_sku_readiness_selftest.py scripts/commerce/c3_verify_real_sku_readiness.py
+
+必须输出：
+C3_VERIFIER_SELFTEST_PASS
+
+再运行：
+
+python scripts/commerce/c3_verify_product_zero_write_selftest.py scripts/commerce/c3_verify_product_zero_write.py
+
+必须输出：
+C3_ZERO_WRITE_SELFTEST_PASS
+
+任何失败：
+C3_REFERENCE_TOOLS_FAIL
+然后停止。
+
+==================================================
+3. 重算 C2 前置 Gate
+==================================================
+
+进入：
+E:\project\jovi-medusa-commerce-v1
+
+现场重新核验原始 C2 audit，不以 Automation_Seal 镜像代替。
+
+预期来自上一轮本地独立审计，但必须重新计算：
+
+实现提交：
+82accb4173b34133dacc864d7f32c92fb26107ac
+
+审计归档提交：
+ce25c9e2a660b1f6b64ead3192ff861b3a8a19fa
+
+C2 audit result：
+governance/c2/C2_INDEPENDENT_AUDIT_RESULT.md
+
+预期 SHA256：
+30346ddbc5dc34a6d60d785c2d4a26cb5ac25862c8212c42cacddd92563c71d1
+
+预期 verdict：
+C2_INDEPENDENT_AUDIT_PASS
+
+必须重新验证：
+- sidecar
+- source tree
+- pnpm lock
+- Git status
+- 六个真实商业边界
+
+六项必须仍为 false：
+production_integration_allowed
+real_payment
+real_customer
+xianyu
+auto_delivery
+n8n_production
+
+任一不符：
+C3_PRECONDITION_FAIL
+停止。
+
+==================================================
+4. 创建 C3 Runtime 分支
+==================================================
+
+先比较：
+82accb4... -> ce25c9e...
+
+要求 audit closure 只新增/修改独立审计报告、sidecar、审计状态记录，不得包含未审计业务 Runtime 代码。
+
+满足后从：
+ce25c9e2a660b1f6b64ead3192ff861b3a8a19fa
+
+创建：
+feature/c3-modbus-real-sku-staging
+
+禁止修改 Runtime main。
+
+Runtime 如果 remote 仍为空：
+不要猜 remote，不要 push 到 Automation_Seal。
+
+==================================================
+5. 产品仓进入严格只读模式
+==================================================
+
+产品源：
+E:\project\jovi-modbus-diagnostic-toolkit-v1
+
+Commerce C3 不允许修产品、不允许 rebuild 产品、不允许改 README、不允许改版本、不允许格式化。
+
+第一动作先保存 before snapshot：
+- HEAD
+- git diff tracked 状态
+- git diff --cached 状态
+- git ls-files --others --exclude-standard
+- 现有 release artifact SHA/size
+
+不允许为了获得 clean 状态执行 reset/clean/delete。
+
+如果 tracked/index dirty：
+C3_PRODUCT_NOT_RELEASE_READY
+
+生成最小 finding，停止 Commerce C3。
+
+后续若需要修产品，使用：
+prompts/commerce/LOCAL_CODEX_MODBUS_RELEASE_FIX_IF_C3_BLOCKED_20260905.txt
+
+必须由产品仓独立修复后重新从头资格化。
+
+==================================================
+6. 不要在真实产品仓内运行会写文件的测试
+==================================================
+
+遵守：
+docs/commerce/C3_PRODUCT_READONLY_EXECUTION_PATTERN_20260905.md
+
+需要运行源码测试时：
+- 使用临时 clone/export
+- sandbox HEAD 必须等于产品 HEAD
+- 依赖安装只在 sandbox
+- 测试日志写入 Commerce C3 evidence dir
+
+不要让 pytest/__pycache__/build/dist/log 等新文件污染真实产品仓。
+
+已有 installer/portable ZIP 如果是 untracked generated artifact：
+允许，但必须完整列入 qualified_untracked_release_artifacts，且实际 untracked 集合必须精确等于声明集合。
+
+任何其他 untracked 文件：
+FAIL-CLOSED。
+
+==================================================
+7. 产品资格冻结
+==================================================
+
+生成：
+C3_MODBUS_SOURCE_QUALIFICATION.json
+
+必须符合：
+reference/commerce/c3/c3-source-qualification.schema.json
+
+至少实测绑定：
+- source Git HEAD
+- tracked/index clean
+- qualified untracked release artifacts
+- authoritative version + evidence SHA
+- build system / recipe / tool versions
+- deliverables exact SHA/size
+- canonical tests + evidence SHA
+- supported Windows claims + evidence SHA
+- license inventory
+- third-party notices
+- known limitations
+- support boundary
+- Authenticode status
+- SmartScreen 只允许 NOT_A_GUARANTEE / NOT_VERIFIED
+
+成功 verdict：
+C3_PRODUCT_SOURCE_QUALIFIED
+
+无法满足：
+C3_PRODUCT_NOT_RELEASE_READY
+停止。
+
+==================================================
+8. Windows 打包 OSS 复用规则
+==================================================
+
+不要为了 C3 换技术栈。
+
+如果产品已经使用 PyInstaller：
+- 保持产品现有版本/recipe
+- 记录版本和 .spec SHA
+- 不在 Commerce 中升级
+
+上游参考仅用于核对：
+pyinstaller/pyinstaller
+
+如果产品已经使用 Inno Setup：
+- 保持现有 compiler/version/.iss
+- 记录 .iss SHA
+- 不升级
+
+上游参考：
+jrsoftware/issrc
+
+继续复用现有 Gitleaks / Syft。
+
+Cosign / 新签名体系不是 C3 blocker。
+
+==================================================
+9. 生成真实 C3 Product Manifest
+==================================================
+
+生成：
+C3_PRODUCT_MANIFEST.json
+
+符合：
+reference/commerce/c3/c3-product-manifest.schema.json
+
+只能从产品仓证据生成。
+
+不得自动补写：
+- 全 Modbus 设备兼容
+- 全 Windows 版本
+- 100%兼容
+- 永久更新
+- 包教会
+- 保证解决所有通信故障
+- 无需驱动
+
+若无证据，直接省略。
+
+==================================================
+10. Listing Claim Evidence
+==================================================
+
+在生成 listing 之前先生成：
+C3_LISTING_CLAIM_EVIDENCE.json
+
+符合：
+reference/commerce/c3/c3-listing-claim-evidence.schema.json
+
+每一个最终商品标题/描述/bullet/兼容性/系统要求/交付内容/支持政策/更新政策声明，都必须存在 VERIFIED claim：
+
+claim_text
+claim_type
+evidence_path
+evidence_sha256
+
+无法绑定证据的 claim：
+放入 omitted_unverified_claims
+并从 Listing 中删除。
+
+==================================================
+11. 复用 C2 已审计 Commerce 模型
+==================================================
+
+不要创建平行的第二套 Commerce Core。
+
+复用 C2：
+DigitalRelease
+DeliveryAsset
+DeliveryPackage
+Entitlement
+DeliveryReceipt
+DownloadGrant
+replay/recovery
+Admin observation
+
+区别仅为：
+C2 synthetic fixture -> C3 real Modbus release artifact。
+
+产品原始 installer/EXE/portable ZIP 字节必须保持不变。
+
+Commerce 只能生成 deterministic wrapper package。
+
+wrapper manifest 必须包含原始 product artifact SHA256。
+
+同一 C3 release Build A / Build B：
+必须 byte-for-byte equal。
+
+==================================================
+12. C3 Real SKU + Synthetic Commerce E2E
+==================================================
+
+完整流程：
+
+Real Modbus SKU
+→ qualified exact artifact
+→ C3 Product Manifest
+→ immutable DigitalRelease
+→ private DeliveryAsset
+→ deterministic DeliveryPackage
+→ evidence-backed Listing Candidate
+→ Synthetic Order
+→ Synthetic Payment Evidence
+→ Jovi policy
+→ exactly one Entitlement
+→ exactly one DeliveryReceipt
+→ DownloadGrant
+→ loopback download
+→ downloaded SHA == DeliveryPackage SHA
+→ Xianyu Draft Bundle
+
+最终状态仅允许：
+READY_FOR_HUMAN_DELIVERY
+
+禁止：
+REAL_PAID
+DELIVERED
+PUBLISHED
+
+==================================================
+13. C3 负测
+==================================================
+
+必须完整执行：
+reference/commerce/c3/c3-negative-test-matrix.json
+
+至少 25 项全部 PASS。
+
+重点包括：
+- dirty source
+- untracked set drift
+- product artifact hash drift
+- Commerce rebuild attempt
+- license missing
+- unsupported Windows claim
+- false signing claim
+- SmartScreen guarantee claim
+- stale/wrong version
+- package source SHA omission
+- source artifact tamper
+- wrong product/version order
+- payment mismatch
+- duplicate replay
+- real/platform flags injection
+
+每项要求：
+fail_closed=true
+DB before == DB after
+no partial Entitlement/Receipt/Package
+product source unchanged
+
+==================================================
+14. Replay / Recovery / Admin
+==================================================
+
+重放同一 order/payment：
+Entitlement=1
+Receipt=1
+Package=1
+
+PID1 kill/restart/Redis recovery 后：
+仍为同一逻辑结果。
+
+Playwright 使用已审核 Cookie session：
+- Product
+- Order
+- Entitlement
+- DeliveryReceipt
+- DigitalRelease
+- DeliveryPackage
+- refresh
+
+不得用 Bearer 注入替代 UI acceptance。
+
+==================================================
+15. 安全与供应链
+==================================================
+
+重新运行：
+- Runtime Gitleaks
+- Product repo Gitleaks（只读）
+- Runtime Syft
+- Product/source/package inventory as applicable
+- sidecar validators
+
+记录产品 installer/executable Authenticode 真实状态。
+
+C3 不要求购买/配置代码签名证书。
+
+在进入 C4 前，建议补 Windows Defender/本地 AV artifact scan evidence；该扫描不能被描述为“绝对无恶意软件保证”。
+
+==================================================
+16. 产品仓 Zero-Write Proof
+==================================================
+
+C3 结束前重新采集产品仓：
+- HEAD
+- tracked diff
+- index diff
+- untracked set
+- qualified release artifact SHA/size
+
+生成：
+C3_PRODUCT_SOURCE_ZERO_WRITE_PROOF.json
+
+符合：
+reference/commerce/c3/c3-product-source-zero-write.schema.json
+
+要求：
+before == after
+product_repo_write_attempts=0
+verdict=PASS_ZERO_WRITE
+
+然后运行：
+
+python scripts/commerce/c3_verify_product_zero_write.py --product-root "E:\project\jovi-modbus-diagnostic-toolkit-v1" --qualification <C3 evidence dir>\C3_MODBUS_SOURCE_QUALIFICATION.json --proof <C3 evidence dir>\C3_PRODUCT_SOURCE_ZERO_WRITE_PROOF.json
+
+必须输出：
+C3_PRODUCT_SOURCE_ZERO_WRITE_PASS
+
+==================================================
+17. 最终 Release Candidate
+==================================================
+
+生成：
+C3_RELEASE_CANDIDATE.json
+
+符合：
+reference/commerce/c3/c3-release-candidate.schema.json
+
+绑定：
+- product source HEAD
+- source qualification SHA
+- zero-write proof SHA
+- product manifest SHA
+- listing claim evidence SHA
+- real source artifact SHA/size
+- delivery package SHA
+- listing SHA
+- draft bundle SHA
+- synthetic order/payment
+- exactly one entitlement/receipt
+- download verification
+- replay/recovery
+- six flags false
+
+==================================================
+18. 完整 Evidence Package
+==================================================
+
+必须至少生成：
+C3_MODBUS_SOURCE_QUALIFICATION.json
+C3_PRODUCT_SOURCE_ZERO_WRITE_PROOF.json
+C3_PRODUCT_MANIFEST.json
+C3_LISTING_CLAIM_EVIDENCE.json
+C3_DIGITAL_RELEASE.json
+C3_DELIVERY_PACKAGE_MANIFEST.json
+C3_LISTING_CANDIDATE.json
+C3_XIANYU_DRAFT_BUNDLE.json
+C3_SYNTHETIC_ORDER_RESULT.json
+C3_NEGATIVE_TEST_RESULTS.json
+C3_REPLAY_RECOVERY_RESULT.json
+C3_ADMIN_E2E_RESULT.json
+C3_RELEASE_CANDIDATE.json
+C3_SOURCE_MANIFEST.json
+C3_ROLLBACK_PLAN.json
+C3_INDEPENDENT_AUDIT_PROMPT.md
+
+所有关键文件生成 .sha256 sidecar。
+
+==================================================
+19. 执行机器校验
+==================================================
+
+最终运行：
+
+python scripts/commerce/c3_verify_real_sku_readiness.py --product-root "E:\project\jovi-modbus-diagnostic-toolkit-v1" --evidence-dir <C3 evidence dir>
+
+必须输出：
+C3_REAL_SKU_READINESS_PASS
+
+同时 Zero-Write verifier 必须 PASS。
+
+==================================================
+20. Git 与远端
+==================================================
+
+Runtime 本轮只提交：
+feature/c3-modbus-real-sku-staging
+
+禁止修改 Runtime main。
+
+产品仓：
+C3 全程不得产生任何 commit/change。
+
+如果 Runtime remote 仍为空：
+不要猜 URL。
+不要将 Runtime 推到 Automation_Seal。
+
+治理母仓已有 C3 cloud reference；不要把 Runtime 代码复制进治理仓。
+
+==================================================
+21. 停止与独立审核
+==================================================
+
+当前实现 Agent 不得执行最终 C3 audit。
+
+成功后停止：
+READY_FOR_C3_INDEPENDENT_AUDIT
+
+生成新的、只读、未参与实现的 Auditor 启动指令。
+
+独立结论只能：
+C3_REAL_SKU_STAGING_INDEPENDENT_AUDIT_PASS
+或
+C3_REAL_SKU_STAGING_INDEPENDENT_AUDIT_FAIL
+
+只有 PASS 后才允许进入：
+C4_HUMAN_PILOT_DECISION
+
+==================================================
+最终回复必须报告
+==================================================
+
+1. C2 precondition verdict
+2. C3 runtime base commit
+3. C3 feature HEAD
+4. Modbus product HEAD
+5. tracked/index/untracked state
+6. product version + evidence
+7. release artifacts + SHA/size
+8. build system/tool versions
+9. Authenticode status
+10. supported Windows evidence
+11. product tests
+12. license inventory
+13. third-party notices
+14. known limitations
+15. support boundary
+16. listing claim evidence count
+17. omitted claims
+18. DigitalRelease
+19. DeliveryPackage Build A SHA
+20. DeliveryPackage Build B SHA
+21. byte equality
+22. source artifact SHA binding
+23. Listing Candidate
+24. Xianyu Draft Bundle
+25. Synthetic Order
+26. Synthetic Payment Evidence
+27. Entitlement count
+28. DeliveryReceipt count
+29. DownloadGrant
+30. download SHA verification
+31. replay
+32. recovery
+33. 25 negative cases
+34. Playwright
+35. Gitleaks/Syft
+36. zero-write proof
+37. six boundary flags
+38. product repo modified?
+39. Runtime main modified?
+40. Runtime remote/push state
+41. evidence package SHA
+42. audit prompt SHA
+43. final stop state
+44. next unique action
