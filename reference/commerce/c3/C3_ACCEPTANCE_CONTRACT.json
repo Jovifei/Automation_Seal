@@ -12,6 +12,7 @@
   ],
   "required_evidence_files": [
     "C3_MODBUS_SOURCE_QUALIFICATION.json",
+    "C3_PRODUCT_SOURCE_ZERO_WRITE_PROOF.json",
     "C3_PRODUCT_MANIFEST.json",
     "C3_LISTING_CLAIM_EVIDENCE.json",
     "C3_DIGITAL_RELEASE.json",
@@ -33,6 +34,7 @@
     "untracked_files_exactly_equal_qualified_release_artifacts": true,
     "product_source_readonly": true,
     "product_repository_modified_by_commerce": false,
+    "product_source_zero_write_proof": true,
     "release_artifacts_hash_bound": true,
     "version_evidence_bound": true,
     "license_inventory_verified": true,
