@@ -1,72 +1,53 @@
-# Commerce Landing 交接 — 2026-09-03
+# Commerce Landing 交接 — 2026-09-03（历史交接，已被后续执行推进）
 
-## 1. 远端已验证事实
+**状态：COMPLETED / HISTORICAL HANDOFF**  
+**不要把本文件的 R2-R3/C2/C3“下一步”当当前指令。**
 
-`Automation_Seal` 中已经存在并可从 GitHub 复核：
+本文件记录 2026-09-03 时从 R2-R3 向 C2/C3/C4 过渡的计划。此后项目已经实际完成：
 
-- R2-R2 / R6 Adoption Decision 治理链；
-- R6 受控导入执行记录；
-- R2-R3 OSS acceleration 方案（PR #1）；
-- C2 Synthetic E2E / digital delivery selective OSS 方案（PR #2）；
-- 本交接分支上的 C2→C4 路线、C3 Modbus staging、Pilot、Runtime remote、legacy archive 计划。
+- `R2R3_INDEPENDENT_AUDIT_PASS`
+- `C2_INDEPENDENT_AUDIT_PASS`
+- `C3_REAL_SKU_STAGING_INDEPENDENT_AUDIT_PASS`
+- Jovi Runtime C3 Promotion Decision
+- `C3_RUNTIME_PROMOTION_AUDIT_PASS`
 
-## 2. 仅本机可验证事实
+当前真实停点已更新为：
 
-当前 `jovi-medusa-commerce-v1` 尚无 remote；因此以下值只能由本地 Codex 重新复算，不能用 Automation_Seal 文档代替：
+`C4_HUMAN_PILOT_DECISION`
 
-- R6 Post-Import runtime commit/test 结果；
-- R2-R3 runtime commit；
-- R2-R3 Independent Audit；
-- source tree SHA；
-- Playwright cookie-session；
-- Gitleaks/Syft 本地 evidence。
+请改读：
 
-用户最新报告的预期锚点包括：
+- `docs/CURRENT_PROJECT_GUIDE.md`
+- `docs/commerce/README.md`
+- `docs/commerce/C3_LOCAL_AUDIT_CLOSURE_MIRROR_20260905.md`
+- `docs/commerce/C4_HUMAN_PILOT_PLAN_V1.md`
+- `docs/commerce/C4_PILOT_PRIVACY_MINIMIZATION_V1.md`
+- `docs/commerce/C4_HUMAN_PILOT_DECISION_CANDIDATE_V1.md`
 
-- main `8290392c7fb91b1266d37591524d09005feac39d`
-- development `e8c8a783daefc9cf9fead22091ebc4bf190e3d54`
-- R2-R3 feature `cf257020a817e2d80f1a6540ebfef371f8a60b8a`
-- R2-R3 source tree `664d73663ffce757bdf394a293c5642720fad5cb0afa1564619f53e845090602`
-- R6 audit result SHA `32f973736f8729ae417a7d253ae1cb9e6b9454e3b780c4c38bfc1374562f1e69`
+当前 Candidate 仍 `issued_from_human=false`，真实 Pilot 尚未授权。
 
-**这些只能作为期望值；本地 Agent 必须现场验证。**
+## 本历史交接仍然有效的设计结论
 
-## 3. 当前唯一产品落地主线
+1. Medusa 是 Commerce Core，不再恢复 Python legacy Commerce；
+2. `makepay-apps/medusa-plugin-digital-downloads` 只选择性吸收 immutable release / private asset / DownloadGrant / idempotent delivery 模式；
+3. Gitleaks / Syft 保留；
+4. Trivy / Storefront / S3 / n8n production 非当前阻断；
+5. 实现 Agent 到独立审核门必须停止；
+6. 真实平台动作始终 Human-controlled。
 
-`R2R3 verified locally` → `C2 Synthetic Digital Commerce E2E` → `C2 Independent Audit` → `C3 Modbus Real SKU Staging` → `C3 Independent Audit` → `C4 Human Pilot`。
+## 已失效的当时状态
 
-不再重复：
+以下当时事实已经过时：
+- Runtime `main=8290392...`；
+- R2-R3 仍待本地验证；
+- C2 尚未开始；
+- C3 尚未开始；
+- Runtime 一定 `remote=none` 的假设。
 
-- Commerce framework 重新选型；
-- Medusa cookie/session 根因研究；
-- 新一轮宽泛 OSS 调研；
-- 把 Python legacy Commerce 恢复成主路线。
+这些现在必须现场重查，不得从本历史文件继承。
 
-## 4. OSS 固定结论
+## 当前商业目标
 
-### Medusa
-继续作为 Commerce Core。
+项目现在不再需要证明“Commerce Runtime 能否工作”。当前需要证明：
 
-### `makepay-apps/medusa-plugin-digital-downloads`
-MIT；固定参考 commit `a5343ba18cee85b3eed674ed55d0de7e32aaa448`。只选择性吸收 immutable release / private asset / download grant / local storage / idempotent delivery 模式；不接管 Jovi payment/Entitlement/Receipt 权威。
-
-### Gitleaks / Syft
-R2-R3 已规划/本地报告已验证，C2/C3 必须继续运行。
-
-### Trivy
-C2 core 全绿后可作为第二波扫描；无法刷新 DB 时必须 NOT_VERIFIED。
-
-### n8n / Storefront / S3 / Stripe
-当前不进入主线。
-
-## 5. 停止条件
-
-任何实现 Agent 到达新的独立审核门必须停止，不能自审自过。
-
-- C2 → `READY_FOR_C2_INDEPENDENT_AUDIT`
-- C3 → `READY_FOR_C3_INDEPENDENT_AUDIT`
-- C4 之前 → 必须有 Jovi 明确 Pilot Decision
-
-## 6. 成功定义
-
-当前不是追求无人真实交易。第一阶段成功定义是：**系统能稳定地把原创数字产品变成可人工批准的商品与交付候选，并对每个版本、订单、付款证据、Entitlement、交付包、Receipt 保持可复算审计链。**
+**已经通过技术审计的真实 Modbus SKU，能否在所有平台动作由 Jovi 手工控制、买家数据最小化的情况下完成 5–10 单或固定时间窗的真实商业 Pilot。**
