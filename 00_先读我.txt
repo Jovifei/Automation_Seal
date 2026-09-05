@@ -1,26 +1,53 @@
-Jovi Automation 最终交付包 V3.0
+Jovi Automation / Automation_Seal — 当前快速入口（2026-09-05）
 
-你只需要做 4 件事：
+这不是一个刚解压、等待 Phase 0/A/X0 的旧 V3.0 包。
 
-1. 将整个压缩包解压到 E:\project，最终目录必须是：
+当前技术链已完成：
+Governance → Medusa R6 → R2-R3 → C2 PASS → C3 PASS → Runtime C3 Promotion PASS
+
+当前停点：
+C4_HUMAN_PILOT_DECISION
+
+你现在只需要先做 4 件事：
+
+1. 打开工程：
    E:\project\jovi-automation
 
-2. 保留现有闲鱼工程：
-   E:\project\xianyu-auto-reply
-   两个工程必须并列，不能互相覆盖。
+2. 先读：
+   docs\CURRENT_PROJECT_GUIDE.md
+   docs\HISTORICAL_DOCUMENT_STATUS.md
+   README_FIRST.md
+   PROJECT_STATE.json
+   NEXT_STEP_MAP.md
+   AGENTS.md
+   CODEX_MASTER_TASK.md
+   docs\commerce\README.md
 
-3. 用 Codex App 或 Codex CLI 打开：
-   E:\project\jovi-automation
+3. 现场核对：
+   - Automation_Seal main / 当前 C3-C4 branch / PR #5 / CI
+   - E:\project\jovi-medusa-commerce-v1 的 C3 audit/promotion 原始 evidence
+   - E:\project\jovi-modbus-diagnostic-toolkit-v1 的 HEAD / package SHA
 
-4. 把根目录 CODEX_START_PROMPT.txt 的全文发送给 Codex。
+4. 只做 C4 Pre-Publish QA：
+   - 清理 Pilot ledger 示例
+   - 从本地 C3 claim evidence 审核商品文案
+   - 修 CRC / SHA256 / compatibility / delivery wording
+   - 刷新当前闲鱼数字商品与退款规则
+   - 准备 C4 Human Pilot Decision Candidate
 
-第一次 Codex 只会执行只读审计、生成本机事实报告和下一阶段计划，然后停止。
-它不会自动发布、回复、发货、改价、退款，也不会读取闲鱼 Cookie、买家消息或卡密。
+当前 C4 Decision Candidate 仍：
+issued_from_human=false
+
+因此不要真实发布、发消息、确认付款、发货、改价或退款。
+
+第一真实 SKU：Modbus RTU Diagnostic Toolkit
+reported version：0.2.0-dev
+reported installer：UNSIGNED
 
 详细说明：README_FIRST.md
+当前状态：docs\CURRENT_PROJECT_GUIDE.md
+历史文档怎么读：docs\HISTORICAL_DOCUMENT_STATUS.md
+用户当前决定：DECISIONS_REQUIRED.md
 用户操作：USER_ACTION_CHECKLIST.md
-Codex总任务：CODEX_MASTER_TASK.md
-项目完整上下文：context/04_CONVERSATION_CONTEXT.md
-已完成工作：context/05_COMPLETED_WORK.md
 
-后续每个阶段使用哪一份提示词：NEXT_STEP_MAP.md
+旧 Phase 0/A/X0、Track P/I、X1-X4 Prompt 仅作为历史证据保留，不是当前执行入口。
