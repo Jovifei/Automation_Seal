@@ -1,0 +1,59 @@
+name: C3 Reference QA
+
+on:
+  pull_request:
+    paths:
+      - 'reference/commerce/c3/**'
+      - 'scripts/commerce/c3_*'
+      - 'docs/commerce/C3_*'
+      - 'prompts/commerce/LOCAL_CODEX_C3_*'
+      - '.github/workflows/c3-reference-qa.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  c3-reference-qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout pinned v4.2.2
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+
+      - name: Python version
+        run: python3 --version
+
+      - name: Compile C3 verification tools
+        run: |
+          python3 -m py_compile scripts/commerce/c3_verify_real_sku_readiness.py
+          python3 -m py_compile scripts/commerce/c3_verify_real_sku_readiness_selftest.py
+          python3 -m py_compile scripts/commerce/c3_verify_product_zero_write.py
+          python3 -m py_compile scripts/commerce/c3_verify_product_zero_write_selftest.py
+
+      - name: Run C3 readiness verifier self-test
+        run: |
+          python3 scripts/commerce/c3_verify_real_sku_readiness_selftest.py scripts/commerce/c3_verify_real_sku_readiness.py
+
+      - name: Run C3 zero-write verifier self-test
+        run: |
+          python3 scripts/commerce/c3_verify_product_zero_write_selftest.py scripts/commerce/c3_verify_product_zero_write.py
+
+      - name: Parse machine-readable C3 contracts
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          root = Path('reference/commerce/c3')
+          files = sorted(root.glob('*.json'))
+          assert files, 'no C3 JSON contracts found'
+          for path in files:
+              json.loads(path.read_text(encoding='utf-8'))
+              print('JSON_OK', path)
+          acceptance = json.loads((root / 'C3_ACCEPTANCE_CONTRACT.json').read_text(encoding='utf-8'))
+          assert acceptance['success_stop'] == 'READY_FOR_C3_INDEPENDENT_AUDIT'
+          assert acceptance['independent_pass'] == 'C3_REAL_SKU_STAGING_INDEPENDENT_AUDIT_PASS'
+          matrix = json.loads((root / 'c3-negative-test-matrix.json').read_text(encoding='utf-8'))
+          assert len(matrix['cases']) >= 25
+          print('C3_REFERENCE_CONTRACTS_PASS')
+          PY
