@@ -1,64 +1,108 @@
 {
-  "approvals": {
-    "track_i": "workspace/approvals/GATE_A.I.approval.json",
-    "track_p": "workspace/approvals/GATE_A.P.approval.json"
+  "schema_version": 1,
+  "package_version": "commerce-v1-c4-20260905",
+  "generated_at": "2026-09-05",
+  "final_goal": "Build an auditable digital-product Commerce system that automates product qualification, listings, orders, human-confirmed payment facts, entitlement, deterministic delivery preparation, support and evidence while keeping real platform actions human-controlled until explicitly authorized.",
+  "current_state": "C4_HUMAN_PILOT_DECISION_PENDING",
+  "current_stage": {
+    "name": "C4_HUMAN_PILOT",
+    "phase": "PRE_PUBLISH_QA_AND_HUMAN_DECISION",
+    "decision_candidate": "docs/commerce/C4_HUMAN_PILOT_DECISION_CANDIDATE_V1.md",
+    "issued_from_human": false,
+    "success_state": "C4_HUMAN_PILOT_PASS_PENDING_PERMISSION_DECISION"
   },
   "commerce_mainline": {
-    "gate_state": "GATE_A_P_VERIFIED",
+    "status": "C3_TECHNICAL_CHAIN_CLOSED_C4_PENDING",
+    "gate_state": "C3_RUNTIME_PROMOTION_AUDIT_PASS_REPORTED",
     "hook": "DO_NOT_TRUST",
-    "modbus_role": "SEPARATE_SKU",
+    "hook_runtime_dependency": false,
     "real_platform_actions": false,
-    "status": "CONTROL_PLANE_C_APPLY",
+    "modbus_role": "FIRST_REAL_SKU",
     "videofactory_role": "SEPARATE_PROJECT"
+  },
+  "control_plane": {
+    "canonical_state": "config/control-plane-state.json",
+    "stage": "C",
+    "phase_status": "APPLY",
+    "state_id": "commerce-c-apply-v16",
+    "state_revision": 3,
+    "note": "Historical governance control-plane state; current product execution stage is C4 Human Pilot preparation."
+  },
+  "real_action_flags": {
+    "production_integration_allowed": false,
+    "real_payment": false,
+    "real_customer": false,
+    "xianyu": false,
+    "auto_delivery": false,
+    "n8n_production": false
   },
   "completed": [
     "market_and_channel_research",
-    "user_research_plan",
     "business_model_and_product_portfolio",
-    "embedded_and_photography_prds",
-    "90_day_execution_sop",
     "copyright_and_risk_manual",
-    "github_and_research_project_review",
     "system_architecture_and_security_boundaries",
-    "xianyu_adapter_integration_decision",
-    "codex_rules_skills_hooks_and_stage_gates",
-    "offline_synthetic_test_harness",
-    "working_modbus_host_side_alpha",
-    "human_handoff_documents"
+    "governance_gate_a_and_c_apply",
+    "medusa_v2_19_controlled_adoption",
+    "r6_post_import_independent_audit_pass",
+    "r2r3_admin_cookie_session_closed",
+    "gitleaks_and_syft_supply_chain_checks",
+    "c2_synthetic_digital_commerce_e2e",
+    "c2_independent_audit_pass",
+    "c3_modbus_real_sku_qualification",
+    "c3_product_source_zero_write_pass",
+    "c3_real_sku_synthetic_commerce_e2e",
+    "c3_independent_audit_pass",
+    "c3_runtime_main_promotion",
+    "c3_runtime_promotion_audit_pass_reported"
   ],
-  "control_plane": {
-    "canonical_state": "config/control-plane-state.json",
-    "phase_status": "APPLY",
-    "stage": "C",
-    "state_id": "commerce-c-apply-v16",
-    "state_revision": 3
-  },
-  "current_state": "AWAITING_GATE_A_TRACK_APPROVALS",
   "decisions": {
     "broad_research": "FROZEN_UNLESS_REFRESH_TRIGGER",
+    "commerce_core": "MEDUSA_V2_19_0",
     "first_product": "MODBUS_RTU_DIAGNOSTIC_TOOLKIT",
-    "infrastructure_is_optional_before_alpha": true,
-    "product_first": true,
+    "legacy_python_commerce": "ARCHIVE_ONLY",
+    "product_source_role": "READ_ONLY_AUTHORITATIVE_BYTES",
     "real_platform_actions": "HUMAN_CONTROLLED",
-    "xianyu_integration": "REUSE_AS_SEPARATE_ADAPTER"
+    "xianyu_integration": "SEPARATE_ADAPTER_HUMAN_CONTROLLED",
+    "current_pilot_mode": "AWAITING_JOVI_HUMAN_DECISION"
   },
-  "final_goal": "Build a local, auditable Commerce Engine for product assets, listings, human-confirmed payment, entitlement, delivery preparation, support and synthetic commerce validation, while keeping real platform actions human-controlled.",
-  "first_codex_command": ".\\scripts\\00-run-readonly-audit.ps1 -XianyuRepoPath 'E:\\project\\xianyu-auto-reply'",
-  "first_stop_condition": "GATE_A_PLAN_GENERATED",
-  "generated_at": "2026-07-12",
-  "not_verified_on_target_machine": [
-    "windows_and_filesystem_state",
-    "codex_installation_and_hook_trust",
-    "docker_wsl_and_gpu_state",
-    "current_upstream_releases_and_security",
-    "real_xianyu_local_commit_configuration_and_runtime",
-    "real_platform_rules_and_commercial_license_boundary",
-    "backup_and_restore_on_target_machine"
-  ],
-  "package_version": "3.0.0",
   "recommended_paths": {
     "project_root": "E:\\project\\jovi-automation",
+    "commerce_runtime_root": "E:\\project\\jovi-medusa-commerce-v1",
+    "first_sku_root": "E:\\project\\jovi-modbus-diagnostic-toolkit-v1",
+    "legacy_commerce_root": "E:\\project\\jovi-commerce-engine-v1",
     "xianyu_adapter_root": "E:\\project\\xianyu-auto-reply"
   },
-  "schema_version": 1
+  "reported_local_anchors_recompute_before_use": {
+    "runtime_c3_implementation_commit": "5b190edce6a530264560a6822b347255fba014ba",
+    "runtime_c3_audit_closure_and_promoted_main": "63db06e9fd2e1cbdf6e7926b48ba72d3fbe06cb1",
+    "c3_audit_result_sha256": "7123e18295895b84b7ed24c75628822db76dba2f7ba6a04f3ad004348e7b79b4",
+    "product_head": "25ef15386b21bcc53277c0d5af5973ad8ea272eb",
+    "delivery_package_sha256": "4bd5703ae80fcea9c1dcf7d5d1ea2a02fe282a5cf6ef3f04a2c9703db5188e59"
+  },
+  "current_required_work": [
+    "verify_governance_main_branch_pr_and_ci",
+    "recompute_runtime_c3_audit_and_promotion_evidence",
+    "clean_c4_example_ledger_rows",
+    "bind_c4_listing_claims_to_local_c3_claim_evidence",
+    "correct_crc_sha_compatibility_delivery_wording",
+    "refresh_current_xianyu_digital_goods_and_refund_rules",
+    "jovi_choose_beta_dev_unsigned_pilot_or_stable_first",
+    "freeze_manual_delivery_transport",
+    "verify_or_create_dedicated_runtime_git_remote",
+    "prepare_final_c4_human_decision_candidate"
+  ],
+  "historical_approvals": {
+    "track_p": "workspace/approvals/GATE_A.P.approval.json",
+    "track_i": "workspace/approvals/GATE_A.I.approval.json",
+    "note": "Historical governance artifacts; not the current next-step authority."
+  },
+  "first_codex_command": "Read docs/CURRENT_PROJECT_GUIDE.md and verify current Git/Runtime/Product anchors before any C4 action.",
+  "first_stop_condition": "READY_FOR_JOVI_C4_HUMAN_PILOT_DECISION",
+  "not_verified_or_still_external": [
+    "current_runtime_dedicated_git_remote",
+    "current_xianyu_platform_digital_goods_and_refund_rules",
+    "final_c4_listing_claim_review_against_local_c3_evidence",
+    "jovi_c4_human_pilot_decision",
+    "real_pilot_orders_and_commercial_validation"
+  ]
 }
