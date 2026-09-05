@@ -1,0 +1,113 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jovi.local/schema/c3-source-qualification-v1.json",
+  "title": "C3 Modbus Source Qualification",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "product_id",
+    "source_repository_path",
+    "source_git_head",
+    "source_worktree_clean",
+    "source_index_clean",
+    "product_source_readonly",
+    "product_repository_modified_by_commerce",
+    "version",
+    "version_evidence",
+    "deliverables",
+    "tests",
+    "license_inventory_status",
+    "third_party_notices_status",
+    "known_limitations",
+    "support_boundary",
+    "qualification_verdict"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "product_id": {"const": "E01"},
+    "source_repository_path": {"type": "string", "minLength": 1},
+    "source_git_head": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "source_worktree_clean": {"const": true},
+    "source_index_clean": {"const": true},
+    "untracked_release_artifacts": {"type": "array", "maxItems": 0},
+    "product_source_readonly": {"const": true},
+    "product_repository_modified_by_commerce": {"const": false},
+    "version": {"type": "string", "minLength": 1},
+    "version_evidence": {"$ref": "#/$defs/evidence"},
+    "build_system": {
+      "type": "object",
+      "required": ["kind", "tool_versions_recorded"],
+      "properties": {
+        "kind": {"type": "string", "minLength": 1},
+        "recipe_path": {"type": ["string", "null"]},
+        "tool_versions_recorded": {"const": true}
+      }
+    },
+    "deliverables": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/deliverable"}
+    },
+    "tests": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/testEvidence"}
+    },
+    "supported_platforms": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/platformClaim"}
+    },
+    "license_inventory_status": {"const": "VERIFIED"},
+    "third_party_notices_status": {"enum": ["VERIFIED", "NOT_REQUIRED_WITH_EVIDENCE"]},
+    "known_limitations": {"type": "array"},
+    "support_boundary": {"type": "string", "minLength": 1},
+    "authenticode_status": {"enum": ["SIGNED", "UNSIGNED", "NOT_VERIFIED"]},
+    "smart_screen_status": {"enum": ["NOT_A_GUARANTEE", "NOT_VERIFIED"]},
+    "qualification_verdict": {"const": "C3_PRODUCT_SOURCE_QUALIFIED"}
+  },
+  "$defs": {
+    "evidence": {
+      "type": "object",
+      "required": ["relative_path", "sha256"],
+      "properties": {
+        "relative_path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "deliverable": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["role", "relative_path", "sha256", "size_bytes", "media_type"],
+      "properties": {
+        "role": {"enum": ["installer", "portable_zip", "executable", "user_guide", "license_notice", "third_party_notices", "other"]},
+        "relative_path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "size_bytes": {"type": "integer", "minimum": 1},
+        "media_type": {"type": "string", "minLength": 1},
+        "authenticode_status": {"enum": ["SIGNED", "UNSIGNED", "NOT_APPLICABLE", "NOT_VERIFIED"]}
+      }
+    },
+    "testEvidence": {
+      "type": "object",
+      "required": ["name", "result", "evidence_path", "evidence_sha256"],
+      "properties": {
+        "name": {"type": "string", "minLength": 1},
+        "command": {"type": ["string", "null"]},
+        "result": {"const": "PASS"},
+        "evidence_path": {"type": "string", "minLength": 1},
+        "evidence_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "platformClaim": {
+      "type": "object",
+      "required": ["platform", "status", "evidence_path", "evidence_sha256"],
+      "properties": {
+        "platform": {"type": "string", "minLength": 1},
+        "status": {"const": "VERIFIED"},
+        "evidence_path": {"type": "string", "minLength": 1},
+        "evidence_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    }
+  }
+}
