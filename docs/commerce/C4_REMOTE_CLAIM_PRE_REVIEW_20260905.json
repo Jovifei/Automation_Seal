@@ -1,0 +1,133 @@
+{
+  "schema_version": 1,
+  "status": "REMOTE_PRECHECK_ONLY_LOCAL_RECOMPUTE_REQUIRED",
+  "review_date": "2026-09-05",
+  "runtime_remote": "Jovifei/jovi-medusa-commerce-v1",
+  "runtime_remote_main_sha": "63db06e9628331982893929f39b1037077138480",
+  "source_evidence_path": "governance/c3/C3_LISTING_CLAIM_EVIDENCE.json",
+  "source_evidence_sha256_reported_by_c3_audit": "471fc8bcbf6d48c4850a54baa533698e4c71b5d3c5a673e024e2c6ba6e5c3623",
+  "authority_note": "This file is a remote pre-review convenience artifact only. Final C4_LISTING_CLAIM_REVIEW must be generated from local original C3 evidence and recomputed file hashes before Human Decision.",
+  "claims": [
+    {
+      "source_c3_claim_id": "C3-CLAIM-001",
+      "decision": "KEEP",
+      "placement": "title_or_basic_info",
+      "customer_safe_wording": "当前试点版本为 0.2.0-dev，按 Beta Pilot 透明披露。",
+      "evidence_path": "src/jovi_modbus/__init__.py",
+      "evidence_sha256": "a1eba6dd08cd5ebffe62defbd119989fcdf66008d463cf3f2f3dcbfacdddff27"
+    },
+    {
+      "source_c3_claim_id": "C3-CLAIM-002",
+      "decision": "KEEP",
+      "placement": "verified_features",
+      "customer_safe_wording": "支持 Modbus RTU 标准读取功能码 FC01、FC03、FC04。",
+      "evidence_path": "docs/product/USER_MANUAL.md",
+      "evidence_sha256": "d66c2261209a380030917574865ee30d46425491b5c5e4a5a3e0def97c50fdc3"
+    },
+    {
+      "source_c3_claim_id": "C3-CLAIM-003",
+      "decision": "KEEP",
+      "placement": "verified_features",
+      "customer_safe_wording": "可配置 COM 口、波特率、校验位、停止位，并支持 1–247 地址范围扫描配置。",
+      "evidence_path": "docs/product/USER_MANUAL.md",
+      "evidence_sha256": "d66c2261209a380030917574865ee30d46425491b5c5e4a5a3e0def97c50fdc3"
+    },
+    {
+      "source_c3_claim_id": "C3-CLAIM-004",
+      "decision": "KEEP",
+      "placement": "known_behavior",
+      "customer_safe_wording": "设备身份识别仅依据已审核 JSON profile；无法确认时返回 NOT_AVAILABLE，不虚构设备标识。",
+      "evidence_path": "docs/product/USER_MANUAL.md",
+      "evidence_sha256": "d66c2261209a380030917574865ee30d46425491b5c5e4a5a3e0def97c50fdc3"
+    },
+    {
+      "source_c3_claim_id": "C3-CLAIM-005",
+      "decision": "KEEP",
+      "placement": "safety_limitations",
+      "customer_safe_wording": "候选扫描模式默认禁用 FC06/FC16 写操作，需要显式确认后才进入写操作流程。",
+      "evidence_path": "docs/product/USER_MANUAL.md",
+      "evidence_sha256": "d66c2261209a380030917574865ee30d46425491b5c5e4a5a3e0def97c50fdc3"
+    },
+    {
+      "source_c3_claim_id": "C3-CLAIM-006",
+      "decision": "KEEP",
+      "placement": "verified_features",
+      "customer_safe_wording": "可从统一会话数据生成 HTML 与 PDF 诊断报告。",
+      "evidence_path": "docs/product/USER_MANUAL.md",
+      "evidence_sha256": "d66c2261209a380030917574865ee30d46425491b5c5e4a5a3e0def97c50fdc3"
+    },
+    {
+      "source_c3_claim_id": "C3-CLAIM-007",
+      "decision": "REWRITE",
+      "placement": "quality_evidence",
+      "customer_safe_wording": "协议引擎、CRC 计算器、帧解析和离屏 GUI 路径已完成 40 项单元/集成测试。",
+      "evidence_path": "modbus_test_run.log",
+      "evidence_sha256": "9fdfe5775dfb4c2b0c9256109ebcfc348f9e2b0635abb17bd56174ab540544dd",
+      "reason": "Do not describe CRC as error correction, hardware CRC, or digital signature."
+    },
+    {
+      "source_c3_claim_id": "C3-CLAIM-008",
+      "decision": "KEEP",
+      "placement": "deliverables",
+      "customer_safe_wording": "当前发布构件包含 Windows 安装版可执行文件和便携版 ZIP。",
+      "evidence_path": "reports/product/TEST_RESULTS.md",
+      "evidence_sha256": "04c3078bf495a226b7c9042978f3ebc5a01048f9f52fbf72585c63f98e3ea438"
+    },
+    {
+      "source_c3_claim_id": "C3-CLAIM-009",
+      "decision": "REWRITE",
+      "placement": "license_terms",
+      "customer_safe_wording": "交付受 LICENSE.txt 中记录的 Jovi commercial evaluation license terms 约束，具体权利以随包许可文本为准。",
+      "evidence_path": "LICENSE.txt",
+      "evidence_sha256": "bacf1b4764ba654888752356ae1b211fb9ed7770e34b01d1ad05b501b89ae4ff",
+      "reason": "Do not imply perpetual/commercial redistribution rights beyond the license text."
+    },
+    {
+      "source_c3_claim_id": "C3-CLAIM-010",
+      "decision": "KEEP",
+      "placement": "legal_or_package_notes",
+      "customer_safe_wording": "第三方开源组件与许可信息记录在 THIRD_PARTY_NOTICES.md。",
+      "evidence_path": "THIRD_PARTY_NOTICES.md",
+      "evidence_sha256": "396984054f5b5ff85f65f2799d479c48e93cc3011fbab5b0902beffcbebc324c"
+    },
+    {
+      "source_c3_claim_id": "C3-CLAIM-011",
+      "decision": "KEEP",
+      "placement": "system_requirements",
+      "customer_safe_wording": "已验证环境要求为 Windows 10/11 x64，并需要兼容的 USB-RS485 适配器及厂商驱动。",
+      "evidence_path": "docs/product/COMPATIBILITY_MATRIX.md",
+      "evidence_sha256": "0d488911f6fd83d6ab78b060606fe6052742ea1f4330be00a04cddec04c855c8"
+    },
+    {
+      "source_c3_claim_id": "C3-CLAIM-012",
+      "decision": "KEEP",
+      "placement": "demo_and_limitations",
+      "customer_safe_wording": "Demo simulation mode仅生成标记为 SIMULATED 的模拟设备数据，用于界面评估，不能替代真实硬件验收。",
+      "evidence_path": "docs/product/USER_MANUAL.md",
+      "evidence_sha256": "d66c2261209a380030917574865ee30d46425491b5c5e4a5a3e0def97c50fdc3"
+    }
+  ],
+  "remove_or_do_not_add_without_new_local_evidence": [
+    "Python 3.10+ is required for ordinary buyer use",
+    "buyer must have Python basics",
+    "virtual serial/com0com is included or required",
+    "source project is included in the customer package",
+    "QUICKSTART.md or requirements.txt is included in the customer package",
+    "3-minute setup or any fixed setup-time promise",
+    "CRC-16 hardware error correction",
+    "SHA256 digital signature",
+    "100% Modbus device compatibility",
+    "universal Windows compatibility",
+    "permanent free updates",
+    "unlimited support",
+    "all digital deliveries are non-refundable"
+  ],
+  "recommended_presale_questions": [
+    "What is your actual Windows version and architecture?",
+    "Will you connect real hardware or only evaluate Demo simulation mode?",
+    "What USB-RS485 adapter/chipset and driver are you using?",
+    "Which Modbus function code/read scenario do you need?",
+    "Is your target device within the currently verified profile/compatibility scope?"
+  ],
+  "not_recommended_as_default_presale_question": "Do not ask whether the buyer has Python basics unless local final evidence proves that the customer-facing workflow actually requires Python."
+}
