@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "stage": "C3_REAL_SKU_STAGING",
+  "expected_global_behavior": {
+    "fail_closed": true,
+    "product_source_modified": false,
+    "real_platform_action": false,
+    "partial_entitlement_or_receipt_state": false
+  },
+  "cases": [
+    {"id":"C3-N01","name":"product repository dirty","expected_error":"C3_PRODUCT_SOURCE_DIRTY"},
+    {"id":"C3-N02","name":"staged but uncommitted product source change","expected_error":"C3_PRODUCT_INDEX_DIRTY"},
+    {"id":"C3-N03","name":"untracked release artifact","expected_error":"C3_UNTRACKED_RELEASE_ARTIFACT"},
+    {"id":"C3-N04","name":"missing authoritative version evidence","expected_error":"C3_VERSION_EVIDENCE_MISSING"},
+    {"id":"C3-N05","name":"deliverable path missing","expected_error":"C3_DELIVERABLE_MISSING"},
+    {"id":"C3-N06","name":"deliverable SHA drift","expected_error":"C3_DELIVERABLE_SHA_MISMATCH"},
+    {"id":"C3-N07","name":"deliverable size drift","expected_error":"C3_DELIVERABLE_SIZE_MISMATCH"},
+    {"id":"C3-N08","name":"Commerce attempts to rebuild product artifact","expected_error":"C3_PRODUCT_REBUILD_FORBIDDEN"},
+    {"id":"C3-N09","name":"license inventory missing or incomplete","expected_error":"C3_LICENSE_INVENTORY_NOT_VERIFIED"},
+    {"id":"C3-N10","name":"third-party notice required but missing","expected_error":"C3_THIRD_PARTY_NOTICE_MISSING"},
+    {"id":"C3-N11","name":"unsupported OS compatibility claim","expected_error":"C3_UNSUPPORTED_PLATFORM_CLAIM"},
+    {"id":"C3-N12","name":"unverified feature claim in listing","expected_error":"C3_UNVERIFIED_LISTING_CLAIM"},
+    {"id":"C3-N13","name":"false Authenticode signing claim","expected_error":"C3_SIGNING_CLAIM_MISMATCH"},
+    {"id":"C3-N14","name":"SmartScreen/reputation guarantee claim","expected_error":"C3_REPUTATION_GUARANTEE_FORBIDDEN"},
+    {"id":"C3-N15","name":"release version does not equal qualified product version","expected_error":"C3_RELEASE_VERSION_MISMATCH"},
+    {"id":"C3-N16","name":"delivery package omits original artifact SHA","expected_error":"C3_SOURCE_ARTIFACT_NOT_BOUND"},
+    {"id":"C3-N17","name":"delivery package source artifact tampered after qualification","expected_error":"C3_SOURCE_ARTIFACT_TAMPER"},
+    {"id":"C3-N18","name":"synthetic order points to wrong product or version","expected_error":"C3_ORDER_PRODUCT_VERSION_MISMATCH"},
+    {"id":"C3-N19","name":"synthetic payment evidence mismatch","expected_error":"C3_PAYMENT_EVIDENCE_MISMATCH"},
+    {"id":"C3-N20","name":"duplicate replay attempts duplicate entitlement receipt or package","expected_error":"C3_DUPLICATE_RESULT_FORBIDDEN"},
+    {"id":"C3-N21","name":"platform_action_allowed injected true","expected_error":"C3_PLATFORM_ACTION_FORBIDDEN"},
+    {"id":"C3-N22","name":"real_payment true during C3","expected_error":"C3_REAL_PAYMENT_FORBIDDEN"},
+    {"id":"C3-N23","name":"real_customer true during C3","expected_error":"C3_REAL_CUSTOMER_FORBIDDEN"},
+    {"id":"C3-N24","name":"xianyu true during C3","expected_error":"C3_XIANYU_ACTION_FORBIDDEN"},
+    {"id":"C3-N25","name":"auto_delivery true during C3","expected_error":"C3_AUTO_DELIVERY_FORBIDDEN"}
+  ]
+}
