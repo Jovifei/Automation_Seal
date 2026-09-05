@@ -5,6 +5,8 @@
 **Human Decision：尚未签发**
 
 > 本工具包用于准备 C4 Human Pilot。它不是已经发生的 Pilot 证据，也不是可以直接复制发布的最终商品文案。真实发布前必须从本地 C3 原始 `C3_LISTING_CLAIM_EVIDENCE.json` 对每条技术 claim 做证据绑定，并由 Jovi 审阅。
+>
+> 推荐在本地生成独立 `C4_LISTING_CLAIM_REVIEW.json`，对每条最终文案标记 `KEEP / REWRITE / REMOVE` + `source_c3_claim_id` + `evidence_path` + `evidence_sha256`。没有完成这份 review，本工具包保持 `DO_NOT_PUBLISH_AS_IS`。
 
 ## 0. 当前已知且可用于准备的 reported anchors
 
