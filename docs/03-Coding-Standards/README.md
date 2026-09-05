@@ -1,18 +1,25 @@
-# 3. 编码规范与说明文档
+# 编码规范与工程规则分类视图
 
-> 本目录为**分类索引视图**。
+**最后校准：2026-09-05**
 
-## 当前状态
+本目录仍没有单独的一份语言风格规范；当前工程规则由以下 living 文件定义：
 
-**`docs/` 目录下暂无专门编码规范文档。** 项目级的编码 / 操作 / 安全规范并不在 `docs/` 内，而是位于仓库根与技能目录：
+- [`../../AGENTS.md`](../../AGENTS.md) — Agent 行为、安全边界、C4 当前规则
+- [`../../CODEX_MASTER_TASK.md`](../../CODEX_MASTER_TASK.md) — 当前主任务与停止点
+- [`../CURRENT_PROJECT_GUIDE.md`](../CURRENT_PROJECT_GUIDE.md) — 架构/阶段/OSS 总览
+- [`../05_验收测试_回滚与运维手册.md`](../05_验收测试_回滚与运维手册.md) — 测试/回滚规范
 
-| 位置 | 说明 | 路径 |
-|------|------|------|
-| 项目总规约（AGENTS.md） | 角色、目标、已决事项、强制行为、永久禁止、完成标准 | [`../../AGENTS.md`](../../AGENTS.md) |
-| Codex 主任务书 | Track P / Track I 轨道、阶段门、执行纪律 | [`../../CODEX_MASTER_TASK.md`](../../CODEX_MASTER_TASK.md) |
-| 技能目录 | 各类可复用技能（含工程/部署规范） | [`../../skills/`](../../skills/) |
+## 当前工程强制模式
 
-## 建议（未执行）
+- Runtime/Product/Governance 分仓；
+- 实现 Agent 不自审；
+- frozen evidence 不覆盖；
+- claim evidence-bound；
+- deterministic package 使用 byte-level 验收；
+- product source zero-write；
+- Gitleaks/Syft 保留；
+- 六个 real-action flags 未经 Human Decision 不翻转。
 
-- 若后续在 `docs/` 内新增编码规范，归入本类，命名建议：`coding-<topic>-<YYYY-MM-DD>.md`（如 `coding-python-style-2026-08-06.md`）。
-- 可将上述根目录规范中「编码相关」章节摘出一份摘要放入本类，便于团队检索。
+## 历史说明
+
+旧 `CODEX_MASTER_TASK.md` 曾描述 Track P/I 和旧 C0-C6；该文件现在已经更新。若在历史报告/Prompt 中仍看到这些术语，按 `docs/HISTORICAL_DOCUMENT_STATUS.md` 处理。
