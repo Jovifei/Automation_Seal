@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jovi.local/schema/c3-release-candidate-v1.json",
+  "title": "C3 Real SKU Release Candidate",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "rc_id",
+    "product_id",
+    "product_version",
+    "source_git_head",
+    "source_qualification_sha256",
+    "product_manifest_sha256",
+    "listing_claim_evidence_sha256",
+    "digital_release_id",
+    "delivery_package_sha256",
+    "listing_candidate_sha256",
+    "xianyu_draft_bundle_sha256",
+    "synthetic_order_id",
+    "synthetic_payment_evidence_sha256",
+    "entitlement_count",
+    "delivery_receipt_count",
+    "download_grant_verified",
+    "downloaded_package_sha256",
+    "replay_unique_result",
+    "recovery_unique_result",
+    "real_action_flags",
+    "candidate_only",
+    "final_state"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "rc_id": {"type": "string", "pattern": "^c3_rc_[a-zA-Z0-9_-]+$"},
+    "product_id": {"const": "E01"},
+    "product_version": {"type": "string", "minLength": 1},
+    "source_git_head": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "source_qualification_sha256": {"$ref": "#/$defs/sha256"},
+    "product_manifest_sha256": {"$ref": "#/$defs/sha256"},
+    "listing_claim_evidence_sha256": {"$ref": "#/$defs/sha256"},
+    "digital_release_id": {"type": "string", "minLength": 1},
+    "source_artifacts": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["relative_path", "sha256", "size_bytes"],
+        "properties": {
+          "relative_path": {"type": "string", "minLength": 1},
+          "sha256": {"$ref": "#/$defs/sha256"},
+          "size_bytes": {"type": "integer", "minimum": 1}
+        }
+      }
+    },
+    "delivery_package_sha256": {"$ref": "#/$defs/sha256"},
+    "listing_candidate_sha256": {"$ref": "#/$defs/sha256"},
+    "xianyu_draft_bundle_sha256": {"$ref": "#/$defs/sha256"},
+    "synthetic_order_id": {"type": "string", "minLength": 1},
+    "synthetic_payment_evidence_sha256": {"$ref": "#/$defs/sha256"},
+    "entitlement_count": {"const": 1},
+    "delivery_receipt_count": {"const": 1},
+    "download_grant_verified": {"const": true},
+    "downloaded_package_sha256": {"$ref": "#/$defs/sha256"},
+    "replay_unique_result": {"const": true},
+    "recovery_unique_result": {"const": true},
+    "real_action_flags": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "production_integration_allowed",
+        "real_payment",
+        "real_customer",
+        "xianyu",
+        "auto_delivery",
+        "n8n_production"
+      ],
+      "properties": {
+        "production_integration_allowed": {"const": false},
+        "real_payment": {"const": false},
+        "real_customer": {"const": false},
+        "xianyu": {"const": false},
+        "auto_delivery": {"const": false},
+        "n8n_production": {"const": false}
+      }
+    },
+    "candidate_only": {"const": true},
+    "final_state": {"const": "READY_FOR_HUMAN_DELIVERY"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  }
+}
