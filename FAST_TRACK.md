@@ -1,63 +1,68 @@
-# 14天快速落地路线
+# C4 快速落地路线
 
-目标不是先搭完整自动化平台，而是在14天内得到第一个可测试、可展示、可报价的嵌入式数字产品。
+**最后校准：2026-09-05**
 
-## 第1-2天：只读审计与产品基线
+旧“14 天 Alpha / Track P-I”路线已经完成/失效。当前最快落地路径不是继续开发基础设施，而是把已经通过 C3 独立审核的第一真实 SKU 安全推进到 C4 Human Pilot。
 
-- 执行Phase 0、A和X0；
-- 审阅`products/modbus-rtu-toolkit/`现有Alpha；
-- 运行标准库单元测试；
-- 记录目标客户、兼容范围和不能承诺事项；
-- 只批准Track P，不批准Track I也能继续。
+## 目标
 
-## 第3-5天：Alpha增强
+用 5–10 个真实、人工控制订单或固定时间窗回答：
+- 是否有人愿意付费；
+- 哪些功能/文案真正驱动购买；
+- 99 CNY 是否合适；
+- `0.2.0-dev` / unsigned 是否影响转化；
+- 每单人工沟通/交付耗时；
+- support/refund/未成交原因；
+- 下一项最值得自动化的动作。
 
-- 增加真实常见报文和错误样例；
-- 补充FC01/02/05/15或用户访谈中最高频功能；
-- 完善错误提示、CLI和测试报告；
-- 生成可重复构建的Alpha ZIP、SHA256和SBOM；
-- 建立商品文案草稿和购买前须知。
+## Step 1 — Pre-Publish QA
 
-## 第6-7天：用户验证
+- 核 Governance PR #5 / CI / main；
+- 核 Runtime C3 audit/promotion 原件；
+- 核 Product HEAD / package SHA；
+- 清 Pilot ledger 示例；
+- 逐条 claim -> C3 evidence；
+- 修 CRC / SHA256 / compatibility / source-delivery wording；
+- 刷新当前闲鱼数字商品与退款规则；
+- Jovi 选择 beta/dev/unsigned Pilot 或 stable-first。
 
-- 完成至少5次嵌入式目标用户访谈；
-- 收集近期真实故障、耗时和替代方案；
-- 测试19.9、39.9、59.9元的入口价格表达；
-- 不询问“你会买吗”，优先询问最近一次行为和是否愿意预付内测。
+## Step 2 — Pilot Package Freeze
 
-## 第8-10天：内容与内测
+冻结：
+- final Listing Candidate SHA；
+- SKU/version；
+- DeliveryPackage SHA；
+- price；
+- pilot size/time window；
+- human-only matrix；
+- privacy ledger；
+- delivery transport；
+- stop/rollback checklist。
 
-- 生成一篇B站长内容提纲；
-- 生成两篇小红书排查图文；
-- 生成两条抖音短脚本；
-- 招募3-5名内测用户；
-- 将重复问题转为FAQ和自检脚本。
+## Step 3 — Jovi Human Decision
 
-## 第11-12天：付费验证
+只有 `issued_from_human=true` 才进入真实 Pilot。
 
-满足任一条件即可继续：
+## Step 4 — Human Pilot
 
-- 至少1个真实小额付费；
-- 至少3个明确付费意向；
-- 至少2名内测用户愿意为正式版付费。
+Jovi 手工：publish / message / price / payment confirmation / final delivery / refund-dispute。
 
-否则收缩功能或重新选择痛点，而不是继续堆基础设施。
+系统：order/payment fact / Entitlement / Receipt / Package/hash / support/KPI。
 
-## 第13-14天：是否启用基础设施
+## Step 5 — 复盘
 
-只有出现以下重复工作，才批准Track I：
+退出条件：
+- duplicate Entitlement=0；
+- duplicate Receipt=0；
+- wrong-version=0；
+- unauthorized action=0；
+- package traceability=100%；
+- 人工分钟/单、support、refund/未成交原因可量化。
 
-- 每天需要整理多个公开来源；
-- 每周重复生成相同报告；
-- 多个产品需要统一审核和打包；
-- 手工跟踪内容和内测已经明显耗时。
+结束：
 
-届时再部署PostgreSQL、n8n、changedetection和备份恢复。
+`C4_HUMAN_PILOT_PASS_PENDING_PERMISSION_DECISION`
 
-## 快速路线完成定义
+## 当前不做
 
-- Alpha通过全部主机侧测试；
-- 文档、许可证声明、SBOM和SHA256齐全；
-- 至少5次用户访谈；
-- 得到真实付费或明确付费意向；
-- 所有闲鱼真实自动动作仍由用户控制。
+不重选 Commerce framework，不重做 C2/C3，不提前做 Storefront/S3/n8n production/CRM/多渠道自动化，不自动操作闲鱼。
