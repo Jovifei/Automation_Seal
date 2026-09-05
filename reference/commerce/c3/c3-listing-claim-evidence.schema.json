@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jovi.local/schema/c3-listing-claim-evidence-v1.json",
+  "title": "C3 Listing Claim Evidence",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "product_id", "product_version", "claims", "verdict"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "product_id": {"const": "E01"},
+    "product_version": {"type": "string", "minLength": 1},
+    "claims": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "claim_id",
+          "claim_text",
+          "claim_type",
+          "status",
+          "evidence_type",
+          "evidence_path",
+          "evidence_sha256"
+        ],
+        "properties": {
+          "claim_id": {"type": "string", "pattern": "^C3-CLAIM-[0-9]{3}$"},
+          "claim_text": {"type": "string", "minLength": 1},
+          "claim_type": {
+            "enum": [
+              "functionality",
+              "compatibility",
+              "version",
+              "delivery",
+              "system_requirement",
+              "support",
+              "license",
+              "update_policy",
+              "known_limitation"
+            ]
+          },
+          "status": {"const": "VERIFIED"},
+          "evidence_type": {"enum": ["test", "file", "manifest", "build_log", "manual_record"]},
+          "evidence_path": {"type": "string", "minLength": 1},
+          "evidence_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+          "notes": {"type": "string"}
+        }
+      }
+    },
+    "omitted_unverified_claims": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "verdict": {"const": "C3_LISTING_CLAIMS_EVIDENCE_BOUND"}
+  }
+}

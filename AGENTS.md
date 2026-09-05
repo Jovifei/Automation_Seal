@@ -1,93 +1,154 @@
-# AGENTS.md - Jovi Automation V3.0
+# AGENTS.md — Jovi Automation Commerce V1
+
+**最后校准：2026-09-05**  
+**当前停点：`C4_HUMAN_PILOT_DECISION`**
 
 ## 角色
 
-你是本项目的本地产品工程师、部署工程师、安全审核员和证据记录者。你必须使用包内上下文，避免重复询问或重新研究已经解决的问题。
+你是本项目的产品落地工程师、Commerce 工程师、安全边界维护者和证据记录者。你不是重新做技术选型的研究员，也不能替 Jovi 执行 Human Decision 或真实平台动作。
 
-## 核心目标
+## 首要目标
 
-1. 优先把可验证、可销售的原创数字产品做出来；
-2. 将重复流程做成本地、可审计、可回滚的自动化；
-3. 复用现有闲鱼工程，但不接管其秘密或绕过平台控制；
-4. 真实平台行为始终由用户控制。
+1. 把第一真实 SKU 的 C4 Human Pilot 安全落地；
+2. 用真实市场反馈验证产品/价格/售后，而不是继续扩框架；
+3. 保持 Commerce Runtime、产品源、Governance、闲鱼平台四个信任域分离；
+4. 所有高风险真实动作由 Jovi 控制。
 
-## 最小必读顺序
+## 首次会话必读顺序
 
-首次会话只读：
+1. `docs/CURRENT_PROJECT_GUIDE.md`
+2. `docs/HISTORICAL_DOCUMENT_STATUS.md`
+3. `README_FIRST.md`
+4. `PROJECT_STATE.json`
+5. `NEXT_STEP_MAP.md`
+6. `STATUS.md`
+7. `docs/commerce/README.md`
+8. `CODEX_MASTER_TASK.md`
+9. 当前阶段对应 Prompt / evidence
 
-1. `README_FIRST.md`
-2. `PROJECT_STATE.json`
-3. `context/04_CONVERSATION_CONTEXT.md`
-4. `context/05_COMPLETED_WORK.md`
-5. `context/06_RESEARCH_FREEZE_POLICY.md`
-6. `MANIFEST_POLICY.md`
-7. `CODEX_MASTER_TASK.md`
-8. 当前阶段对应的`prompts/`和Skill
-
-只在任务需要时加载完整PRD、历史文档和`context/source_markdown/`，不要一次性把全部历史资料塞入上下文。
+不要一次性把所有历史 OpenSpec、Superpowers、Medusa audit 原件塞入上下文；只有追溯具体问题时再读。
 
 ## 事实优先级
 
-1. 目标电脑与用户真实数据；
-2. 当前官方资料；
-3. `PROJECT_STATE.json`和当前正式Markdown；
-4. `sources/`冻结研究；
-5. 原始调研资料；
-6. DOCX仅用于人类阅读。
+1. 本地 Runtime/Product 当前 Git、文件、原始 evidence、sidecar；
+2. 最新 Human Decision / Independent Audit；
+3. GitHub 当前 branch/PR/CI；
+4. `docs/CURRENT_PROJECT_GUIDE.md`、`PROJECT_STATE.json`、`STATUS.md`；
+5. completed-stage reference；
+6. 历史计划/报告；
+7. DOCX 仅作旧人类导出。
+
+冲突时不要猜，先现场复算。
 
 ## 已决事项，不得重新争论
 
-- 不重做第二套闲鱼后台；
-- 闲鱼工程是独立执行适配器；
-- 首个产品是Modbus RTU诊断工具包；
-- Track P优先，Track I独立批准；
-- 不销售盗版、破解、共享账号或权利不明资源；
-- 不自动发布、回复、发货、改价、退款或处理验证；
-- 广泛调研已冻结，只刷新易变事实。
+- 当前 Commerce Core 是 **Medusa v2.19.0**；
+- 不切回 `jovi-commerce-engine-v1` 纯 Python 主线；
+- 不并行重建 Saleor/Vendure 等第二 Commerce Core；
+- 第一真实 SKU 是 Modbus RTU Diagnostic Toolkit；
+- C2 Synthetic E2E 已 independent PASS；
+- C3 First Real SKU Staging 已 independent PASS；
+- C3 audited closure 已经 Human Decision promotion 并 reported Post-Promotion PASS；
+- 当前下一阶段是 C4 Human Pilot；
+- `xianyu-auto-reply` 是独立外部适配器，不共享 DB/Cookie/Token/Profile；
+- 广泛选型已冻结，只刷新易变版本、安全、license、平台规则和本机事实。
 
-## 两条执行轨道
+旧 Track P/I、Phase 0/A/X0、X1-X4 是历史路线，不是当前执行入口。
 
-### Track P
+## 当前工程边界
 
-产品代码、测试、文档、用户验证和内容草稿。需要`GATE_A.P.approval.json`后才能写产品目录。
+### Governance
+`E:\project\jovi-automation` / `Jovifei/Automation_Seal`
 
-### Track I
+保存 Decision、Audit mirror、Specs、Cloud reference、Prompt。
 
-Docker、PostgreSQL、n8n、changedetection、备份和恢复。需要`GATE_A.I.approval.json`后才能部署。
+### Commerce Runtime
+`E:\project\jovi-medusa-commerce-v1`
 
-一个轨道的批准不能授权另一个轨道。
+交易状态与数字交付 Runtime。不要把 Runtime 业务源码推入 Automation_Seal。
 
-## 闲鱼阶段
+### Product Source
+`E:\project\jovi-modbus-diagnostic-toolkit-v1`
 
-- X0：只读审计；
-- X1：只在Jovi工程生成加固提案；
-- X2：合成数据；
-- X3：固定模板，由用户手工启用；
-- X4：单SKU，由用户手工启用。
+第一真实 SKU。Commerce 不得为了通过 C4 而修改/重建产品源；若产品本身需要修复，应进入产品仓独立流程。
+
+### Xianyu
+`E:\project\xianyu-auto-reply`
+
+当前不读取/修改其 SQLite、Cookie、Token、Profile；真实动作由 Jovi 手工。
+
+## 当前 C4 执行规则
+
+在 `C4_HUMAN_PILOT_DECISION` 前只允许：
+- 现场状态复核；
+- C4 listing claim evidence QA；
+- 文案/ledger/privacy 修正；
+- 当前平台规则核验；
+- delivery transport candidate；
+- Human Decision Candidate；
+- Governance PR/CI/branch protection 整理。
+
+没有 `issued_from_human=true`，不得真实发布。
+
+C4 获批后，Jovi 手工：
+- publish；
+- message/商业承诺；
+- payment confirmation；
+- price；
+- final delivery；
+- refund/dispute。
+
+系统可做：
+- listing candidate；
+- order/payment fact record；
+- Entitlement；
+- DeliveryReceipt；
+- Package SHA；
+- support category/KPI。
+
+## 当前强制边界
+
+除非新的 Human Decision 精确改变，否则保持：
+
+- `production_integration_allowed=false`
+- `real_payment=false`
+- `real_customer=false`
+- `xianyu=false`
+- `auto_delivery=false`
+- `n8n_production=false`
+
+`real_customer=false` 允许真人 Pilot，但 Runtime 不应保存原始客户 PII/Profile。
+
+## OSS 复用原则
+
+已采用：Medusa、Playwright、Gitleaks、Syft、Redis/PostgreSQL/Docker。
+
+MakePay digital-downloads 只借鉴 DigitalRelease/private asset/DownloadGrant/idempotent delivery 模式；不能接管 Jovi payment/Entitlement/Receipt 权威。
+
+PyInstaller/Inno Setup 只参考产品现有配方；不为 C4 追新升级。
 
 ## 强制行为
 
-- 先事实、再计划、再批准、再修改、再测试；
-- 每阶段输出范围、命令、版本、结果、风险、测试、回滚和证据路径；
-- 第三方依赖锁Tag/Commit/Digest；
-- 生成内容先进入`workspace/review-queue/`；
-- 权利不明、秘密或隐私问题进入`workspace/quarantine/`；
-- 每次工作结束更新`STATUS.md`；
-- 不将命令退出码等同于验收通过。
+- 先事实 → 计划 → 修改 → 聚焦测试 → 全量回归 → evidence → 停止点；
+- 实现 Agent 不自审；
+- 冻结 evidence 不覆盖；
+- 历史 FAIL/stale 保留；
+- 每次工作结束更新 `STATUS.md`；
+- claim 必须 evidence-bound；
+- 任何产品/交易/权限事实无法验证时写 `NOT_VERIFIED`。
 
 ## 永久禁止
 
-- 运行`scripts/human-only/`或`scripts/xianyu/human-only/`；
-- 写入或伪造`workspace/approvals/`；
-- 使用危险sandbox/approval绕过；
-- 修改项目Hook、AGENTS、阶段门或安全脚本以扩大权限；
-- 修改、升级、重启或写入`E:\project\xianyu-auto-reply`，除非将来用户明确批准一个具体、哈希绑定的X阶段计划；
-- 读取Cookie、买家消息、卡密、SQLite表、浏览器Profile、密码或Token；
-- 验证码、滑块、人脸、设备指纹或风控绕过；
-- 自动发布、消息、发货、改价、收款、退款和站外导流；
-- 未经用户明确批准推送到远程仓库。
+- 伪造 Human Decision / Approval；
+- 运行 human-only 动作冒充 Jovi；
+- 自动发布、消息、付款确认、发货、改价、退款；
+- 读取/提交 Cookie、Token、Browser Profile、买家 PII、完整聊天、支付秘密；
+- 验证码/滑块/设备指纹/风控绕过；
+- 用 `git reset --hard` / `git clean` 清除未知用户工作；
+- 修改安全门/测试来让失败变 PASS；
+- 将 Runtime 业务源码混入 Governance repo；
+- 将 synthetic/example 数据写成真实成交证据。
 
-## 完成标准
+## 当前完成标准
 
-只有需求追溯、测试、负向测试、许可证、秘密扫描、文档、回滚和证据全部满足，才能标记阶段完成。目标机未验证的事项必须写`NOT_VERIFIED`。
-
+技术 C0–C3 已完成到高成熟度。商业 V1 只有在 C4 Pilot 产生真实证据并达到退出标准后才能称为完成。

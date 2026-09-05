@@ -1,83 +1,155 @@
 # Commerce 落地主线 C2-C4 V1
 
+**状态：CURRENT ROADMAP / C2+C3 COMPLETED / C4 CURRENT**  
+**最后校准：2026-09-05**
+
 ## 最终业务目标
 
-让系统把一个经过验证的原创数字产品加工成：
+让系统把经过验证的原创数字产品加工成：
 
-`Product Source → Product Manifest → Release → Listing Candidate → Order → Human-confirmed Payment Evidence → Entitlement → Deterministic Delivery Package → DeliveryReceipt → Human-approved Platform Draft`
+`Product Source -> Product Manifest -> Release -> Listing Candidate -> Order -> Human-confirmed Payment Fact -> Entitlement -> Deterministic Delivery Package -> DeliveryReceipt -> DownloadGrant -> Human-controlled Delivery`
 
-并保持真实平台发布、聊天、付款确认、退款和最终交付由 Jovi 控制。
+真实平台发布、消息、付款确认、改价、退款和最终交付由 Jovi 控制，除非未来逐动作 Human Decision。
 
-## C2 — Synthetic Digital Commerce E2E
+---
+
+## C2 — Synthetic Digital Commerce E2E — COMPLETED
 
 ### 目的
-证明 Commerce Runtime 本身可以完整处理数字商品，不引入真实 SKU 干扰。
+证明 Commerce Runtime 可以完整处理数字商品，不引入真实 SKU 干扰。
 
-### 输入
-完全由本轮生成的 synthetic 产品与资产。
+### 已完成
+- immutable DigitalRelease；
+- private DeliveryAsset；
+- deterministic DeliveryPackage；
+- short-lived DownloadGrant；
+- Listing Candidate；
+- synthetic Order + Payment Evidence；
+- exactly-one Entitlement / DeliveryReceipt；
+- loopback download SHA；
+- Xianyu Draft candidate only；
+- replay / concurrency / crash-recovery / negative tests；
+- Python Oracle 与 TypeScript byte-for-byte package 对齐。
 
-### 必须实现
-- immutable DigitalRelease
-- private DeliveryAsset
-- deterministic DeliveryPackage
-- short-lived DownloadGrant
-- Listing Candidate
-- synthetic Order + Payment Evidence
-- exactly-one Entitlement / DeliveryReceipt
-- loopback download SHA verification
-- Xianyu Draft Bundle（candidate only）
-- replay / concurrency / crash-recovery / 20+ negative tests
+Exit Gate：
 
-### Exit Gate
 `C2_INDEPENDENT_AUDIT_PASS`
 
-未通过前不得进入真实 SKU。
+reported implementation：`82accb4173b34133dacc864d7f32c92fb26107ac`  
+reported audit closure：`ce25c9e2a660b1f6b64ead3192ff861b3a8a19fa`
+
+**不要重新执行 C2，除非本地锚点/原始 evidence 发生漂移。**
 
 ---
 
-## C3 — Real SKU Staging
+## C3 — Real SKU Staging — COMPLETED
 
-### 目的
-把第一真实产品 `jovi-modbus-diagnostic-toolkit-v1` 作为只读产品源接入已通过 C2 的 Commerce Runtime。
+### 产品
+`E:\project\jovi-modbus-diagnostic-toolkit-v1`
 
-### 原则
-- 不修改 Modbus 产品仓来迎合 Commerce。
-- 产品仓提供 release bytes / docs / license / test evidence；Commerce 负责包装、订单、Entitlement 和候选交付。
-- 首轮仍然 synthetic order/payment，不触真实平台。
+### 已完成
+- product source read-only qualification；
+- `PASS_ZERO_WRITE`；
+- product tests in isolated sandbox；
+- installer / portable ZIP 原始 SHA 绑定；
+- evidence-bound listing claims；
+- immutable Release / deterministic wrapper；
+- Real SKU + Synthetic Order/Payment；
+- exactly-one Entitlement / Receipt；
+- DownloadGrant + loopback verify；
+- replay / restart recovery；
+- 25 negative cases；
+- Admin Playwright。
 
-### Exit Gate
+Exit Gate：
+
 `C3_REAL_SKU_STAGING_INDEPENDENT_AUDIT_PASS`
 
+reported implementation：`5b190edce6a530264560a6822b347255fba014ba`  
+reported audit closure：`63db06e9fd2e1cbdf6e7926b48ba72d3fbe06cb1`
+
+随后已经 Jovi Human Decision 进行 Runtime Promotion，reported：
+
+`C3_RUNTIME_PROMOTION_AUDIT_PASS`
+
+**不要重新做 C3。产品源码若后续变化，走新的产品资格化/delta audit。**
+
 ---
 
-## C4 — Human Pilot
+## C4 — Human Pilot — CURRENT
 
-### 目的
-验证真实人工商业流程，而不是立即自动交易。
+### 当前状态
+
+`C4_HUMAN_PILOT_DECISION`
+
+当前 Candidate：
+
+`docs/commerce/C4_HUMAN_PILOT_DECISION_CANDIDATE_V1.md`
+
+仍为：
+
+`issued_from_human=false`
+
+### C4 Pre-Publish QA
+
+真实发布前：
+1. 从本地 C3 claim evidence 审核最终 listing；
+2. 清空/隔离 Pilot ledger synthetic 示例；
+3. 修正 CRC/SHA256/compatibility/source-delivery/timing 文案；
+4. 刷新当前闲鱼数字/虚拟商品及退款规则；
+5. 明确 `0.2.0-dev` + unsigned beta Pilot 或 stable-first；
+6. 冻结人工 delivery transport；
+7. 复核 Runtime dedicated Git remote；
+8. 收口 Governance PR/CI/main。
 
 ### Jovi 人工动作
-- 发布商品
-- 回复关键咨询
-- 确认付款
-- 确认交付
-- 退款/争议处理
+- 发布商品；
+- 回复关键咨询/商业承诺；
+- 确认付款；
+- 改价；
+- 最终发送交付；
+- 退款/争议。
 
-### 系统允许动作
-- 生成 listing/reply/delivery candidate
-- 生成订单/证据/Entitlement/Receipt
-- 准备交付包和审计记录
-- 记录指标
+### 系统动作
+- listing/reply/delivery candidate；
+- order/payment fact record；
+- Entitlement / DeliveryReceipt；
+- package/hash；
+- support/KPI。
 
 ### Pilot Exit Gate
-至少 5 个真实订单或明确的人工终止记录，并证明：
-- 零重复 Entitlement/Receipt
-- 零错误交付版本
-- 零越权平台动作
-- 所有交付 SHA 可追溯
-- 售后边界可执行
+
+推荐 5–10 个真实订单或固定时间窗，并证明：
+- 0 duplicate Entitlement/Receipt；
+- 0 wrong-version delivery；
+- 0 unauthorized platform action；
+- package/release/payment traceability；
+- 人工负担/support/refund/未成交原因可量化。
+
+目标状态：
+
+`C4_HUMAN_PILOT_PASS_PENDING_PERMISSION_DECISION`
 
 ---
 
 ## C5（未来）— Permission Expansion
 
-只有 C4 证明人工流程稳定后，才逐项讨论：通知自动化、内部 n8n、有限自动交付等。每种权限单独 Decision，不允许一次性开放真实支付/发布/退款。
+只有 C4 真实证据足够后，才逐项讨论：
+- listing 自动化；
+- reply suggestion；
+- order metadata helper；
+- delivery preparation；
+- 有限平台动作。
+
+每项权限独立 Decision。**绝不因为 C4 PASS 一次性开放真实支付、发布、消息、自动交付或退款。**
+
+## 当前强制边界
+
+在新的 Human Decision 之前至少保持：
+
+`production_integration_allowed=false`  
+`real_payment=false`  
+`real_customer=false`  
+`xianyu=false`  
+`auto_delivery=false`  
+`n8n_production=false`

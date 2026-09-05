@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "stage": "C3_REAL_SKU_STAGING",
+  "product_id": "E01",
+  "product_name": "Modbus RTU Diagnostic Toolkit",
+  "product_source": "E:\\project\\jovi-modbus-diagnostic-toolkit-v1",
+  "commerce_runtime": "E:\\project\\jovi-medusa-commerce-v1",
+  "required_preconditions": [
+    "R6_POST_IMPORT_PASS",
+    "R2R3_INDEPENDENT_AUDIT_PASS",
+    "C2_INDEPENDENT_AUDIT_PASS"
+  ],
+  "required_evidence_files": [
+    "C3_MODBUS_SOURCE_QUALIFICATION.json",
+    "C3_PRODUCT_SOURCE_ZERO_WRITE_PROOF.json",
+    "C3_PRODUCT_MANIFEST.json",
+    "C3_LISTING_CLAIM_EVIDENCE.json",
+    "C3_DIGITAL_RELEASE.json",
+    "C3_DELIVERY_PACKAGE_MANIFEST.json",
+    "C3_LISTING_CANDIDATE.json",
+    "C3_XIANYU_DRAFT_BUNDLE.json",
+    "C3_SYNTHETIC_ORDER_RESULT.json",
+    "C3_NEGATIVE_TEST_RESULTS.json",
+    "C3_REPLAY_RECOVERY_RESULT.json",
+    "C3_ADMIN_E2E_RESULT.json",
+    "C3_RELEASE_CANDIDATE.json",
+    "C3_SOURCE_MANIFEST.json",
+    "C3_ROLLBACK_PLAN.json",
+    "C3_INDEPENDENT_AUDIT_PROMPT.md"
+  ],
+  "required_product_source_properties": {
+    "tracked_worktree_clean": true,
+    "index_clean": true,
+    "untracked_files_exactly_equal_qualified_release_artifacts": true,
+    "product_source_readonly": true,
+    "product_repository_modified_by_commerce": false,
+    "product_source_zero_write_proof": true,
+    "release_artifacts_hash_bound": true,
+    "version_evidence_bound": true,
+    "license_inventory_verified": true,
+    "listing_claims_all_evidence_bound": true
+  },
+  "required_commerce_properties": {
+    "source_artifact_bytes_preserved": true,
+    "delivery_package_deterministic": true,
+    "entitlement_count": 1,
+    "delivery_receipt_count": 1,
+    "download_grant_verified": true,
+    "download_sha_matches_delivery_package": true,
+    "replay_unique_result": true,
+    "recovery_unique_result": true,
+    "xianyu_candidate_only": true,
+    "platform_action_allowed": false
+  },
+  "required_real_action_flags_false": [
+    "production_integration_allowed",
+    "real_payment",
+    "real_customer",
+    "xianyu",
+    "auto_delivery",
+    "n8n_production"
+  ],
+  "success_stop": "READY_FOR_C3_INDEPENDENT_AUDIT",
+  "independent_pass": "C3_REAL_SKU_STAGING_INDEPENDENT_AUDIT_PASS",
+  "next_stage_after_pass": "C4_HUMAN_PILOT_DECISION"
+}

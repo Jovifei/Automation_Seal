@@ -1,215 +1,167 @@
-# Jovi Automation 最终交付包 V3.0
+# Jovi Automation — 首次阅读指南
 
-生成日期：2026-07-12  
-推荐工程目录：`E:\project\jovi-automation`  
-现有闲鱼工程：`E:\project\xianyu-auto-reply`
+**最后校准：2026-09-05**  
+**当前主线：Commerce V1 / C4 Human Pilot**
 
-## 1. 交付目的
+> 这已经不是 2026-07 的“第一次解压后跑 Phase 0/A/X0”工程。Governance、Medusa adoption、C2、C3 都已经完成到独立审计/Promotion。新 Agent 不要重新从旧 Gate 开始。
 
-这个压缩包就是本次对话的最终工程交接物。解压后，Codex 不需要依赖当前聊天记录，也不需要重新进行大范围市场调研，就能知道：
+## 1. 先知道当前状态
 
-- 项目为什么立项；
-- 已经做过哪些市场、产品、渠道、开源和科研调研；
-- 已经确定了哪些架构与风险边界；
-- 哪些内容已经完成；
-- 哪些事实只能在目标电脑上验证；
-- 下一步应该执行什么；
-- 每个阶段何时必须停止并等待用户批准。
+技术链：
 
-包内没有复制整段原始聊天，而是将所有与决策和执行有关的内容整理成结构化工程上下文。核心入口是：
+`Governance -> Medusa R6 -> R2-R3 -> C2 PASS -> C3 PASS -> Runtime C3 Promotion PASS`
+
+当前停点：
+
+`C4_HUMAN_PILOT_DECISION`
+
+当前存在 C4 Decision Candidate，但仍为：
+
+`issued_from_human=false`
+
+所以现在能做的是 C4 Pre-Publish QA 与 Human Decision 准备，**不能直接开始真实闲鱼 Pilot**。
+
+## 2. 新 Agent 最小必读
+
+按顺序：
 
 ```text
+docs/CURRENT_PROJECT_GUIDE.md
+docs/HISTORICAL_DOCUMENT_STATUS.md
 PROJECT_STATE.json
-context/04_CONVERSATION_CONTEXT.md
-context/05_COMPLETED_WORK.md
-context/06_RESEARCH_FREEZE_POLICY.md
-CODEX_MASTER_TASK.md
 NEXT_STEP_MAP.md
-```
-
-## 2. 已确定的最终架构
-
-不再开发第二套闲鱼后台。现有工程：
-
-```text
-E:\project\xianyu-auto-reply
-```
-
-继续作为独立的“闲鱼执行适配器”。Jovi Automation 负责：
-
-- 市场和用户证据；
-- PRD和变更规格；
-- 产品代码、测试和文档；
-- 许可证与密钥检查；
-- 商品文案、FAQ和固定回复候选；
-- 待审核交付包；
-- SHA256绑定的人工批准。
-
-闲鱼工程负责自身的账号、商品、订单和平台会话。两套工程不合并数据库，不共享密钥，Jovi Automation 不直接写闲鱼 SQLite。
-
-## 3. 快速落地策略
-
-工程拆为两条独立轨道：
-
-### Track P：产品快速轨道
-
-优先把可出售的产品做出来，不等待完整基础设施：
-
-```text
-现成Modbus主机侧Alpha
-→ 本机测试和改进
-→ 用户访谈/付费意向
-→ 商品草稿与内容草稿
-→ 内测
-→ 小额付费验证
-```
-
-包内已经放入可运行的 `products/modbus-rtu-toolkit/` Alpha，不需要 Codex 从零搜索或重写。
-
-### Track I：基础设施轨道
-
-在确认重复工作和付费需求后，再部署：
-
-```text
-PostgreSQL
-→ n8n
-→ changedetection.io
-→ 备份/恢复
-→ 研究与审核流水线
-```
-
-Docker 和 n8n 不是首个产品 Alpha 的前置条件。
-
-## 4. 用户第一次操作
-
-### 4.1 校验ZIP
-
-使用随ZIP提供的 `.sha256.txt` 校验文件。校验不一致时不要解压。
-
-解压后，第一次入口还会自动执行：
-
-```powershell
-python .\scripts\validate-package.py --verify-shipment
-```
-
-它验证完整交付快照。第一次运行后，报告和状态文件会正常变化，后续阶段改为验证不可变安全框架。两类清单的区别见`MANIFEST_POLICY.md`。
-
-### 4.2 解压
-
-将ZIP解压到 `E:\project`。最终结构必须是：
-
-```text
-E:\project\
-├── jovi-automation\
-└── xianyu-auto-reply\
-```
-
-`jovi-automation`根目录应直接包含：
-
-```text
+STATUS.md
 AGENTS.md
 CODEX_MASTER_TASK.md
-CODEX_START_PROMPT.txt
-PROJECT_STATE.json
-FAST_TRACK.md
-scripts\
-docs\
-context\
-products\
+docs/commerce/README.md
 ```
 
-### 4.3 备份现有闲鱼工程
+历史 `context/`、OpenSpec、Superpowers、Medusa audit 只在需要追溯时读取。
 
-在任何变更前，用你当前可靠的方式备份闲鱼工程的：
-
-- `data/`；
-- `browser_data/`；
-- `global_config.yml`；
-- Compose文件；
-- 当前Git Commit、分支和工作区状态。
-
-这些内容不要复制到Jovi工程、聊天或报告中。
-
-### 4.4 打开Codex
-
-在Codex中打开：
+## 3. 当前四个核心工程
 
 ```text
 E:\project\jovi-automation
+  Governance / Decision / Audit mirror / Specs / Cloud reference
+
+E:\project\jovi-medusa-commerce-v1
+  Formal Medusa Commerce Runtime
+
+E:\project\jovi-modbus-diagnostic-toolkit-v1
+  First real SKU / product source
+
+E:\project\jovi-commerce-engine-v1
+  Legacy pure-Python Commerce / archive only
 ```
 
-然后复制根目录 `CODEX_START_PROMPT.txt` 全文发送。
+另有：
 
-## 5. 第一次Codex只执行一条命令
+`E:\project\xianyu-auto-reply`
 
-```powershell
-.\scripts\00-run-readonly-audit.ps1 `
-  -XianyuRepoPath 'E:\project\xianyu-auto-reply'
-```
+它仍是独立外部适配器。当前不读取它的 SQLite、Cookie、Token、Browser Profile，也不让 Runtime 直接执行真实平台动作。
 
-它会完成：
+## 4. 当前已验证的第一商品
 
-1. 包结构和清单校验；
-2. 离线合成安全测试；
-3. Windows、Python、Codex、Git、Docker等本机能力检查；
-4. 对少量易变化的开源版本做窄范围刷新；
-5. 对本地闲鱼工程做脱敏X0只读审计；
-6. 生成Track P和Track I的下一阶段计划；
-7. 更新`STATUS.md`并停止。
+产品：**Modbus RTU Diagnostic Toolkit**
 
-## 6. 避免重复搜索的规则
+reported C3 anchors：
+- product HEAD：`25ef15386b21bcc53277c0d5af5973ad8ea272eb`
+- version：`0.2.0-dev`
+- installer：unsigned
+- installer SHA256：`d86ccc3136bc2ed201622c5f961738e9e81762e74e71ac5772ea6d4b5a408e02`
+- portable ZIP SHA256：`7525e4c8d4fd55900d46c51e075b92e47d61c7d8e1393383e2e92206855a9628`
+- Commerce delivery package SHA256：`4bd5703ae80fcea9c1dcf7d5d1ea2a02fe282a5cf6ef3f04a2c9703db5188e59`
+- C3 verdict：`C3_REAL_SKU_STAGING_INDEPENDENT_AUDIT_PASS`
+- Runtime promotion：`C3_RUNTIME_PROMOTION_AUDIT_PASS`
 
-Codex不得重新做以下已经完成的广泛调研：
+这些是 governance mirror 中的 reported facts；开始 C4 前仍从本地 Runtime/Product 原件重算。
 
-- 平台渠道选择；
-- 嵌入式与摄影产品机会；
-- 首个MVP选择；
-- 是否重做闲鱼后台；
-- 开源项目大范围选型；
-- 基础安全和版权边界。
+## 5. 当前第一件事不是“重新测试所有 C3”
 
-这些结论位于`context/`、`docs/`和`sources/`。
+当前 Pre-Publish QA：
 
-Codex只在以下情况下做有限刷新：
+1. 检查 Governance GitHub main / C3-C4 branch / PR #5 / CI；
+2. 检查 Runtime main 与 C3 audit 原件；
+3. 清理 C4 Operational Kit 中的 synthetic/example completed rows；
+4. 从本地 C3 claim evidence 审核最终商品文案；
+5. 修正 CRC / SHA256 / compatibility / delivery wording；
+6. 刷新当前闲鱼数字/虚拟商品与退款规则；
+7. Jovi 决定 beta/dev/unsigned Pilot 还是 stable-first；
+8. 选择人工交付通道；
+9. 准备 `issued_from_human=false` 的最终 Decision Candidate 给 Jovi。
 
-- 软件版本、Release、Security和许可证可能发生变化；
-- 当前平台规则或法律要求影响真实上线；
-- 本机事实与文档冲突；
-- 用户明确要求重新研究。
+## 6. C4 若获 Jovi 人工批准
 
-详细策略见`context/06_RESEARCH_FREEZE_POLICY.md`。
+首轮 5–10 单或固定时间窗。
 
-## 7. Codex不会自动做的事
+Jovi 手工：
+- 发布；
+- 消息/承诺；
+- 改价；
+- 付款确认；
+- 最终交付；
+- 退款/争议。
 
-- 自动发布或修改闲鱼商品；
-- 向真实买家发送生成式AI消息；
-- 自动发货、改价、收款或退款；
-- 自动处理滑块、验证码、人脸或设备风控；
-- 读取Cookie、买家消息、卡密或SQLite表内容；
-- 运行`human-only`脚本；
-- 伪造批准文件；
-- 将任何代码推送到远程仓库；
-- 自动升级现有闲鱼系统。
+系统负责：
+- listing candidate；
+- order/payment fact record；
+- Entitlement；
+- DeliveryReceipt；
+- package/hash；
+- support/KPI。
 
-## 8. 何时可以称为完成
+## 7. 当前真实权限
 
-交付包准备工作已经完成。真正的“本地部署完成”仍必须由目标电脑上的证据确认，包括：
-
-- 本机环境审计；
-- 产品Alpha测试；
-- 需要时的核心服务启动；
-- 备份与隔离恢复；
-- X2合成数据演练；
-- 许可证和真实平台规则确认。
-
-因此，当前状态是：
+至少保持：
 
 ```text
-READY_FOR_CODEX_PHASE_0_A_X0
+production_integration_allowed=false
+real_payment=false
+real_customer=false
+xianyu=false
+auto_delivery=false
+n8n_production=false
 ```
 
-不是：
+测试或 Pilot PASS 不会自动翻转它们。
 
-```text
-DEPLOYED_AND_LIVE
-```
+## 8. 已采用 OSS
+
+- Medusa v2.19.0 — Commerce Core；
+- Playwright — Admin/browser E2E；
+- Gitleaks v8.24.0 — secret scanning；
+- Syft v1.20.0 — SBOM；
+- Redis/PostgreSQL/Docker — Runtime infra；
+- MakePay digital-downloads — 仅选择性借鉴 DigitalRelease/private asset/DownloadGrant/idempotent delivery；
+- PyInstaller/Inno Setup — Windows 产品现有配方参考，不在 C4 前升级。
+
+详见 `docs/commerce/oss-reuse/README.md`。
+
+## 9. 不要再做的旧路线
+
+除非发现 SHA/证据冲突，不要重新执行：
+- `Phase 0/A/X0`；
+- `Track P / Track I`；
+- `X1-X4`；
+- Medusa adoption；
+- C2/C3 implementation；
+- 纯 Python Commerce 主线；
+- n8n production / Storefront / S3 作为 Pilot 前置。
+
+## 10. 什么时候才叫完成
+
+技术系统已经接近 V1 完成。
+
+商业 V1 仍需真实 C4 Pilot：
+- 5–10 单或固定窗口；
+- 0 duplicate Entitlement/Receipt；
+- 0 wrong-version delivery；
+- 0 unauthorized action；
+- package/release/payment fact 可追溯；
+- 人工耗时、support/refund 数据可复盘。
+
+结束：
+
+`C4_HUMAN_PILOT_PASS_PENDING_PERMISSION_DECISION`
+
+之后再由 Jovi 逐项决定下一项自动化权限。

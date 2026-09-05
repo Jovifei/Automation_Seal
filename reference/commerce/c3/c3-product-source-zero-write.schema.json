@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jovi.local/schema/c3-product-source-zero-write-v1.json",
+  "title": "C3 Product Source Zero-Write Proof",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "product_id",
+    "before_head",
+    "after_head",
+    "before_tracked_worktree_clean",
+    "after_tracked_worktree_clean",
+    "before_index_clean",
+    "after_index_clean",
+    "before_qualified_untracked_artifacts",
+    "after_qualified_untracked_artifacts",
+    "product_repo_write_attempts",
+    "verdict"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "product_id": {"const": "E01"},
+    "before_head": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "after_head": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "before_tracked_worktree_clean": {"const": true},
+    "after_tracked_worktree_clean": {"const": true},
+    "before_index_clean": {"const": true},
+    "after_index_clean": {"const": true},
+    "before_qualified_untracked_artifacts": {"$ref": "#/$defs/artifacts"},
+    "after_qualified_untracked_artifacts": {"$ref": "#/$defs/artifacts"},
+    "product_repo_write_attempts": {"const": 0},
+    "verdict": {"const": "PASS_ZERO_WRITE"}
+  },
+  "$defs": {
+    "artifacts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["relative_path", "sha256", "size_bytes"],
+        "properties": {
+          "relative_path": {"type": "string", "minLength": 1},
+          "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+          "size_bytes": {"type": "integer", "minimum": 1}
+        }
+      }
+    }
+  }
+}

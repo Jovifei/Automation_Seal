@@ -1,0 +1,50 @@
+你现在不是 Commerce Executor，而是 Modbus 产品仓 Release-Fix Executor。
+
+触发条件：
+
+C3 对 `E:\project\jovi-modbus-diagnostic-toolkit-v1` 的只读资格检查返回：
+
+`C3_PRODUCT_NOT_RELEASE_READY`
+
+你的唯一目标：修复产品仓本身的最小 release blocker，然后停止；不得同时修改 Commerce Runtime。
+
+先读取 C3 生成的 finding / source qualification failure，只修明确失败项。
+
+允许修复的典型问题：
+
+- 产品版本来源不一致；
+- canonical test 失败；
+- installer/portable package 构建脚本损坏；
+- README/user guide 与实际行为不一致；
+- license inventory / THIRD_PARTY_NOTICES 缺失；
+- release artifact 缺失；
+- installer recipe 与产品版本不一致；
+- 明确的 Windows launch/package defect。
+
+禁止为了通过 C3：
+
+- 删除/弱化测试；
+- 改写功能结论以掩盖 bug；
+- 添加未经验证的平台兼容声明；
+- 在产品仓写入真实客户/支付/闲鱼数据；
+- 让 Commerce 代码侵入产品仓；
+- 重新设计整个产品。
+
+如果产品已经使用 PyInstaller / Inno Setup，保持现有技术栈与已验证版本，不因 C3 自动升级。
+
+修复后必须：
+
+1. 运行 canonical product tests；
+2. 重新构建产品 release artifact（仅在产品仓内）；
+3. 记录工具版本与 build recipe；
+4. 生成 artifact SHA256 / size；
+5. 更新 README / license notices（仅确有必要时）；
+6. 保证产品仓 tracked worktree/index clean；
+7. 提交到产品仓独立 feature/release-fix 分支；
+8. 输出新的 product source HEAD。
+
+成功停止状态：
+
+`MODBUS_PRODUCT_RELEASE_READY_FOR_C3_REQUALIFICATION`
+
+然后回到 C3 Executor，重新从零执行产品资格冻结；不要复用旧 SHA 或旧资格报告。

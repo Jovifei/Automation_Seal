@@ -1,63 +1,164 @@
-# Commerce V1 OSS 复用边界
+# Commerce V1 OSS 复用与采用边界
 
-**核验日期：2026-08-30。** 本目录是架构与许可审查材料，不是安装说明、采购批准、支付/交付启用证明或闲鱼平台授权。版本仅为审查锚点；任何实际部署均须重新核对上游 tag、提交、镜像 digest、`LICENSE`、`SECURITY` 和供应链证据。
+**最后校准：2026-09-05**  
+**状态：CURRENT / LIVING**
 
-当前 Medusa spike 的采用与修复框架见 [Medusa 采用与修复框架](../MEDUSA_ADOPTION_FRAMEWORK.md)；修复完成后使用 [独立审核 Prompt](../MEDUSA_REMEDIATION_INDEPENDENT_AUDIT_PROMPT.md)。
+> 本目录最初用于 2026-08 的 Commerce 选型。现在 Medusa 已正式采用、C2/C3 已完成，因此“候选/未部署”的旧描述不再是当前状态。历史单项评估文件仍保留用于追溯。
 
-## 本轮吸收范围
+## 1. 当前确定路线
 
-本目录已经把开源项目的可复用能力、许可义务、依赖风险和采用触发条件吸收到 `jovi-automation` 的架构知识库。吸收的是经过边界审查的设计与集成契约，不是把所有上游源码、`node_modules`、示例素材或运行数据复制进正式工程。
+### A. Medusa v2.19.0 — 已正式采用
 
-- Medusa R2 的源码仍位于隔离目录，当前只通过 [R2 集成指针](../MEDUSA_R2_INTEGRATION_POINTER.md) 绑定版本、证据和后续采用门。
-- n8n、OpenMeter、Kill Bill、Saleor、Vendure、Lago、Keygen、Lemon Squeezy 按下表结论处理；没有把 `REFERENCE_ONLY`、`FUTURE_TRIGGER` 或 `REJECT_CURRENT_PHASE` 项误当成已安装组件。
-- 任何正式代码导入都必须在独立审核和 Jovi Decision 之后新建受控 Medusa 仓库；本根仓库继续保存规格、边界、审计提示和可复核证据索引。
+Repo：`medusajs/medusa`  
+状态：`ADOPTED_COMMERCE_CORE`
 
-## 固定决策矩阵
+当前负责：
+- Product / Variant；
+- Order；
+- payment primitives / workflow；
+- Admin；
+- Redis-based workflow/locking/recovery；
+- Runtime integration foundation。
 
-| 组件 | 固定结论 | 本期边界 |
-|---|---|---|
-| Medusa v2 | `DIRECT_REUSE_PRIMARY` | Commerce 核心候选；仅在独立批准后进入受控运行环境。 |
-| n8n | `DIRECT_REUSE_INTERNAL_ORCHESTRATION` | 仅内部确定性编排、审核队列与可审计重试；不面向客户托管工作流。 |
-| OpenMeter | `FUTURE_TRIGGER_METERED_PRODUCTS` | 仅在出现经批准的按量计费产品时重新评估。 |
-| Kill Bill | `REFERENCE_ONLY` | 参考订阅计费与审计边界，不部署、不复制。 |
-| Saleor | `ALTERNATIVE_NOT_SELECTED` | 备选架构，当前不引入。 |
-| Vendure | `REJECT_CURRENT_PHASE` | GPLv3 与工程成本不适合当前阶段。 |
-| Lago | `REJECT_CURRENT_PHASE` | AGPLv3、计量/计费范围过宽，当前不引入。 |
-| Keygen | `REJECT_CURRENT_PHASE` | Fair Core 许可与许可服务器运营范围不匹配。 |
-| Lemon Squeezy | `REJECT_CURRENT_PHASE` | 外部 SaaS/支付服务，未获得平台、法务或业务批准。 |
+Jovi 保留以下业务权威：
+- payment evidence acceptance；
+- rights evidence；
+- Entitlement；
+- DeliveryReceipt；
+- Human Decision / real-action gate。
 
-## 采用触发条件
+Medusa adoption/R6/R2-R3 已完成，不再重新做框架选择。
 
-| 组件 | 允许重新采用或评估的必要触发条件 | 当前动作 |
-|---|---|---|
-| Medusa v2 | 独立 Gate、固定 tag/commit/digest、SBOM、迁移/回滚与安全验收齐备。 | 主候选，尚未部署。 |
-| n8n | Track I 独立 Gate、内部最小权限工作流、凭证恢复演练与重放负测齐备。 | 仅内部编排候选。 |
-| OpenMeter | 获批按量产品、计量定义、对账/争议处理与独立安全审查同时成立。 | 未来触发才选型。 |
-| Kill Bill | 获批复杂订阅/跨 provider 对账，且 Medusa 无法满足。 | 仅参考。 |
-| Saleor | Medusa 被正式否决且已批准 GraphQL-first/多频道需求。 | 备选，不并行建设。 |
-| Vendure | 法务或商业许可路径明确、Medusa 被正式否决、许可兼容性审查通过。 | 当前拒绝。 |
-| Lago | 按量产品、账单归属、AGPL 方案和合规责任均获批准。 | 当前拒绝。 |
-| Keygen | 产品许可模型、隐私告知、密钥托管和合同/许可审查获单独批准。 | 当前拒绝。 |
-| Lemon Squeezy | 商户准入、法务/税务/隐私审查、负责人批准和 webhook 设计齐备。 | 当前拒绝。 |
+### B. Playwright — 已采用
 
-## 系统关系与不可跨越边界
+状态：`ADOPTED_BROWSER_ACCEPTANCE`
 
-`jovi-automation` 是控制与证据项目；Medusa 是潜在 Commerce 核心；Python oracle 只生成可复算的业务建议/校验结论，不能以模型文本改变确定性信号；n8n 只执行批准后的内部编排；闲鱼适配器保持独立，且真实发布、回复、发货、改价、收款、退款和验证均由 Jovi 人工控制。不得让 Medusa、n8n 或 Python oracle 直接读写闲鱼适配器的 SQLite、Cookie、浏览器资料或 Token。
+用于：
+- Admin login / Cookie Session；
+- Product / Order / C2/C3 Admin E2E；
+- refresh；
+- console/page error；
+- external-request monitoring。
 
-任何外部输入均需经 schema、来源、权限和幂等性校验；支付 webhook、许可证回调和计量事件必须验证签名、时间窗、重放标识与审计链。候选文案与交付材料先入 `workspace/review-queue/`；权利、秘密或隐私不明的内容入隔离区。
+经验：curl/API 200 不能替代真实浏览器 UI acceptance。
 
-## 阅读方式与共通限制
+### C. Gitleaks v8.24.0 — 已采用
 
-每篇均记录官方仓库/文档、审查锚点、许可、技术关系、成本、风险、升级触发条件、结论、来源和限制。文中“可直接复用”表示架构许可范围内的候选能力，**不等于当前已安装、已配置、已通过安全验收或获准上线**。不得用本目录替代批准文件、供应链锁定或真实平台验证。
+状态：`ADOPTED_SECRET_SCAN`
 
-## 文档索引
+验收包括：
+- clean scan PASS；
+- synthetic private-key fixture 必须 FAIL；
+- fixture 删除后再次 PASS。
 
-1. [Medusa v2](01-Medusa-v2.md)
-2. [n8n](02-n8n.md)
-3. [OpenMeter](03-OpenMeter.md)
-4. [Kill Bill](04-Kill-Bill.md)
-5. [Saleor](05-Saleor.md)
-6. [Vendure](06-Vendure.md)
-7. [Lago](07-Lago.md)
-8. [Keygen](08-Keygen.md)
-9. [Lemon Squeezy](09-Lemon-Squeezy.md)
+### D. Syft v1.20.0 — 已采用
+
+状态：`ADOPTED_SBOM`
+
+生成 source/image CycloneDX SBOM，并与现有 license/provenance evidence 双轨使用。
+
+### E. Redis / PostgreSQL / Docker — 已采用 Runtime 基础设施
+
+用途：
+- transaction/workflow persistence；
+- distributed locking；
+- replay/recovery；
+- database；
+- isolated integration/runtime tests。
+
+## 2. 数字交付模式：MakePay selective reuse
+
+Repo：`makepay-apps/medusa-plugin-digital-downloads`  
+固定参考 commit：`a5343ba18cee85b3eed674ed55d0de7e32aaa448`  
+License：MIT（项目审查锚点）  
+状态：`SELECTIVE_ARCHITECTURE_REUSE`
+
+C2 已吸收/借鉴：
+- immutable DigitalRelease；
+- protected/private asset；
+- local private storage；
+- short-lived opaque DownloadGrant；
+- Entitlement ownership 与 DownloadGrant capability 分离；
+- idempotent digital delivery；
+- Admin digital-product observation patterns。
+
+明确不接管：
+- payment authority；
+- Jovi Entitlement authority；
+- DeliveryReceipt authority；
+- automatic email；
+- S3；
+- Storefront；
+- license-key authority；
+- real customer auto-delivery。
+
+Cloud C2 reference 的 Python Oracle 是本项目自己的验收实现，不以复制整个第三方插件替代本地设计。
+
+## 3. Windows 产品打包参考
+
+### PyInstaller
+Repo：`pyinstaller/pyinstaller`  
+C3 研究时 observed `develop` head：`5a80d1b93f1fbad3d8c0bdce90ce01f49927a9a1`
+
+### Inno Setup
+Repo：`jrsoftware/issrc`  
+C3 研究时 observed `main`：`1ae7bf81dc0d2013235dfe4bb0b6f4e4a0b6b25c`
+
+采用原则：
+- 只参考已有产品打包 recipe/行为；
+- 产品实际使用什么已验证版本就记录/冻结什么；
+- C3/C4 不为追 upstream 最新而升级工具链；
+- 当前 product installer unsigned 状态必须诚实披露，不能用 OSS 升级绕过产品 release 决策。
+
+## 4. 历史评估 / 当前不采用
+
+本目录中的下列项目属于历史选型研究，当前没有安装为主线 Runtime：
+
+| 组件 | 当前结论 |
+|---|---|
+| OpenMeter | FUTURE_TRIGGER；只有真正的 metered product 才重新评估 |
+| Kill Bill | REFERENCE_ONLY；复杂 billing 参考 |
+| Saleor | ALTERNATIVE_NOT_SELECTED；Medusa 已采用，不并行建设 |
+| Vendure | NOT_CURRENT_MAINLINE；不在 C4 前重选 Commerce Core |
+| Lago | NOT_CURRENT_MAINLINE；计费/AGPL 范围不匹配当前 Pilot |
+| Keygen | NOT_CURRENT_MAINLINE；license server 不是首单 Pilot 前置 |
+| Lemon Squeezy | EXTERNAL_SAAS_NOT_CURRENTLY_AUTHORIZED |
+
+对应 `03-*` 到 `09-*` 文件保留用于历史 license/architecture 追溯，不代表当前 TODO。
+
+## 5. n8n 当前状态
+
+历史结论曾为 `DIRECT_REUSE_INTERNAL_ORCHESTRATION` 候选。
+
+当前实际边界：
+
+`n8n_production=false`
+
+C4 首轮 Pilot 不需要 n8n production。只有真实 Pilot 数据证明出现大量重复、确定性内部工作后，再独立评估内部编排；n8n 永远不成为 Payment/Entitlement/Receipt 权威。
+
+## 6. 后续安全/供应链增强（非 C4 blocker）
+
+- Trivy：filesystem/image vulnerability scan；
+- step-security/harden-runner：Runtime 独立 GitHub remote/Actions 后；
+- dependency-review-action：同上，且取决于 GitHub repo/plan；
+- SLSA / cosign：稳定 release/attestation 阶段；
+- Storefront/S3：只有真实交付规模证明需要时再建。
+
+不要让这些优化阻塞第一真实 Pilot。
+
+## 7. OSS 采用规则
+
+1. 优先解决现成问题，不为“技术先进”引入新组件；
+2. pin tag/commit/digest；
+3. 读 `LICENSE` / `SECURITY`；
+4. 复制/改写源码必须记录 `THIRD_PARTY_NOTICES`；
+5. OSS reference 不能自动成为 Runtime authority；
+6. 本地 integration/evidence 仍需独立验证；
+7. 已审计版本不因上游更新自动升级；
+8. 当前 C4 目标优先级高于继续选型。
+
+## 8. 当前系统边界
+
+`jovi-automation` 是 Governance；`jovi-medusa-commerce-v1` 是 Runtime；`jovi-modbus-diagnostic-toolkit-v1` 是第一 SKU；`xianyu-auto-reply` 是独立外部适配器。
+
+不得让 Medusa、n8n、Python oracle 或任何第三方插件直接读写闲鱼 SQLite、Cookie、Token、Browser Profile，或绕过 Jovi 的真实平台 Human Decision。

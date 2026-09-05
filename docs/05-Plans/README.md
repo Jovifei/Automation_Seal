@@ -1,23 +1,37 @@
-# 5. 项目计划文档
+# 项目计划文档 — 当前分类视图
 
-> 本目录为**分类索引视图**。文档原文位于 `docs/` 根目录或工具受管目录（见下方链接），保持原位以兼容工具状态与既有引用。
+**最后校准：2026-09-05**
 
-## 成员文档（项目交付物）
+## 当前计划
 
-| 文档 | 说明 | 原文路径 |
-|------|------|---------|
-| Codex 分阶段部署执行书（Markdown） | Codex 分阶段部署计划与执行书 | [`../04_Codex分阶段部署执行书.md`](../04_Codex分阶段部署执行书.md) |
-| Codex 分阶段部署执行书（Word） | 同上，排版版 | [`../04_Codex分阶段部署执行书.docx`](../04_Codex分阶段部署执行书.docx) |
-| 14 天快速落地与 Codex 定时任务（Markdown） | 14 天快速落地路线 + Codex 定时任务 | [`../06_14天快速落地与Codex定时任务.md`](../06_14天快速落地与Codex定时任务.md) |
-| 14 天快速落地与 Codex 定时任务（Word） | 同上，排版版 | [`../06_14天快速落地与Codex定时任务.docx`](../06_14天快速落地与Codex定时任务.docx) |
+- [`../04_Codex分阶段部署执行书.md`](../04_Codex分阶段部署执行书.md) — C4 当前执行梯子
+- [`../06_14天快速落地与Codex定时任务.md`](../06_14天快速落地与Codex定时任务.md) — 文件名历史兼容，内容已更新为 C4 快速商业验证
+- [`../commerce/COMMERCE_LANDING_MAINLINE_C2_C4_V1.md`](../commerce/COMMERCE_LANDING_MAINLINE_C2_C4_V1.md) — C2/C3 completed，C4 current
+- [`../commerce/C4_HUMAN_PILOT_PLAN_V1.md`](../commerce/C4_HUMAN_PILOT_PLAN_V1.md)
 
-## 成员文档（工具受管 ⚠️ 请勿移动）
+当前停点：`C4_HUMAN_PILOT_DECISION`。
 
-| 文档 | 说明 | 路径 |
-|------|------|------|
-| Route B 受控 APPLY 实施计划 | comet/Superpowers 计划文件（phase 0–4，阶段 4 条件于真实 APPLY 授权） | [`../superpowers/plans/2026-08-06-route-b-controlled-apply.md`](../superpowers/plans/2026-08-06-route-b-controlled-apply.md) |
+## 已完成/历史计划
 
-## 边界说明
+- Route B / Gate A / Track P/I；
+- Medusa R2/R6 implementation plan；
+- C2 implementation plan；
+- C3 implementation plan；
+- `docs/superpowers/plans/**`；
+- `docs/openspec/changes/archive/**`。
 
-- 本类聚焦「何时做、按什么顺序做、谁负责」。
-- 阶段门（GATE_A）与轨道（Track P / Track I）决策见根目录 `AGENTS.md`、`CODEX_MASTER_TASK.md`、`STATUS.md`。
+这些用于追溯，不应重新执行。
+
+## DOCX
+
+旧 Word 版本是 2026-07/08 排版导出，没有与当前 C4 Markdown 路线同步。新 Agent 以 Markdown current docs 为准。
+
+## 当前计划规则
+
+任何新计划至少写明：
+- CURRENT / CANDIDATE / COMPLETED / HISTORICAL；
+- 前置 Gate；
+- Human Decision 是否需要；
+- success stop；
+- real-action flags；
+- 独立审核点。

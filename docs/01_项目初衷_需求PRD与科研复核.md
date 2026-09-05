@@ -1,74 +1,118 @@
-# 1. 项目初衷
+# 项目初衷、当前 PRD 与技术路线
 
-用户希望家中电脑在无人持续控制时，由Codex完成调研、产品开发、测试、文档和内容草稿，减少重复工作并形成收入。工程不追求未经监管的自动交易，而是把可验证的生产环节自动化，把账号、承诺、支付和争议保留给用户。
+**最后校准：2026-09-05**
 
-# 2. 用户优势与产品方向
+## 1. 项目初衷
 
-用户是嵌入式工程师，优势包括STM32/GD32、FreeRTOS、Modbus、4G、MQTT、OTA、Bootloader、HardFault和状态机。摄影是第二产品线，必须使用用户原创且权利清晰的素材。
+用户希望把自己的工程能力转化为可验证、可交付、可逐步商业化的数字产品，并用 AI/Codex 自动化调研、产品构建、测试、文档、商品候选、交付准备和复盘，减少重复劳动。
 
-# 3. 首个嵌入式MVP
+项目**不追求未经监管的自动交易**。真实账号、商业承诺、付款确认、最终交付、改价、退款与争议始终由 Jovi 控制，除非未来逐动作另行 Human Decision。
 
-首个产品为“Modbus RTU诊断与模板工具包”。V3.0已经预制主机侧Alpha：
+## 2. 当前第一产品线
 
-- 十六进制帧解析；
-- CRC16/Modbus；
-- FC03、FC04、FC06、FC16；
-- 异常码；
-- JSON CLI；
-- 12项标准库单元测试；
-- SBOM、第三方声明和Alpha打包。
+第一真实 SKU 已从早期 Alpha 演进为独立产品仓：
 
-板级工程等待用户明确MCU、开发板和工具链。
+`E:\project\jovi-modbus-diagnostic-toolkit-v1`
 
-# 4. 摄影MVP
+产品：**Modbus RTU Diagnostic Toolkit**。
 
-“金鸡湖城市风光调色与机位工具包”包括原创XMP、练习RAW、原片与成片、调色视频和机位指南。没有原创素材时不阻塞嵌入式主线。
+C3 已完成：
+- 产品源只读资格化；
+- 40/40 reported product tests in sandbox；
+- installer / portable ZIP SHA 绑定；
+- 真实 SKU 的 Commerce Staging；
+- `C3_REAL_SKU_STAGING_INDEPENDENT_AUDIT_PASS`；
+- Runtime Promotion PASS。
 
-# 5. 渠道结论
+当前 reported 版本：`0.2.0-dev`，installer 为 `UNSIGNED`。是否以 beta/dev 形式进入首轮真实 Pilot，还是先做 stable/signing，是 **Jovi 的商业决策**，不是 Agent 默认动作。
 
-| 方向 | 主渠道 | 成交渠道 | 说明 |
-|---|---|---|---|
-| 嵌入式 | B站、抖音、小红书 | 闲鱼 | 技术信任、故障演示、搜索图文 |
-| 摄影 | 小红书、抖音 | 闲鱼 | 视觉结果和原创工具包 |
-| 微博 | 同步 | 非主成交 | 低投入维护 |
+## 3. 当前 Commerce PRD
 
-# 6. 知识和资源销售边界
+系统目标链：
 
-不卖资料数量，卖经过验证的结果。禁止未经授权的课程、破解软件、共享账号、他人预设、公司代码和权利不明源码。允许原创产品、明确商业授权资源、合规开源组件和官方免费软件的配置服务。
+`Product Source -> Qualification -> DigitalRelease -> Private Assets -> Deterministic DeliveryPackage -> Listing Candidate -> Order -> Human-confirmed Payment Fact -> Entitlement -> DeliveryReceipt -> DownloadGrant -> Human Delivery -> Support/KPI`
 
-# 7. 技术与科研路线
+### 已完成技术能力
+- Medusa v2.19.0 Commerce Core；
+- Admin Cookie Session + Playwright；
+- Product / Order / payment evidence；
+- Jovi Entitlement / DeliveryReceipt；
+- Redis replay / concurrency / restart recovery；
+- deterministic digital package；
+- DownloadGrant；
+- Gitleaks / Syft / source-tree / sidecar；
+- C2 Synthetic E2E independent PASS；
+- C3 Real SKU independent PASS。
 
-## 核心
+### 当前尚未完成
+- C4 真实人工 Pilot；
+- 商业转化/支持/退款数据；
+- Pilot 后逐动作 permission expansion。
 
-- Codex、项目AGENTS、Skill和Hook；
-- 轻量变更记录，较大产品可使用Spec Kit；
-- Promptfoo、Gitleaks、Trivy和MkDocs；
-- Track I按需部署n8n、PostgreSQL和changedetection。
+## 4. 当前技术路线（已冻结主线）
 
-## 嵌入式增强
+### Commerce Runtime
+- **Medusa v2.19.0**：正式核心，不再重新比较 Saleor/Vendure 作为当前主线；
+- PostgreSQL：交易/业务持久化；
+- Redis：workflow / lock / replay / recovery；
+- Docker：隔离运行与测试；
+- Playwright：真实浏览器 Admin 验收。
 
-- 主机侧Python测试；
-- Ceedling、Unity和CMock；
-- PlatformIO跨平台构建；
-- Renode在目标SoC支持时做虚拟板级测试。
+### 数字交付
+- immutable `DigitalRelease`；
+- private `DeliveryAsset`；
+- deterministic `DeliveryPackage`；
+- `Entitlement` 与短时 `DownloadGrant` 分离；
+- `DeliveryReceipt` 记录交付证据。
 
-## 研究和供应链
+这一部分选择性借鉴 `makepay-apps/medusa-plugin-digital-downloads` commit `a5343ba18cee85b3eed674ed55d0de7e32aaa448` 的模式；**不让第三方插件接管付款、Entitlement、Receipt 或真实自动发货权威**。
 
-- Docling处理有权使用的本地文档；
-- PaperQA2用于文献密集研究；
-- Syft生成SBOM；
-- Cosign在稳定发布后签名；
-- OpenClaw、Langfuse和视频工具延后。
+### 安全/供应链
+- Gitleaks v8.24.0；
+- Syft v1.20.0；
+- SHA256 / source-tree / sidecar；
+- license / third-party notice；
+- 历史 FAIL/stale evidence 保留；
+- 实现 Agent 与 Independent Auditor 分离。
 
-## 方法论参考
+### 产品 Windows 打包
+- PyInstaller / Inno Setup 只作为已有产品打包配方参考；
+- C3/C4 不因为上游更新而升级已审计工具链；
+- 当前 unsigned 状态必须诚实披露。
 
-OpenSpec、BMAD、Superpowers和12-Factor Agents只借鉴规格、TDD、调试、状态和人工介入原则，不在首期同时安装多套总控框架。
+## 5. 当前渠道路线
 
-# 8. 调研冻结
+首个商业验证渠道仍是闲鱼，但当前 C4 模式为：
 
-渠道、MVP、架构和大范围选型已冻结。Codex只刷新易变化的Release、Security、License、平台规则和本机事实。详细策略见：
+- 系统生成 evidence-bound listing candidate；
+- Jovi 人工发布；
+- Jovi 人工沟通；
+- Jovi 人工确认付款；
+- 系统准备 Entitlement / Package / Receipt；
+- Jovi 人工发送交付；
+- Jovi 人工处理退款/争议。
 
-```text
-context/06_RESEARCH_FREEZE_POLICY.md
-sources/technology_route_review_2026-07-12.md
-```
+不需要在 C4 前建设自动闲鱼后台能力。
+
+## 6. 当前研究冻结
+
+以下问题**不再作为当前主线重新研究**：
+- 是否采用 Medusa；
+- 是否改回纯 Python Commerce；
+- 是否在 C4 前切 Saleor/Vendure；
+- 是否为了 Pilot 引入 Storefront / S3 / n8n production；
+- 是否重做闲鱼后台。
+
+只有版本、安全公告、许可证、平台规则、产品事实与本机事实允许做窄范围刷新。
+
+## 7. Backlog / 非当前主线
+
+以下方向仍可保留，但全部属于 C4 商业验证之后的 backlog：
+- 摄影数字产品；
+- Ceedling / PlatformIO / Renode 等嵌入式产品工程增强；
+- Trivy / harden-runner / dependency-review；
+- SLSA / cosign release attestation；
+- n8n production 内部编排；
+- 多渠道 Storefront / CRM / BI。
+
+**它们不得阻塞第一真实 SKU 的 C4 Pilot。**
