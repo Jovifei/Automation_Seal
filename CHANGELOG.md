@@ -1,5 +1,21 @@
 # CHANGELOG
 
+## 2026-09-05 - C3 closure, C4 preparation, and documentation mainline alignment
+
+- Recorded the completed technical chain through Medusa R6, R2-R3, C2 Synthetic Digital Commerce, C3 First Real SKU Staging, and Runtime C3 Promotion.
+- C2 reported `C2_INDEPENDENT_AUDIT_PASS`; C3 reported `C3_REAL_SKU_STAGING_INDEPENDENT_AUDIT_PASS`; Runtime promotion reported `C3_RUNTIME_PROMOTION_AUDIT_PASS`.
+- First real SKU remains Modbus RTU Diagnostic Toolkit; reported C3 version is `0.2.0-dev`, installer is unsigned, and deterministic delivery package SHA256 is `4bd5703ae80fcea9c1dcf7d5d1ea2a02fe282a5cf6ef3f04a2c9703db5188e59`.
+- Current project stop moved to `C4_HUMAN_PILOT_DECISION`; the C4 candidate remains `issued_from_human=false`, so no real Pilot/platform action is authorized yet.
+- Added canonical `docs/CURRENT_PROJECT_GUIDE.md`, `docs/HISTORICAL_DOCUMENT_STATUS.md`, and `docs/commerce/README.md` so new agents can distinguish current, completed-stage, and historical documents.
+- Rewrote living root/docs entrypoints that still pointed to Phase 0/A/X0, Track P/I, X0-X4, old SQLite Commerce, or “Medusa not adopted” states.
+- Updated `PROJECT_STATE.json`, `NEXT_STEP_MAP.md`, `AGENTS.md`, `CODEX_MASTER_TASK.md`, `CODEX_START_PROMPT.txt`, `README_FIRST.md`, `README.md`, FAST_TRACK and user decision/action checklists to the C4 current route.
+- Reclassified Post-R6/C2/C3 plans as completed-stage references rather than current TODOs.
+- Refreshed OSS map: Medusa/Playwright/Gitleaks/Syft/Redis/PostgreSQL/Docker are adopted; MakePay digital-downloads is selective architecture reuse; PyInstaller/Inno Setup are product packaging references; Saleor/Vendure/etc. are historical/future assessments.
+- Fixed control-character/Windows escaping corruption in the C3 governance mirror without changing local Runtime evidence.
+- Reworked `C4_PILOT_OPERATIONAL_KIT_V1.md` into a pre-publish draft: removed fake completed Pilot rows, required C3 evidence-bound claims, corrected CRC/SHA wording, made beta/dev/unsigned state explicit, and reset the real Pilot ledger to zero rows.
+- Strengthened `C4_HUMAN_PILOT_DECISION_CANDIDATE_V1.md` with an explicit Pre-Publish QA gate while preserving `issued_from_human=false`.
+- Historical OpenSpec/Superpowers/audit/task artifacts remain byte-preserved and are now explicitly labeled historical through navigation docs.
+
 ## 2026-08-09 - G1 audit remediation V2 authorized
 
 - Started a new bounded G1 remediation cycle after the independent `BLOCKED / NO-GO` review.
