@@ -13,12 +13,14 @@
     "verdict": "C2_INDEPENDENT_AUDIT_PASS"
   },
   "cloud_reference_assets": [
+    ".github/workflows/c3-reference-qa.yml",
     "docs/commerce/C3_REAL_SKU_READINESS_PACKAGE_20260905.md",
     "docs/commerce/C3_PRODUCT_READONLY_EXECUTION_PATTERN_20260905.md",
     "docs/commerce/C3_WINDOWS_RELEASE_CHECKLIST_20260905.md",
     "docs/commerce/C3_OSS_AND_WINDOWS_RELEASE_ACCELERATION_20260905.md",
     "docs/commerce/C3_POST_AUDIT_RUNTIME_PROMOTION_PLAN_V1.md",
     "docs/commerce/C3_TO_C4_FINAL_LANDING_GAPS_20260905.md",
+    "docs/commerce/C4_HUMAN_PILOT_PLAN_V1.md",
     "docs/commerce/C4_PILOT_PRIVACY_MINIMIZATION_V1.md",
     "reference/commerce/c3/C3_ACCEPTANCE_CONTRACT.json",
     "reference/commerce/c3/c3-source-qualification.schema.json",
@@ -32,11 +34,13 @@
     "scripts/commerce/c3_verify_product_zero_write.py",
     "scripts/commerce/c3_verify_product_zero_write_selftest.py",
     "prompts/commerce/LOCAL_CODEX_C3_REAL_SKU_STAGING_HANDOFF_20260905.txt",
-    "prompts/commerce/LOCAL_CODEX_MODBUS_RELEASE_FIX_IF_C3_BLOCKED_20260905.txt"
+    "prompts/commerce/LOCAL_CODEX_MODBUS_RELEASE_FIX_IF_C3_BLOCKED_20260905.txt",
+    "prompts/commerce/C3_INDEPENDENT_AUDIT_PROMPT_TEMPLATE_20260905.md"
   ],
   "self_test_contract": [
     "python scripts/commerce/c3_verify_real_sku_readiness_selftest.py scripts/commerce/c3_verify_real_sku_readiness.py -> C3_VERIFIER_SELFTEST_PASS",
-    "python scripts/commerce/c3_verify_product_zero_write_selftest.py scripts/commerce/c3_verify_product_zero_write.py -> C3_ZERO_WRITE_SELFTEST_PASS"
+    "python scripts/commerce/c3_verify_product_zero_write_selftest.py scripts/commerce/c3_verify_product_zero_write.py -> C3_ZERO_WRITE_SELFTEST_PASS",
+    "GitHub workflow C3 Reference QA compiles both verifiers, runs both self-tests, parses all C3 JSON contracts, checks C3 stop/pass states and >=25 negative cases"
   ],
   "oss_references": [
     {
@@ -69,6 +73,11 @@
     "auto_delivery",
     "n8n_production"
   ],
+  "product_source_zero_write_required": true,
+  "listing_claim_evidence_required": true,
+  "commerce_may_rebuild_product_artifacts": false,
+  "runtime_remote_write_authorized": false,
+  "automation_seal_branch_protection_write_available_to_current_agent": false,
   "C3_success_stop": "READY_FOR_C3_INDEPENDENT_AUDIT",
   "C3_independent_pass": "C3_REAL_SKU_STAGING_INDEPENDENT_AUDIT_PASS",
   "post_C3_required_gate": "C3_RUNTIME_PROMOTION_AUDIT_PASS",
