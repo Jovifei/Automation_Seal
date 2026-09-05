@@ -1,148 +1,244 @@
-# C4 Pilot Operational Kit V1 (试点实操工具包)
+# C4 Pilot Operational Kit V1 — PRE-PUBLISH DRAFT
 
-> 本工具包为 Jovi 执行 **C4 Human Pilot（首个真实数字产品小规模人工试跑）** 提供全套现成、规范的标准化文案卡、售前话术、交付 SOP 与脱敏审计台账。
-> 
-> **核心控制原则**：全流程所有平台操作（发布、私聊、收款确认、发货交付、争议处理）**100% 由 Jovi 本人手工操作**。系统保持 `real_customer=false`，严禁未经授权抓取或持久化买家原始个人敏感隐私。
+**状态：`PRE_PUBLISH_QA_REQUIRED / DO_NOT_PUBLISH_AS_IS`**  
+**当前 Gate：`C4_HUMAN_PILOT_DECISION`**  
+**Human Decision：尚未签发**
 
----
+> 本工具包用于准备 C4 Human Pilot。它不是已经发生的 Pilot 证据，也不是可以直接复制发布的最终商品文案。真实发布前必须从本地 C3 原始 `C3_LISTING_CLAIM_EVIDENCE.json` 对每条技术 claim 做证据绑定，并由 Jovi 审阅。
 
-## 模块一：闲鱼商品发布文案卡 (Listing Copy Card)
+## 0. 当前已知且可用于准备的 reported anchors
 
-### 1. 基础发布参数
-- **宝贝标题（28字内，兼顾搜索与精准定位）：**
-  `Modbus RTU 串口通信诊断工具包 Python 自动化测试 源码+文档`
-- **商品分类：** 电脑/数码配件 -> 软件 / 编程工具 / 源码服务
-- **参考售价：** `99.00` 元
-- **发货方式：** 拍下后人工在线发送下载包及校验码（虚拟商品/无需物流）
-- **库存数量：** `10` 件（严格控制在试点批次）
+以下来自 Governance C3 mirror，实际使用前仍应从本地 Runtime/Product 原始 evidence 复算：
 
-### 2. 宝贝图文详情（直接复制至闲鱼商品描述栏）
+- SKU：`Modbus RTU Diagnostic Toolkit`
+- Reported version：`0.2.0-dev`
+- Installer：`JoviModbusDiagnosticToolkit-0.2.0-dev-unsigned.exe`
+- Installer Authenticode：`UNSIGNED`
+- Installer SHA256：`d86ccc3136bc2ed201622c5f961738e9e81762e74e71ac5772ea6d4b5a408e02`
+- Portable ZIP SHA256：`7525e4c8d4fd55900d46c51e075b92e47d61c7d8e1393383e2e92206855a9628`
+- C3 deterministic delivery package SHA256：`4bd5703ae80fcea9c1dcf7d5d1ea2a02fe282a5cf6ef3f04a2c9703db5188e59`
+- C3 independent audit：reported PASS
+- Reference price candidate：`99.00 CNY`（**未经过真实市场验证**）
 
-```markdown
-【Modbus RTU 串口通信诊断工具包 (V0.2.0-dev)】
-专为工业自动化、嵌入式开发工程师打造的轻量级 Modbus RTU 协议排查与调试工具包。
+## 1. 发布前 Claim Evidence Gate
 
-💡 核心功能亮点：
-1. 【即开即用 Python 工具链】：覆盖读取线圈、离散输入、保持寄存器、输入寄存器（01/02/03/04等常见功能码）。
-2. 【内置 CRC-16 硬件校验与纠错】：自动计算与核对校验和，快速定位通信乱码或物理层偶发干扰。
-3. 【虚拟串口仿真环境】：无需连接物理硬件，即可在本地一键启动从站模拟器，快速验证上位机逻辑。
-4. 【确定性交付与完整文档】：随包附带快速上手指南（Markdown + PDF）及示例代码，3分钟跑通第一个用例。
+真实发布前必须从本地：
 
-📦 交付内容清单：
-- modbus_rtu_diagnostic_toolkit 核心源码工程（Python 3.10+）
-- virtual_slave_simulator 虚拟从站仿真组件
-- docs/ 快速上手指南与常见报错排查手册
-- tools/ 报文解析与校验快捷小工具
-- 官方确定性交付 SHA256 签名文件
+`E:\project\jovi-medusa-commerce-v1\governance\c3\C3_LISTING_CLAIM_EVIDENCE.json`
 
-⚠️ 适用环境与购买须知（拍前必读）：
-- 支持系统：Windows 10 / Windows 11 (64位)
-- 软件环境：需具备 Python 3.10 及以上环境（包内提供 requirements.txt 依赖清单）
-- 硬件说明：虚拟仿真无需硬件；若需调试真实物理设备，需自备 USB-RS485 转接线或真实串口线缆。
-- 交付形式：拍下后在线发送官方独立构建 zip 压缩包及 SHA256 校验码，确保源码未被第三方篡改。
-- 售后保障：提供基础环境配置指导与常见问题解答。数字源码类商品一经发货无法收回，请先核对技术需求。
+生成 C4 review：
+
+```text
+claim_text
+source_c3_claim_id
+evidence_path
+evidence_sha256
+decision = KEEP | REWRITE | REMOVE
+reason
 ```
 
----
+必须重点检查：
+- 支持的 Modbus 功能码；
+- CRC 能力；
+- Windows 版本；
+- Python 版本；
+- 是否真的交付源码；
+- 是否真的包含 PDF / QUICKSTART / requirements；
+- 是否包含 virtual slave / virtual serial 相关工具；
+- 任何“几分钟跑通”之类时间承诺；
+- 售后范围。
 
-## 模块二：售前快速沟通与筛选话术 (Pre-sale Screening Script)
+**无证据的 claim 直接 REMOVE。**
 
-在买家咨询或拍下前，Jovi 复制以下话术进行技术匹配确认，减少因软硬件环境不符导致的售后争议：
-
-### 1. 欢迎与环境确认
-> **Jovi 发送：**
-> “您好！感谢关注 Modbus RTU 诊断工具包。请问您计划用于【真实设备调试】还是【本地代码算法/协议学习测试】呢？  
-> 本工具包推荐在 Windows 10/11 系统的 Python 3.10+ 环境下运行。如果您手头没有物理硬件，也可以直接用包内自带的虚拟仿真器进行测试。”
-
-### 2. 硬件需求说明（如买家提及连接真实 PLC/传感器）
-> **Jovi 发送：**
-> “收到！连接真实硬件（如 PLC、温湿度传感器或电表）需要您电脑插有 USB 转 485 模块，并在设备管理器中确认 COM 口号。工具包内已提供详细的串口通信配置说明文档。”
-
-### 3. 交付形式与防伪说明
-> **Jovi 发送：**
-> “您拍下后，我会在线为您发送官方确定性交付压缩包（zip 格式），同时附带专属 SHA256 校验码。您在本地可以用 Windows 原生命令行验证哈希，确保收到的代码原汁原味、没有被篡改。”
-
----
-
-## 模块三：人工发货与交付 SOP (Delivery SOP)
-
-买家付款后，Jovi 按照以下 4 步标准规程执行交付：
-
-### 第一步：本地交付包核验
-确保准备交付的文件哈希严格匹配 C3 权威构建：
-- **目标文件：** `SYNTH-C3-MODBUS-RTU-0.2.0-dev.zip`
-- **权威 SHA256：** `4bd5703ae80fcea9c1dcf7d5d1ea2a02fe282a5cf6ef3f04a2c9703db5188e59`
-- **核验命令：**
-  ```powershell
-  Get-FileHash -Algorithm SHA256 E:\project\jovi-medusa-commerce-v1\governance\c3\SYNTH-C3-MODBUS-RTU-0.2.0-dev.zip
-  ```
-
-### 第二步：生成脱敏 Pilot 记录
-在脱敏台账（见模块四）中登记：
-- `pilot_order_id`: 生成如 `PILOT-202609-001`
-- `platform_reference_hash`: 对买家闲鱼昵称或脱敏订单号计算 SHA256 前 12 位（例：`sha256("xy_user_123")[:12]`）
-- `order_time`: 记录当前时间
-
-### 第三步：人工发送交付包与引导语
-> **Jovi 在闲鱼私聊发送：**
-> “您好！您的 Modbus RTU 诊断工具包（V0.2.0-dev）已为您打包准备完毕：  
-> 🔗 下载链接：[Jovi 本地提供的受控传输链接 / 百度网盘 / 蓝奏云]  
-> 提取码：xxxx  
-> 
-> 🛡️ 官方防篡改校验码 (SHA256)：  
-> `4bd5703ae80fcea9c1dcf7d5d1ea2a02fe282a5cf6ef3f04a2c9703db5188e59`  
-> 
-> 💡 极简校验方法（Windows PowerShell）：  
-> `certutil -hashfile SYNTH-C3-MODBUS-RTU-0.2.0-dev.zip SHA256`  
-> 校验一致即可放心解压使用。解压后请先阅读 `README.md` 与 `docs/QUICKSTART.md`。使用中有任何疑问欢迎随时留言！”
-
-### 第四步：平台操作
-在闲鱼点击“无需物流/发货”，并引导买家在确认无误后确认收货。
+禁止把：
+- CRC 写成“纠错”；
+- SHA256 写成“数字签名”；
+- unsigned 写成“已安全签名”；
+- dev 版本写成“正式稳定版”；
+- “支持所有设备/所有 Windows/永久更新/包教会”等无限承诺写入商品页。
 
 ---
 
-## 模块四：5–10 单脱敏审计台账表 (Sanitized Audit Ledger)
+## 2. Listing Copy Card — 仅安全骨架
 
-> **隐私合规红线**：严禁在此台账中记录买家真实姓名、手机号、收货地址、完整银行账号或整段私聊记录。
+> 以下只是结构模板。`[VERIFIED_*]` 字段必须由 C4 Claim Review 填入，不能让模型自由发挥。
 
-### 试点订单台账（初始模板）
+### 基础参数
 
-| 序号 | pilot_order_id | platform_ref_hash | 订单时间 | 实付金额 | 人工收款确认 | Entitlement ID | 交付包 SHA256 (首8位) | DeliveryReceipt ID | 人工发货确认 | 售后状态分类 | 结单状态 |
-|:---:|:---|:---|:---:|:---:|:---:|:---|:---:|:---|:---:|:---|:---:|
-| 01 | PILOT-202609-001 | `hash_ref_01` | 2026-09-06 10:00 | 99.00 | Jovi 已核实 | ENT-C4-001 | `4bd5703a...` | RCPT-C4-001 | Jovi 已发货 | 无 / 顺利上手 | 已完成 |
-| 02 | PILOT-202609-002 | `hash_ref_02` | 2026-09-06 14:30 | 99.00 | Jovi 已核实 | ENT-C4-002 | `4bd5703a...` | RCPT-C4-002 | Jovi 已发货 | SUPP-01 环境配置 | 已完成 |
-| 03 | PILOT-202609-003 | `hash_ref_03` | 待发生 | - | - | - | - | - | - | - | 待启动 |
-| 04 | PILOT-202609-004 | `hash_ref_04` | 待发生 | - | - | - | - | - | - | - | 待启动 |
-| 05 | PILOT-202609-005 | `hash_ref_05` | 待发生 | - | - | - | - | - | - | - | 待启动 |
-| 06 | PILOT-202609-006 | `hash_ref_06` | 待发生 | - | - | - | - | - | - | - | 待启动 |
-| 07 | PILOT-202609-007 | `hash_ref_07` | 待发生 | - | - | - | - | - | - | - | 待启动 |
-| 08 | PILOT-202609-008 | `hash_ref_08` | 待发生 | - | - | - | - | - | - | - | 待启动 |
-| 09 | PILOT-202609-009 | `hash_ref_09` | 待发生 | - | - | - | - | - | - | - | 待启动 |
-| 10 | PILOT-202609-010 | `hash_ref_10` | 待发生 | - | - | - | - | - | - | - | 待启动 |
+- 商品名称候选：`Modbus RTU Diagnostic Toolkit` + `[VERIFIED_POSITIONING]`
+- 版本：`0.2.0-dev`
+- 当前签名状态：installer `UNSIGNED`
+- 参考价：`99.00 CNY`（candidate only）
+- 交付方式：Jovi 在人工确认付款后手工发送受控数字交付包/链接
+- Pilot 数量：5–10 单或 Human Decision 指定时间窗
+
+### 商品描述骨架
+
+```markdown
+【Modbus RTU Diagnostic Toolkit — C4 Beta Pilot】
+
+版本：0.2.0-dev
+状态：小规模 Beta Pilot；installer 当前为 unsigned。
+
+适合人群：
+[VERIFIED_TARGET_USER]
+
+已验证功能：
+- [VERIFIED_CLAIM_1]
+- [VERIFIED_CLAIM_2]
+- [VERIFIED_CLAIM_3]
+
+已验证运行环境：
+[VERIFIED_ENVIRONMENT]
+
+交付内容：
+[VERIFIED_DELIVERABLE_LIST]
+
+当前已知限制：
+[VERIFIED_KNOWN_LIMITATIONS]
+
+购买前请先确认您的使用场景、系统环境与需要连接的设备/接口。首轮为人工试点，Jovi 会在拍下/交付前人工确认需求与交付版本。
+
+交付时同时提供 SHA256 完整性校验值，便于确认收到的文件与本次受控交付包一致。
+
+售后与退款：由 Jovi 人工按实际兼容性、交付情况和当前平台规则处理；本商品页不作超出已验证范围的保证。
+```
+
+### 客户可见文件名
+
+内部 C3 package 目前 reported 使用工程验证命名。若 Pilot 使用客户友好 alias：
+- 只改变文件名/传输展示；
+- 不改变 package bytes；
+- 每单仍记录权威 package SHA256；
+- alias 与内部 release/package 形成明确映射。
 
 ---
 
-## 模块五：常见售后支持分类与标准应答话术 (Support Taxonomy & Script)
+## 3. 售前人工筛选话术 — 不包含未经验证技术 claim
 
-为保持系统清洁与买家隐私脱敏，售后问题只记录分类代号：
+### 开场
 
-| 代码 | 问题分类 | 典型场景 | 推荐解决建议 / 话术 |
-|---|---|---|---|
-| **SUPP-01** | Python 基础环境/依赖 | 缺少 pyserial 或依赖安装报错 | “请在解压目录下打开终端，执行 `pip install -r requirements.txt` 安装所需依赖。” |
-| **SUPP-02** | 串口占用或权限不足 | `PermissionError: COMx` 或设备未识别 | “提示串口被占用通常是因为其他串口调试助手（如 SSCOM、XCOM）仍在后台占用该端口。请关闭其他占用软件后重试。” |
-| **SUPP-03** | Modbus CRC 校验失败 | 物理线路干扰、波特率不匹配 | “CRC 校验失败通常表明通信波特率、数据位或奇偶校验位与从站设备设置不一致。请检查从站参数并在脚本配置中调整一致。” |
-| **SUPP-04** | 虚拟串口模拟器使用 | 不清楚如何自发自收测试 | “请参考文档中关于 `com0com` 或虚拟串口成对映射的章节，工具包可直接向虚拟串口对发送报文实现闭环回环测试。” |
-| **SUPP-05** | 退款争议或环境不兼容 | 买家无电脑/纯手机端拍下 | “因数字源码商品特殊性，如确因环境无法使用且未实际下载使用，由 Jovi 人工友好沟通协商退款。” |
+> 您好，感谢关注 Modbus RTU Diagnostic Toolkit。当前是 0.2.0-dev 小规模试用版。为了避免买错，麻烦先告诉我您主要是用于协议学习/代码调试，还是需要连接真实设备？另外请告诉我您实际使用的电脑环境和设备接口，我会先核对当前版本的已验证范围。
+
+### 兼容性
+
+> 我会按当前版本已经测试并记录的兼容范围给您确认；如果您的设备/系统不在已验证列表里，我不会直接承诺兼容，可以先说明具体型号/场景再判断。
+
+### 交付
+
+> 付款后我会手工核对订单和版本，再发送本次受控交付包，同时提供 SHA256 完整性校验值。首轮 Pilot 不使用自动发货。
+
+### 退款/争议
+
+> 如果出现实际交付或兼容问题，我会人工核实，并按当时平台规则和具体情况处理，不做自动退款或绝对化承诺。
 
 ---
 
-## 模块六：试点总结与退出标准核对表 (Exit Checklist)
+## 4. 人工交付 SOP
 
-当试点完成 5–10 单后，Jovi 对照以下核验表签署《C4 试点闭环审计结果》：
+### Step 1 — Human payment confirmation
 
-- [ ] 1. **零重复权益/收据**：`duplicate_entitlement_count == 0`，`duplicate_receipt_count == 0`。
-- [ ] 2. **零错误版本发货**：所有订单交付包 SHA256 均为 `4bd5703ae80fcea9c1dcf7d5d1ea2a02fe282a5cf6ef3f04a2c9703db5188e59`。
-- [ ] 3. **零越权自动化行为**：所有闲鱼动作（发布/发货/退款/消息）无任何未经授权的脚本介入。
-- [ ] 4. **数据最小化达标**：无买家明文私聊、收件地址、手机号被保存在 Runtime 数据库中。
-- [ ] 5. **人工负担可量化**：已统计平均每单人工沟通耗时与主要技术支持问题。
-- [ ] 6. **产出终态状态**：`C4_HUMAN_PILOT_PASS_PENDING_PERMISSION_DECISION`。
+Jovi 在平台侧手工确认付款事实。Runtime 不自动访问支付平台，也不自动将真实订单标记为 paid。
+
+### Step 2 — Package binding
+
+从本地 Runtime 原始 evidence 复核本单目标 package：
+
+Reported C3 package SHA256：
+
+`4bd5703ae80fcea9c1dcf7d5d1ea2a02fe282a5cf6ef3f04a2c9703db5188e59`
+
+必须现场使用 `Get-FileHash` / `certutil` 或 Runtime 验证工具复算。SHA 不一致立即停止。
+
+### Step 3 — Runtime preparation
+
+记录最小化 order/payment fact，生成/确认：
+- exactly one Entitlement；
+- exactly one DeliveryReceipt；
+- 正确 Product/Release/Version；
+- DeliveryPackage SHA；
+- 必要的 DownloadGrant/交付准备。
+
+### Step 4 — Human delivery
+
+Jovi 使用 Human Decision 已冻结的人工传输通道发送。系统不得直接调用闲鱼写接口、自动发消息或自动点击发货。
+
+### Step 5 — Minimal record
+
+只记录 Pilot 所需的脱敏字段，不把完整聊天、姓名、手机号、地址、Cookie/Token、支付凭证明文写入 Runtime/Git。
+
+---
+
+## 5. Pilot Ledger — 正式模板从 0 条真实记录开始
+
+> **重要：下表没有任何预填“已完成”订单。真实 Pilot 尚未发生时，不得创建看似真实的成交记录。**
+
+| # | pilot_order_id | platform_ref_hmac | order_time | actual_price | human_payment_confirmed | entitlement_id | package_sha256 | receipt_id | human_delivery_confirmed | support_category | refund_dispute | final_state |
+|---:|---|---|---|---:|---|---|---|---|---|---|---|---|
+| 1 |  |  |  |  |  |  |  |  |  |  |  |  |
+| 2 |  |  |  |  |  |  |  |  |  |  |  |  |
+| 3 |  |  |  |  |  |  |  |  |  |  |  |  |
+| 4 |  |  |  |  |  |  |  |  |  |  |  |  |
+| 5 |  |  |  |  |  |  |  |  |  |  |  |  |
+| 6 |  |  |  |  |  |  |  |  |  |  |  |  |
+| 7 |  |  |  |  |  |  |  |  |  |  |  |  |
+| 8 |  |  |  |  |  |  |  |  |  |  |  |  |
+| 9 |  |  |  |  |  |  |  |  |  |  |  |  |
+| 10 |  |  |  |  |  |  |  |  |  |  |  |  |
+
+如需示例，请单独使用 `EXAMPLE_ONLY` 文件，不得把示例行计入 C4 evidence/KPI。
+
+### Privacy
+
+优先使用随机内部 `pilot_order_id`。如确实需要稳定映射平台引用，优先用本地 secret key 的 HMAC；key 不入 Git。不要把公开昵称直接裸 SHA256 后误认为不可逆匿名。
+
+---
+
+## 6. Support Taxonomy — 只记录分类，不保存完整聊天
+
+推荐分类：
+
+| Code | Category | 说明 |
+|---|---|---|
+| `SUPP-ENV` | Environment | 运行环境/依赖/安装问题 |
+| `SUPP-SERIAL` | Serial/Interface | 串口、USB-RS485、接口占用/识别 |
+| `SUPP-PROTOCOL` | Protocol/Configuration | 地址、波特率、校验、功能码/报文配置 |
+| `SUPP-COMPAT` | Compatibility | 当前未覆盖的设备/OS/版本兼容问题 |
+| `SUPP-DOC` | Documentation | 文档理解、上手步骤 |
+| `SUPP-DELIVERY` | Delivery | 文件/链接/哈希/版本交付问题 |
+| `SUPP-REFUND` | Refund/Dispute | 退款或争议，由 Jovi 人工处理 |
+| `SUPP-OTHER` | Other | 需要人工分类 |
+
+技术解决建议必须来自实际产品文档/evidence，不能在本 Governance 模板里预写未经验证的工具/命令。
+
+---
+
+## 7. C4 Human Decision 前 Checklist
+
+- [ ] Runtime C3 audit/promotion 原件复核；
+- [ ] Product HEAD / package SHA 复核；
+- [ ] C4 Claim Review 完成；
+- [ ] final listing 仅含 VERIFIED claims；
+- [ ] 0.2.0-dev / unsigned 已透明说明或 Jovi 选择 stable-first；
+- [ ] 当前闲鱼数字/虚拟商品与退款规则已刷新；
+- [ ] 人工 delivery transport 已冻结；
+- [ ] ledger 为空；
+- [ ] privacy/HMAC 方案明确；
+- [ ] six real-action flags 仍 false；
+- [ ] final Decision Candidate `issued_from_human=false` 已交 Jovi。
+
+## 8. Pilot Exit Checklist
+
+当且仅当 Jovi 正式授权后开始统计：
+
+- [ ] 0 duplicate Entitlement；
+- [ ] 0 duplicate Receipt；
+- [ ] 0 wrong-version delivery；
+- [ ] 0 unauthorized platform action；
+- [ ] 每单 package SHA 可回溯到 Release；
+- [ ] payment confirmation 可回溯到 order；
+- [ ] 无原始 buyer PII/Cookie/Token 进入 Runtime；
+- [ ] 人工分钟/单、support、refund/未成交原因可量化；
+- [ ] 结束状态 `C4_HUMAN_PILOT_PASS_PENDING_PERMISSION_DECISION`。
+
+Pilot PASS 也不自动开放任何新权限。
