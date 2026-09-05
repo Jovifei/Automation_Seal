@@ -1,93 +1,134 @@
-# 1. 目标
+# C4 快速商业验证与 Codex 定时任务
 
-在14天内完成第一个可测试、可演示、可报价的嵌入式数字产品，而不是先投入全部时间建设自动化基础设施。
+**最后校准：2026-09-05**  
+**说明：文件名保留“14天快速落地”仅为了兼容旧引用；原 Track P/I 14 天 Alpha 计划已经完成/失效。当前用途是首个真实 SKU 的 C4 快速商业验证。**
 
-# 2. 两条轨道
+## 1. 当前目标
 
-| 轨道 | 目标 | 是否阻塞Alpha |
+在不开放自动真实平台权限的前提下，用最短路径回答：
+
+1. 真实用户是否愿意为 Modbus RTU Diagnostic Toolkit 付费；
+2. 当前商品文案是否准确匹配需求；
+3. `0.2.0-dev` / unsigned 交付是否可接受；
+4. 每单人工沟通与交付成本是多少；
+5. 售后/退款的主要原因是什么；
+6. 下一项最值得自动化的动作是什么。
+
+技术底座 C2/C3 已完成，不再用时间建设新的 Commerce framework。
+
+## 2. 当前最快执行节奏
+
+### Step 1 — Pre-Publish QA
+
+优先完成：
+- Governance PR #5 / CI / main 状态复核；
+- C3 mirror 文本清理；
+- C4 Pilot ledger 清空真实样式示例；
+- 本地 C3 claim evidence -> C4 listing claim review；
+- CRC/SHA256/兼容性/源码交付文案修正；
+- 当前闲鱼数字商品、退款、售后规则刷新；
+- 选择 beta/dev/unsigned Pilot 或 stable-first。
+
+### Step 2 — Pilot Package Freeze
+
+冻结：
+- final Listing Candidate SHA；
+- SKU/version；
+- DeliveryPackage SHA；
+- pilot price；
+- 试点规模/时间窗；
+- 人工交付通道；
+- privacy ledger；
+- rollback/stop checklist。
+
+### Step 3 — Jovi Human Decision
+
+只有 Jovi 将 C4 Decision 明确签发为 `issued_from_human=true`，才进入真实 Pilot。
+
+### Step 4 — 真实人工 Pilot
+
+建议目标：5–10 单，或预先定义固定时间窗。
+
+所有平台动作仍人工：
+- publish；
+- message；
+- price；
+- payment confirmation；
+- delivery；
+- refund/dispute。
+
+系统负责：
+- candidate；
+- order/payment fact record；
+- Entitlement；
+- Receipt；
+- Package SHA；
+- support 分类；
+- KPI 汇总。
+
+### Step 5 — 复盘
+
+输出：
+- inquiries；
+- paid orders；
+- conversion；
+- average manual minutes/order；
+- package preparation success；
+- support categories；
+- refunds/disputes；
+- wrong-version / duplicate / unauthorized-action count；
+- 未成交原因。
+
+## 3. 当前不建议固定“必须 14 天”
+
+旧文档的 14 天节奏是 Alpha 阶段估算。C4 以**证据数量或固定窗口**为准：
+
+- 推荐 5–10 个真实订单；
+- 如果订单不足，可在预先设定的时间窗后用询盘/未成交数据复盘；
+- 不为凑订单而降价、夸大文案或自动化高风险动作。
+
+## 4. Codex 定时任务当前允许范围
+
+适合：
+- 本地 Runtime/product tests；
+- docs/claim consistency；
+- Gitleaks/Syft；
+- package SHA/integrity；
+- GitHub PR/CI 状态摘要；
+- 生成待审核 KPI/报告。
+
+不适合：
+- 自动登录闲鱼；
+- 自动读取 Cookie/Profile；
+- 自动回复真实买家；
+- 自动付款确认；
+- 自动发货/改价/退款；
+- 自动签 Human Decision。
+
+## 5. 建议的非阻断定时任务
+
+| 任务 | 频率 | 目的 |
 |---|---|---|
-| Track P | 产品、测试、文档、访谈、商品草稿 | 否，优先执行 |
-| Track I | PostgreSQL、n8n、监控、备份恢复 | 否，按需要启用 |
+| Runtime regression | 每日或代码变化后 | 防止 C3 能力漂移 |
+| Product artifact SHA | 每次 Pilot 批次开始前 | 确保交付版本正确 |
+| Gitleaks | 每日/提交后 | 防秘密泄漏 |
+| Docs claim consistency | 每次 listing 变化后 | 防营销超出 evidence |
+| Pilot KPI draft | 每日或每 1–2 单 | 只生成复盘草稿 |
 
-两个轨道使用独立批准回执。批准Track P不授权Docker部署，批准Track I不授权产品或闲鱼动作。
+所有定时结果只生成内部报告，不触发外部平台动作。
 
-# 3. 14天执行节奏
+## 6. 当前成功标准
 
-## 第1-2天
+C4 成功不是“无人值守运行 14 天”，而是：
 
-- 完成Phase 0/A/X0；
-- 审阅包内Modbus Alpha；
-- 运行12项主机侧单元测试；
-- 确认产品支持范围和不能承诺事项。
+- 0 duplicate Entitlement/Receipt；
+- 0 wrong-version delivery；
+- 0 unauthorized platform action；
+- package/release traceability 100%；
+- 真实市场反馈足够判断产品/价格/售后；
+- 人工负担可量化；
+- Jovi 能基于数据选择下一项 permission expansion。
 
-## 第3-5天
+完成状态：
 
-- 扩展真实错误样例；
-- 完善CLI、错误提示、文档、SBOM和打包；
-- 生成Alpha ZIP和SHA256；
-- 准备用户访谈和内测材料。
-
-## 第6-7天
-
-- 至少完成5次目标用户访谈；
-- 记录最近真实故障、耗时、替代方案和付费行为；
-- 测试不同入口价格表达。
-
-## 第8-10天
-
-- 完成3-5名内测；
-- 生成B站、小红书和抖音内容草稿；
-- 将重复问题沉淀为FAQ和自检。
-
-## 第11-12天
-
-至少满足一项：
-
-- 1个真实小额付费；
-- 3个明确付费意向；
-- 2名内测用户愿意购买正式版。
-
-不满足时应收缩功能或重新验证痛点，而不是继续增加基础设施。
-
-## 第13-14天
-
-根据真实重复工作决定是否批准Track I。
-
-# 4. Codex定时任务原则
-
-定时任务只适合：
-
-- 公开来源变化检查；
-- 本地产品测试；
-- 文档一致性检查；
-- 许可证和密钥扫描；
-- 生成待审核报告。
-
-定时任务不得：
-
-- 登录或操作真实闲鱼账号；
-- 发送真实消息；
-- 自动发货、改价或退款；
-- 自动处理验证；
-- 自行批准候选产物。
-
-# 5. 推荐定时任务
-
-| 任务 | 频率 | 输出 |
-|---|---|---|
-| 产品测试 | 每晚 | `reports/scheduled/product-tests/` |
-| 密钥扫描 | 每晚 | `reports/scheduled/security/` |
-| 公开来源变化 | 每天一次 | `workspace/review-queue/research/` |
-| 文档与清单一致性 | 每周 | `reports/scheduled/package-integrity/` |
-| 备份健康 | 每周 | `reports/scheduled/backup-health/` |
-
-定时结果只能进入审核队列，失败时记录并停止，不自动补救高风险动作。
-
-# 6. 14天完成标准
-
-- Modbus Alpha可重复测试和打包；
-- 文档、许可证、SBOM和SHA256齐全；
-- 至少5次用户访谈；
-- 得到真实付费或明确付费意向；
-- 基础设施是否部署由真实需求决定；
-- 闲鱼真实自动动作仍受用户控制。
+`C4_HUMAN_PILOT_PASS_PENDING_PERMISSION_DECISION`
