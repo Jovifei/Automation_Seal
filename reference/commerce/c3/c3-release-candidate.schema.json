@@ -11,9 +11,11 @@
     "product_version",
     "source_git_head",
     "source_qualification_sha256",
+    "product_source_zero_write_proof_sha256",
     "product_manifest_sha256",
     "listing_claim_evidence_sha256",
     "digital_release_id",
+    "source_artifacts",
     "delivery_package_sha256",
     "listing_candidate_sha256",
     "xianyu_draft_bundle_sha256",
@@ -36,6 +38,7 @@
     "product_version": {"type": "string", "minLength": 1},
     "source_git_head": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
     "source_qualification_sha256": {"$ref": "#/$defs/sha256"},
+    "product_source_zero_write_proof_sha256": {"$ref": "#/$defs/sha256"},
     "product_manifest_sha256": {"$ref": "#/$defs/sha256"},
     "listing_claim_evidence_sha256": {"$ref": "#/$defs/sha256"},
     "digital_release_id": {"type": "string", "minLength": 1},
@@ -44,6 +47,7 @@
       "minItems": 1,
       "items": {
         "type": "object",
+        "additionalProperties": false,
         "required": ["relative_path", "sha256", "size_bytes"],
         "properties": {
           "relative_path": {"type": "string", "minLength": 1},
