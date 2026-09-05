@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "phase": "C4_PRE_PUBLISH_QA",
+  "purpose": "Machine-readable contract for deciding whether agent-executable C4 preparation is complete enough to stop at the Jovi Human Decision gate.",
+  "success_stop": "C4_PRE_PUBLISH_QA_READY_FOR_HUMAN_DECISION",
+  "human_decision_state_required": "issued_from_human=false",
+  "required_gates": [
+    "c3_runtime_git_reconciliation",
+    "c3_runtime_evidence_integrity",
+    "product_zero_write",
+    "product_head_binding",
+    "installer_binding",
+    "portable_binding",
+    "delivery_package_binding",
+    "listing_claim_review",
+    "customer_package_inventory",
+    "xianyu_human_rule_check",
+    "release_posture_human_choice",
+    "delivery_transport_frozen",
+    "privacy_minimization",
+    "six_real_action_flags_false",
+    "governance_pr_ci_status"
+  ],
+  "allowed_gate_states": [
+    "PASS",
+    "PENDING",
+    "BLOCKED"
+  ],
+  "success_rule": "Every required gate must be PASS. Human C4 decision must still be unsigned. All six real-action flags must remain false.",
+  "real_action_flags": [
+    "production_integration_allowed",
+    "real_payment",
+    "real_customer",
+    "xianyu",
+    "auto_delivery",
+    "n8n_production"
+  ],
+  "forbidden_agent_terminal_states": [
+    "C4_HUMAN_PILOT_AUTHORIZED",
+    "C4_HUMAN_PILOT_STARTED",
+    "REAL_PAYMENT_ENABLED",
+    "AUTO_DELIVERY_ENABLED"
+  ],
+  "evidence_policy": {
+    "raw_local_git_output_required_for_git_identity": true,
+    "local_original_c3_evidence_required_for_claim_review": true,
+    "product_repository_zero_write_required": true,
+    "remote_prechecks_are_authoritative": false,
+    "human_xianyu_ui_check_required": true,
+    "human_release_posture_choice_required": true
+  }
+}
