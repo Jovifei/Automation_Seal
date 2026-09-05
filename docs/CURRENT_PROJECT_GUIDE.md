@@ -5,6 +5,14 @@
 
 > 新 Agent 先读本文件。仓库中保留了大量历史 Gate、Track P/I、X0-X4、Medusa spike 与审计资料；它们用于追溯，不代表当前执行状态。
 
+## 0. 本轮文档主线校准
+
+远端文档已经完成一轮 Current/Historical 对齐。详细变更与 QA：
+
+- `docs/DOCUMENTATION_ALIGNMENT_20260905.md`
+- `docs/DOCS_QA_REPORT_20260905.md`
+- `docs/HISTORICAL_DOCUMENT_STATUS.md`
+
 ## 1. 项目做什么
 
 Jovi Automation 是一套本地优先、可审计、可回滚的数字产品 Commerce 系统。目标不是让 AI 无监管地操作真实交易，而是把产品资格、商品候选、订单、付款事实记录、Entitlement、DeliveryReceipt、确定性交付包、下载授权、测试和审计自动化，同时把真实平台账号、商业承诺、付款确认、最终交付和退款争议保留给 Jovi 人工控制。
@@ -61,7 +69,7 @@ C4 候选已经存在，但仍是 `issued_from_human=false`。**没有 Jovi 本�
 ### C3 First Real SKU
 - Modbus 产品源资格化；
 - product repo `PASS_ZERO_WRITE`；
-- 40/40 product tests in sandbox；
+- 40/40 reported product tests in sandbox；
 - installer / portable ZIP 原始字节 SHA 绑定；
 - 12 条 reported listing claims evidence-bound；
 - Real SKU + Synthetic Order/Payment E2E；
@@ -75,10 +83,10 @@ C4 候选已经存在，但仍是 `issued_from_human=false`。**没有 Jovi 本�
 
 Governance GitHub：`Jovifei/Automation_Seal`
 
-- 当前远端 `main`（本指南更新前核验）：`7f64add4f59af3de7f257c5ac3370b4a1e69cd8b`
+- 当前远端 `main`（本指南校准时核验）：`7f64add4f59af3de7f257c5ac3370b4a1e69cd8b`
 - 当前 C3/C4 分支：`commerce-c3-real-sku-readiness-20260905`
-- 本分支在文档清理开始前 HEAD：`ad0e72db7fd21e368ec25b257a0bc9539718fe85`
-- PR #5：open / mergeable；最终状态必须现场重查。
+- 文档校准前分支 HEAD：`ad0e72db7fd21e368ec25b257a0bc9539718fe85`
+- PR #5：当前状态必须现场重查；本轮文档校准继续提交到该分支。
 
 本地 Runtime reported：
 - C3 implementation `5b190edce6a530264560a6822b347255fba014ba`
@@ -93,14 +101,16 @@ Governance mirror 不能替代本地 Runtime 原始 evidence；解锁下一阶�
 
 在 Jovi 签发 C4 之前，优先完成：
 
-1. 清理 C4 Pilot Draft Kit 中的示例订单，正式 ledger 必须从 0 条真实记录开始；
+1. 确认正式 Pilot ledger 从 0 条真实记录开始；
 2. 从本地 `governance/c3/C3_LISTING_CLAIM_EVIDENCE.json` 对发布文案逐条做 claim/evidence 绑定；
 3. 修正 CRC、SHA256、兼容性、源码交付、时间承诺等不精确措辞；
 4. 重新核验当前闲鱼数字/虚拟商品与退款规则；
-5. 明确 `0.2.0-dev` + unsigned installer 是 beta/dev Pilot，或由 Jovi 选择先做 stable/signing；
-6. 核对 Runtime dedicated Git remote；
-7. 清理并合并 PR #5，使 Governance main 与当前 C3/C4 状态一致；
-8. 启用/规划 GitHub branch protection。
+5. 明确这是 `0.2.0-dev` + unsigned beta Pilot，或由 Jovi 选择先做 stable/signing；
+6. 选择并冻结人工交付通道；
+7. 核对 Runtime dedicated Git remote；
+8. 清理并合并 PR #5，使 Governance main 与当前 C3/C4 状态一致；
+9. 启用/规划 GitHub branch protection；
+10. 生成最终 `issued_from_human=false` 的 C4 Decision Candidate 给 Jovi 审阅。
 
 ## 7. 当前强制安全边界
 
@@ -123,7 +133,7 @@ C4 即使出现真人买家，仍可保持 `real_customer=false`：Runtime 只�
 - **Syft v1.20.0**：source/image SBOM；
 - **Redis / PostgreSQL / Docker**：Runtime persistence / DB / isolation；
 - **makepay-apps/medusa-plugin-digital-downloads** commit `a5343ba18cee85b3eed674ed55d0de7e32aaa448`：只选择性借鉴 immutable release / private asset / DownloadGrant / idempotent delivery 模式，不接管 Jovi 的 payment/Entitlement/Receipt 权威；
-- **PyInstaller / Inno Setup**：只参考现有 Windows 产品打包配方，C3 不因上游更新而升级已审计工具链。
+- **PyInstaller / Inno Setup**：只参考现有 Windows 产品打包配方，C3/C4 不因上游更新而升级已审计工具链。
 
 Trivy、harden-runner、dependency-review、SLSA/cosign、n8n production 等均不是 C4 首单 Pilot 的前置条件。
 
