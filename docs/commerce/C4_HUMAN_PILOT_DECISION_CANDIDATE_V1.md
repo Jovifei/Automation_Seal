@@ -16,23 +16,33 @@ reported：
 
 这些 Governance mirror 锚点不能替代本地 Runtime/Product 原始 evidence；最终签发前必须现场复算。
 
+> 2026-09-05 remote review 发现 Governance 记录的 C3 full Git SHA 与当前 Runtime GitHub remote 的 full SHA 不一致（共享短前缀但不是同一个 40-char object ID）。这不自动撤销 C3 PASS，但在本 Candidate 签发前必须闭合 `C3_RUNTIME_GIT_RECONCILIATION_PASS`。详见 `C3_RUNTIME_REMOTE_RECONCILIATION_20260905.md`。
+
 ## 2. 签发前必须完成的 C4 Pre-Publish Gate
 
 必须有明确 evidence：
 
 - Runtime C3 audit/promotion 原件复核；
+- **`C3_RUNTIME_GIT_RECONCILIATION_PASS`：local main / local C3 feature / remote main / remote C3 feature 的完整 Git object identity 已用原始 Git 输出闭合；**
 - Product HEAD / installer / portable ZIP / delivery package SHA 复核；
 - `C4_LISTING_CLAIM_REVIEW`：最终商品文案每条技术 claim 均由本地 C3 claim evidence 支持；
+- `C4_CUSTOMER_PACKAGE_INVENTORY`：客户实际收到的包内容与商品文案一致；
 - C4 Pilot ledger 从 0 条真实记录开始，不包含 synthetic “已完成订单”；
 - CRC / SHA256 / compatibility / source-delivery / timing 文案已纠正；
-- 当前闲鱼数字/虚拟商品、退款/争议规则已刷新；
+- 当前闲鱼数字/虚拟商品、退款/争议规则已刷新，并由 Jovi 在实际账号/UI 完成 `C4_XIANYU_HUMAN_RULE_CHECK_PASS`；
 - Jovi 已明确选择 `BETA_PILOT` 或 `STABLE_FIRST`；
 - 人工 Delivery Transport 已冻结；
 - privacy/minimization 检查完成；
 - six real-action flags 仍为 false；
-- Governance PR/CI 状态已核验。
+- Governance PR/CI 状态已核验；
+- `C4_PRE_PUBLISH_READINESS` 最终状态为 `C4_PRE_PUBLISH_QA_READY_FOR_HUMAN_DECISION`。
 
 任何一项未完成，本 Candidate 不应被签发。
+
+远端预审材料仅供准备，不替代本地最终 evidence：
+- `C4_REMOTE_CLAIM_PRE_REVIEW_20260905.json`
+- `C4_XIANYU_RULES_REMOTE_PRECHECK_20260905.md`
+- `C4_REMOTE_REVIEW_AND_LOCAL_HANDOFF_20260905.md`
 
 ## 3. 当前候选参数（不是最终商业承诺）
 
