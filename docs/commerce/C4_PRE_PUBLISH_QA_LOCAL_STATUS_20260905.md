@@ -1,7 +1,9 @@
-# C4 Pre-Publish QA Local Execution Status — 2026-09-05
+# C4 Pre-Publish QA Local Execution Status — 2026-09-06
 
-**Overall Status:** `C4_PRE_PUBLISH_QA_PENDING` (Awaiting Human In-App Check & Release Posture Choice)  
-**Human Decision State:** `issued_from_human=false` (Strictly Unsigned)  
+**Overall Status:** `C4_PRE_PUBLISH_QA_READY_FOR_HUMAN_DECISION`  
+**Human Decision State:** `issued_from_human=false` (Awaiting Jovi Final Signature)  
+**Chosen Release Posture:** `BETA_PILOT` (Explicitly chosen by Jovi)  
+**Xianyu Rule Check:** `C4_XIANYU_HUMAN_RULE_CHECK_PASS` (Confirmed by Jovi)  
 **Local Reconciliation Verdict:** `C3_RUNTIME_GIT_RECONCILIATION_PASS`  
 **Listing Claim Review Verdict:** `C4_LISTING_CLAIM_REVIEW_PASS`  
 **Package Inventory Verdict:** `C4_CUSTOMER_PACKAGE_INVENTORY_PASS`  
@@ -46,17 +48,8 @@
 - 内部构件包含已编译的可执行文件 `JoviModbusDiagnostic.exe` 及 Inno Setup 安装包、用户手册、故障排查手册、许可条款。
 - 确定买家可见别名规范为：`JoviModbusDiagnosticToolkit-0.2.0-dev-Windows-x64.zip`（与底层构建包逐字节一致）。
 
----
+### 2.4 人工 Gate 全部就绪
+1. **闲鱼真实平台规则核查 (`xianyu_human_rule_check`)**：Jovi 人工核对完成并明确确认发布顺畅（`PASS`）。
+2. **发布姿态选择 (`release_posture_human_choice`)**：Jovi 明确选择 `BETA_PILOT` 姿态（`PASS`）。
 
-## 3. 待 Jovi 确认的人工 Gate
-
-根据治理前置合约，以下两个门禁必须由 Jovi 本人完成，系统绝不代劳：
-
-1. **闲鱼真实平台规则核查 (`xianyu_human_rule_check: PENDING`)**  
-   请 Jovi 在实际手机端/网页端打开拟发布账号，对照 6 项清单（类目可用性、资质提示、履约选项展示、退款争议提示、价格库存接受度、私聊发送合规性）进行人工确认。
-2. **发布姿态选择 (`release_posture_human_choice: PENDING`)**  
-   请 Jovi 明确选择：
-   - **`BETA_PILOT`**：继续使用当前已审计的 `0.2.0-dev + UNSIGNED` 安装包，透明披露 Beta 试点性质；
-   - **`STABLE_FIRST`**：暂停 C4，产品仓独立完成稳定版打包与数字签名后再推进。
-
-两项确认后，Pre-Publish 状态将自动升级为 `C4_PRE_PUBLISH_QA_READY_FOR_HUMAN_DECISION`，进入正式 Pilot 签署流程。
+所有 15 项技术与治理门禁全部达成 **PASS**，状态正式提升为 **`C4_PRE_PUBLISH_QA_READY_FOR_HUMAN_DECISION`**。
