@@ -28,8 +28,9 @@
     "C3_INDEPENDENT_AUDIT_PROMPT.md"
   ],
   "required_product_source_properties": {
-    "worktree_clean": true,
+    "tracked_worktree_clean": true,
     "index_clean": true,
+    "untracked_files_exactly_equal_qualified_release_artifacts": true,
     "product_source_readonly": true,
     "product_repository_modified_by_commerce": false,
     "release_artifacts_hash_bound": true,
