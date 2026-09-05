@@ -118,14 +118,11 @@
 - First real digital product SKU qualified: Modbus RTU Diagnostic Toolkit (E:\\project\\jovi-modbus-diagnostic-toolkit-v1), HEAD 25ef15386b21bcc53277c0d5af5973ad8ea272eb.
 - Product repository strictly read-only: 0 write attempts, clean worktree/index, 0 untracked files (C3_PRODUCT_SOURCE_ZERO_WRITE_PASS). All 40 unit/GUI tests executed and passed in isolated sandbox (modbus_test_run.log, 40/40 PASS).
 - Deterministic wrapper packaging: Build A and Build B byte-equal (SHA256 4bd5703ae80fcea9c1dcf7d5d1ea2a02fe282a5cf6ef3f04a2c9703db5188e59, size 82,853,839 bytes). Original deliverable bytes (installer EXE d86ccc31... 34.5MB, portable ZIP 7525e4c8... 48.2MB) preserved byte-for-byte.
-- Real SKU synthetic E2E: synthetic order -> captured payment -> exactly 1 Entitlement (ent_c3_modbus_rtu_001) -> exactly 1 DeliveryReceipt (
-cpt_c3_modbus_rtu_001) -> DownloadGrant -> loopback download hash verified (4bd5703a...).
+- Real SKU synthetic E2E: synthetic order -> captured payment -> exactly 1 Entitlement (ent_c3_modbus_rtu_001) -> exactly 1 DeliveryReceipt (cpt_c3_modbus_rtu_001) -> DownloadGrant -> loopback download hash verified (4bd5703a...).
 - 25 negative cases (C3-N01 ~ C3-N25) all PASS, fail-closed, DB state preserved. Replay & service restart recovery verified idempotent.
 - Independent Audit Verdict: C3_REAL_SKU_STAGING_INDEPENDENT_AUDIT_PASS recorded in governance/c3/C3_INDEPENDENT_AUDIT_RESULT.md (SHA256 7123e18295895b84b7ed24c75628822db76dba2f7ba6a04f3ad004348e7b79b4). Audit closure commit: 63db06e9fd2e1cbdf6e7926b48ba72d3fbe06cb1.
 - Runtime Main Promotion: main branch in E:\\project\\jovi-medusa-commerce-v1 fast-forwarded to 63db06e with Post-Promotion Audit C3_RUNTIME_PROMOTION_AUDIT_PASS.
-- Six commercial boundary flags remain strictly alse (production_integration_allowed, 
-eal_payment, 
-eal_customer, xianyu, uto_delivery, 
-8n_production). Listing candidate and Xianyu draft bundles remain strictly candidate_only: true, platform_action_allowed: false.
+- Six commercial boundary flags remain strictly false (production_integration_allowed, real_payment, real_customer, xianyu, auto_delivery, n8n_production). Listing candidate and Xianyu draft bundles remain strictly candidate_only: true, platform_action_allowed: false.
 - Governance mirror: docs/commerce/C3_LOCAL_AUDIT_CLOSURE_MIRROR_20260905.md.
+- Pilot Operational Kit: docs/commerce/C4_PILOT_OPERATIONAL_KIT_V1.md (listing copy card, pre-sale qualifying scripts, delivery SOP, 10-order sanitized ledger template, support taxonomy).
 - Current stop state: Stopped at C4_HUMAN_PILOT_DECISION awaiting human pilot authorization.
