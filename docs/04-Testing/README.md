@@ -1,22 +1,31 @@
-# 4. 测试相关文档
+# 测试、审计与回滚分类视图
 
-> 本目录为**分类索引视图**。文档原文位于 `docs/` 根目录或工具受管目录（见下方链接），保持原位以兼容工具状态与既有引用。
+**最后校准：2026-09-05**
 
-## 成员文档（项目交付物）
+当前测试/验收入口：
 
-| 文档 | 说明 | 原文路径 |
-|------|------|---------|
-| 验收测试 · 回滚与运维手册（Markdown） | 验收测试、回滚演练、运维手册 | [`../05_验收测试_回滚与运维手册.md`](../05_验收测试_回滚与运维手册.md) |
-| 验收测试 · 回滚与运维手册（Word） | 同上，排版版 | [`../05_验收测试_回滚与运维手册.docx`](../05_验收测试_回滚与运维手册.docx) |
+- [`../05_验收测试_回滚与运维手册.md`](../05_验收测试_回滚与运维手册.md)
+- [`../commerce/README.md`](../commerce/README.md)
+- `reference/commerce/c2/**`
+- `reference/commerce/c3/**`
 
-## 成员文档（工具受管 ⚠️ 请勿移动）
+## 已完成测试层
 
-| 文档 | 说明 | 路径 |
-|------|------|------|
-| Route B 受控 APPLY 验证报告 | comet verify 阶段产出，含 10/10 一致、gate_all_false、audit_pass 证据 | [`../superpowers/reports/2026-08-06-route-b-qualification-controlled-apply-verify.md`](../superpowers/reports/2026-08-06-route-b-qualification-controlled-apply-verify.md) |
+- R6 Post-Import independent audit；
+- R2-R3 Cookie/Admin/Gitleaks/Syft；
+- C2 Synthetic Digital Commerce E2E + independent audit；
+- C3 Real SKU + zero-write + 25 negative cases + independent audit；
+- Runtime C3 promotion audit。
 
-## 边界说明
+当前不要把“再跑一遍全部历史 Governance test”当作 C4 前置。只有代码/锚点发生变化时重跑对应范围。
 
-- 本类聚焦「如何验证、如何回滚、如何运维」。
-- 自动化测试脚本与回归套件位于仓库 `tests/`、`scripts/`（不在本 `docs/` 分类范围）。
-- 独立审计证据见 `reports/audit/`（`reports/` 为项目根级目录，不在 `docs/` 内）。
+## 当前 C4 验收
+
+Pre-Publish：claim evidence、ledger/privacy、平台规则、package SHA、Human Decision。  
+Pilot：0 duplicate、0 wrong-version、0 unauthorized platform action、traceability、真实 support/refund/人工耗时。
+
+## Historical
+
+`docs/superpowers/reports/**`、旧 Route B Verify、历史 Medusa audit result 继续保留作为历史证据，但不是当前测试 TODO。
+
+同名 Word 是旧人类导出；当前以 Markdown、Runtime 原始 evidence 和 Independent Audit 为准。
