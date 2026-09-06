@@ -50,6 +50,34 @@ jobs:
             scripts/commerce/c4_verify_pre_publish_readiness.py \
             reference/commerce/c4/C4_PRE_PUBLISH_ACCEPTANCE_CONTRACT.json
 
+      - name: Verify promoted Runtime remote binding
+        run: |
+          python3 - <<'PY'
+          import json
+          import subprocess
+          from pathlib import Path
+
+          p = Path('reference/commerce/c4/C4_RUNTIME_REMOTE_BINDING_20260906.json')
+          binding = json.loads(p.read_text(encoding='utf-8'))
+          expected = binding['runtime_c4_promoted_main_sha']
+          remote = binding['runtime_repository']
+          out = subprocess.check_output(
+              ['git', 'ls-remote', remote, 'refs/heads/main'],
+              text=True,
+          ).strip().split()
+          assert len(out) == 2 and out[1] == 'refs/heads/main', out
+          actual = out[0]
+          assert actual == expected, f'Runtime main drift: expected {expected}, got {actual}'
+          assert binding['runtime_pr']['state'] == 'merged'
+          assert binding['runtime_pr']['merge_commit_sha'] == expected
+          assert binding['runtime_ci']['head_sha'] == expected
+          assert binding['runtime_ci']['conclusion'] == 'success'
+          assert binding['c4_state'] == 'C4_PRE_PUBLISH_QA_READY_FOR_HUMAN_DECISION'
+          assert binding['issued_from_human'] is False
+          assert all(v is False for v in binding['real_action_flags'].values())
+          print('C4_RUNTIME_REMOTE_BINDING_PASS', actual)
+          PY
+
       - name: Guard Human Decision candidate
         run: |
           python3 - <<'PY'
