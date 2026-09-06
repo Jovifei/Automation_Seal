@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "recorded_at": "2026-09-06",
+  "runtime_repository": "https://github.com/Jovifei/jovi-medusa-commerce-v1.git",
+  "runtime_c3_base_sha": "63db06e9628331982893929f39b1037077138480",
+  "runtime_c4_promoted_main_sha": "b7ec762f29092106ad10c88d72bc682b5f9e7ac2",
+  "runtime_pr": {
+    "number": 1,
+    "state": "merged",
+    "merge_strategy": "fast-forward",
+    "merge_commit_sha": "b7ec762f29092106ad10c88d72bc682b5f9e7ac2"
+  },
+  "runtime_ci": {
+    "workflow": "ci",
+    "run_id": 34016366716,
+    "head_sha": "b7ec762f29092106ad10c88d72bc682b5f9e7ac2",
+    "conclusion": "success",
+    "static_checks": {
+      "audit_source_tree_sha256": "3101604bf10c9c6ed3c9b67a23e5ef77a6704472835ccfd536c2cc0b6b8e568a",
+      "audit_source_file_count": 94,
+      "c2_fixture_sha256sums": "PASS",
+      "typescript": "PASS",
+      "secret_scan_findings": 0,
+      "unit_test_suites": "9/9 PASS",
+      "unit_tests": "41/41 PASS",
+      "license_sbom": "PASS"
+    },
+    "integration_checks": {
+      "jest_unit": "PASS",
+      "jest_module_integration": "PASS",
+      "x2_first": "PASS",
+      "x2_replay": "PASS",
+      "x2_concurrency": "PASS",
+      "x2_negative": "PASS",
+      "c2_first": "PASS",
+      "c2_replay": "PASS",
+      "c2_concurrency": "PASS",
+      "c2_negative": "PASS",
+      "c2_http_download": "PASS",
+      "terminal": "C4_RUNTIME_SYNTHETIC_REGRESSION_PASS"
+    }
+  },
+  "scope_assertions": {
+    "c4_audit_source_business_changes": 0,
+    "runtime_business_implementation_changed": false,
+    "historical_r6_c2_evidence_scripts_rewritten": false
+  },
+  "c4_state": "C4_PRE_PUBLISH_QA_READY_FOR_HUMAN_DECISION",
+  "issued_from_human": false,
+  "real_action_flags": {
+    "production_integration_allowed": false,
+    "real_payment": false,
+    "real_customer": false,
+    "xianyu": false,
+    "auto_delivery": false,
+    "n8n_production": false
+  }
+}
