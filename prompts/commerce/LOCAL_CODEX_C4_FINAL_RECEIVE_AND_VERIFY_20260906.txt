@@ -1,0 +1,211 @@
+Jovi Automation / Commerce V1 — C4 FINAL RECEIVE & VERIFY
+Date: 2026-09-06
+
+ROLE
+You are the local Codex executor on Jovi's Windows machine. This is a receive/verify/human-gate task, not a redesign task.
+
+PRIMARY GOAL
+Receive the remotely closed C4 Pre-Publish state, verify the authoritative local Runtime/Product evidence one last time, preserve Jovi's local edits, and stop at:
+
+READY_FOR_JOVI_C4_HUMAN_PILOT_DECISION
+
+Do NOT start a real Pilot. Do NOT publish Xianyu. Do NOT flip any real-action flag. Do NOT turn issued_from_human to true unless Jovi explicitly issues the final C4 Human Pilot Decision in the current interaction with exact commercial bindings.
+
+AUTHORITATIVE REPOSITORIES
+1) Governance / Control Plane
+   E:\project\jovi-automation
+   remote: https://github.com/Jovifei/Automation_Seal.git
+
+2) Commerce Runtime
+   E:\project\jovi-medusa-commerce-v1
+   remote: https://github.com/Jovifei/jovi-medusa-commerce-v1.git
+
+3) First real SKU source — READ ONLY
+   E:\project\jovi-modbus-diagnostic-toolkit-v1
+
+REMOTE FACTS TO VERIFY, NOT BLINDLY TRUST
+- Runtime C3 baseline: 63db06e9628331982893929f39b1037077138480
+- Runtime promoted C4-readiness main: b7ec762f29092106ad10c88d72bc682b5f9e7ac2
+- Runtime PR #1: merged by fast-forward
+- Runtime final CI run: 34016366716, expected SUCCESS
+- audited audit-source canonical SHA256: 3101604bf10c9c6ed3c9b67a23e5ef77a6704472835ccfd536c2cc0b6b8e568a (94 files)
+- Product HEAD: 25ef15386b21bcc53277c0d5af5973ad8ea272eb
+- Installer SHA256: d86ccc3136bc2ed201622c5f961738e9e81762e74e71ac5772ea6d4b5a408e02
+- Portable ZIP SHA256: 7525e4c8d4fd55900d46c51e075b92e47d61c7d8e1393383e2e92206855a9628
+- C3/C4 authoritative delivery package SHA256: 4bd5703ae80fcea9c1dcf7d5d1ea2a02fe282a5cf6ef3f04a2c9703db5188e59
+- C4 expected readiness: C4_PRE_PUBLISH_QA_READY_FOR_HUMAN_DECISION
+- Human Decision must still be: issued_from_human=false
+
+IMPORTANT LOCAL-EDIT SAFETY
+The Governance working tree previously had a Jovi-owned AGENTS.md modification. Preserve it exactly.
+
+Before any checkout/pull/reset/clean/stash:
+- run git status --short;
+- inspect git diff -- AGENTS.md;
+- never use git reset --hard;
+- never use git clean -fd/-fdx;
+- never discard or overwrite Jovi-owned local edits;
+- do not auto-stash AGENTS.md unless Jovi explicitly asks.
+
+If Governance working tree is dirty, verify remote Governance state in a temporary detached worktree instead of mutating the user's current worktree. Example approach:
+
+  git fetch origin --prune
+  git worktree add --detach <safe-temp-path> origin/main
+
+Run Governance verification from that temporary worktree, then remove only that temporary worktree when finished. Do not delete any user file.
+
+PHASE A — FETCH AND IDENTITY
+
+A1. Governance
+- cd E:\project\jovi-automation
+- git remote -v
+- git fetch origin --prune
+- record origin/main full SHA
+- verify origin/main contains:
+  docs/commerce/C4_RUNTIME_REMOTE_PROMOTION_CLOSURE_20260906.md
+  reference/commerce/c4/C4_RUNTIME_REMOTE_BINDING_20260906.json
+  prompts/commerce/LOCAL_CODEX_C4_FINAL_RECEIVE_AND_VERIFY_20260906.txt
+- preserve local AGENTS.md modification as described above.
+
+A2. Runtime
+- cd E:\project\jovi-medusa-commerce-v1
+- git status --short
+- git remote -v
+- git fetch origin --prune
+- verify:
+  origin/main == b7ec762f29092106ad10c88d72bc682b5f9e7ac2
+- if Runtime working tree is clean, switch main and use only fast-forward synchronization:
+  git switch main
+  git pull --ff-only origin main
+- verify local main == origin/main.
+- verify no force-push/history rewrite occurred.
+
+A3. Product source
+- cd E:\project\jovi-modbus-diagnostic-toolkit-v1
+- treat repository as strictly READ ONLY.
+- record git status --short and HEAD.
+- expected HEAD:
+  25ef15386b21bcc53277c0d5af5973ad8ea272eb
+- do not run tests in-place if they create caches/artifacts. Use the established isolated sandbox/export pattern if a rerun is needed.
+
+PHASE B — RECOMPUTE CRITICAL ANCHORS
+
+Do not rely only on Governance prose. Recompute from local bytes/Git:
+
+B1. Runtime
+- git rev-parse HEAD
+- git rev-parse origin/main
+- git cat-file -t b7ec762f29092106ad10c88d72bc682b5f9e7ac2
+- verify Runtime main includes governance/c4 readiness evidence and CI baseline reconciliation.
+- run the existing canonical source-tree verifier and confirm:
+  3101604bf10c9c6ed3c9b67a23e5ef77a6704472835ccfd536c2cc0b6b8e568a
+  94 files
+- verify governance/c4 *.sha256 sidecars.
+
+B2. Product bytes
+Recompute the existing product/delivery hashes without modifying the product repo:
+- installer -> d86ccc3136bc2ed201622c5f961738e9e81762e74e71ac5772ea6d4b5a408e02
+- portable ZIP -> 7525e4c8d4fd55900d46c51e075b92e47d61c7d8e1393383e2e92206855a9628
+- delivery package -> 4bd5703ae80fcea9c1dcf7d5d1ea2a02fe282a5cf6ef3f04a2c9703db5188e59
+- installer remains UNSIGNED / NotSigned.
+
+If any authoritative SHA differs, STOP with C4_FINAL_RECEIVE_BLOCKED and report the exact mismatch. Do not regenerate artifacts to make hashes match.
+
+PHASE C — C4 MACHINE GATE
+
+From a clean Governance checkout/worktree, run:
+
+python scripts/commerce/c4_verify_pre_publish_readiness_selftest.py scripts/commerce/c4_verify_pre_publish_readiness.py reference/commerce/c4/C4_PRE_PUBLISH_ACCEPTANCE_CONTRACT.json
+
+Then validate the Runtime readiness record:
+
+python scripts/commerce/c4_verify_pre_publish_readiness.py reference/commerce/c4/C4_PRE_PUBLISH_ACCEPTANCE_CONTRACT.json E:\project\jovi-medusa-commerce-v1\governance\c4\C4_PRE_PUBLISH_READINESS.json --require-ready
+
+Expected terminal output includes:
+- C4_PRE_PUBLISH_READINESS_VALID
+- C4_PRE_PUBLISH_QA_READY_FOR_HUMAN_DECISION
+
+Also independently inspect the readiness JSON and confirm:
+- issued_from_human == false
+- all required gates are PASS
+- all six real-action flags are false.
+
+PHASE D — VERIFY C4 COMMERCIAL PREP, DO NOT EXPAND CLAIMS
+
+Read:
+- Runtime governance/c4/C4_LISTING_CLAIM_REVIEW.json
+- Runtime governance/c4/C4_CUSTOMER_PACKAGE_INVENTORY.json
+- Runtime governance/c4/C4_MANUAL_DELIVERY_TRANSPORT.md
+- Runtime governance/c4/C4_XIANYU_HUMAN_RULE_CHECK_20260905.md
+- Governance docs/commerce/C4_PILOT_OPERATIONAL_KIT_V1.md
+- Governance docs/commerce/C4_HUMAN_PILOT_DECISION_CANDIDATE_V1.md
+
+Keep these facts/constraints:
+- release posture is locally recorded as BETA_PILOT;
+- product is 0.2.0-dev;
+- installer is unsigned;
+- ordinary buyer use does not require preinstalled Python according to current package review;
+- customer-facing alias may be JoviModbusDiagnosticToolkit-0.2.0-dev-Windows-x64.zip only if bytes remain identical to the audited package and the authoritative SHA is recorded;
+- no unsupported source-code/QUICKSTART/com0com/3-minute/universal-compatibility/permanent-update claims;
+- CRC is error detection/checking, not correction;
+- SHA256 is an integrity hash, not a digital signature;
+- refund/dispute handling remains human and platform-rule-aware;
+- real platform actions remain human-only.
+
+Do not re-run broad market research. Do not select another Commerce core. Do not rebuild C2/C3. Do not modify the product repository from Commerce.
+
+PHASE E — HUMAN DECISION PREPARATION
+
+If A-D all PASS, do not do further engineering. Present Jovi one concise Human Decision card with exactly the remaining bindings:
+
+1) Release posture
+   Locally reported choice: BETA_PILOT
+   Ask Jovi to affirm or change it only if the current conversation has not explicitly reaffirmed it.
+
+2) Final Pilot price
+   Recommended candidate: 99 CNY
+   This is not authorized until Jovi explicitly states the value.
+
+3) Pilot stop condition
+   Recommended candidate:
+   maximum 10 paid Pilot orders OR 14 calendar days from first listing publication, whichever occurs first.
+   Jovi may choose another exact limit/window.
+
+4) Channel/action boundary
+   Xianyu/manual publish, communication, payment confirmation, final send and refund/dispute remain Jovi-only.
+
+5) Privacy
+   real_customer=false; no raw buyer PII/Profile/chat/Cookie/Token persistence.
+
+Only after Jovi explicitly issues an exact final decision in the current interaction may you create/update the formal C4 Human Pilot Decision with issued_from_human=true and the exact price/scope bindings.
+
+If Jovi has not explicitly issued that decision, STOP. Do not infer approval from prior candidates, local evidence, old chat, or the fact that BETA_PILOT/Xianyu checks were previously reported.
+
+SUCCESS REPORT FORMAT
+
+If all technical/remote/local receive checks pass but no final Human Decision has been issued, report exactly this overall state:
+
+READY_FOR_JOVI_C4_HUMAN_PILOT_DECISION
+
+Include:
+- Governance origin/main full SHA
+- Runtime local/main/origin main SHA
+- Product HEAD + clean/zero-write status
+- installer / portable / delivery package hashes
+- C4 verifier result
+- all six real-action flags=false
+- issued_from_human=false
+- any user-owned local changes preserved (especially AGENTS.md)
+- the 3 remaining human bindings: release posture confirmation, exact price, exact Pilot order/time limit
+
+PROHIBITED
+- no real Xianyu publish/message/price change
+- no real payment automation
+- no real customer PII ingestion
+- no auto delivery
+- no auto refund/dispute action
+- no n8n production
+- no force push
+- no history rewrite
+- no destructive local Git cleanup/reset
+- no C2/C3 redo unless a recomputed authoritative invariant actually fails
