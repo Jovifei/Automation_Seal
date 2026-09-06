@@ -1,147 +1,190 @@
 # Jovi Automation 当前项目指南
 
-**状态日期：2026-09-05**  
+**状态日期：2026-09-06**  
 **文档性质：CURRENT / LIVING / NEW-AGENT ENTRYPOINT**
 
-> 新 Agent 先读本文件。仓库中保留了大量历史 Gate、Track P/I、X0-X4、Medusa spike 与审计资料；它们用于追溯，不代表当前执行状态。
+> 新 Agent 先读本文件，再读 `PROJECT_STATE.json`。仓库中的历史 Gate、Track P/I、X0-X4、Medusa spike、R6/R2-R3/C2/C3 计划与审计材料用于追溯，不代表当前待执行任务。
 
-## 0. 本轮文档主线校准
+## 1. 项目最终目标
 
-远端文档已经完成一轮 Current/Historical 对齐。详细变更与 QA：
+Jovi Automation 是一套本地优先、可审计、可回滚的数字产品 Commerce 系统。目标不是让 AI 无监管地执行真实交易，而是把产品资格、商品候选、订单事实、人工确认付款事实、Entitlement、DeliveryReceipt、确定性交付准备、测试、支持分类和审计证据自动化，同时把真实平台账号、商业承诺、付款确认、最终发送与退款争议保持在 Jovi 人工控制下，直到未来逐动作授权。
 
-- `docs/DOCUMENTATION_ALIGNMENT_20260905.md`
-- `docs/DOCS_QA_REPORT_20260905.md`
-- `docs/HISTORICAL_DOCUMENT_STATUS.md`
+第一真实 SKU：**Modbus RTU Diagnostic Toolkit**。
 
-## 1. 项目做什么
+目标链：
 
-Jovi Automation 是一套本地优先、可审计、可回滚的数字产品 Commerce 系统。目标不是让 AI 无监管地操作真实交易，而是把产品资格、商品候选、订单、付款事实记录、Entitlement、DeliveryReceipt、确定性交付包、下载授权、测试和审计自动化，同时把真实平台账号、商业承诺、付款确认、最终交付和退款争议保留给 Jovi 人工控制。
-
-当前第一真实 SKU：**Modbus RTU Diagnostic Toolkit**。
-
-完整目标链：
-
-`Product Source -> Qualification -> Immutable Release -> Private Assets -> Deterministic Delivery Package -> Listing Candidate -> Order -> Human-confirmed Payment Fact -> Entitlement -> DeliveryReceipt -> DownloadGrant/Delivery Preparation -> Human-controlled Delivery -> Support/KPI`
+`Product Source -> Qualification -> Immutable Release -> DeliveryPackage -> Listing Candidate -> Order -> Human-confirmed Payment Fact -> Entitlement -> DeliveryReceipt -> Delivery Preparation -> Human Delivery -> Support/KPI -> Permission Decision`
 
 ## 2. 当前真实阶段
 
-技术链已经完成到：
+技术和发布前准备已经闭合到：
 
-`Governance -> Medusa R6 -> R2-R3 -> C2 Synthetic E2E PASS -> C3 First Real SKU PASS -> Runtime C3 Promotion PASS`
+`Governance -> Medusa R6 -> R2-R3 -> C2 PASS -> C3 Real SKU PASS -> C3 Runtime Promotion PASS -> C3 Git Reconciliation PASS -> C4 Pre-Publish QA PASS -> Runtime C4 Readiness Remote Promotion + CI PASS`
 
-当前停点：
+当前唯一业务硬门：
 
-`C4_HUMAN_PILOT_DECISION`
+`READY_FOR_JOVI_C4_HUMAN_PILOT_DECISION`
 
-C4 候选已经存在，但仍是 `issued_from_human=false`。**没有 Jovi 本人新的明确签发，不得开始真实平台 Pilot。**
+正式 Decision Candidate 仍必须保持：
 
-## 3. 四个工程与权威边界
+`issued_from_human=false`
+
+因此：**现在可以准备最终 Human Decision，但不能开始真实 Pilot。**
+
+## 3. 工程与权威边界
 
 | 路径 | 角色 | 当前状态 |
 |---|---|---|
-| `E:\project\jovi-automation` | Governance / Decision / Audit mirror / Specs / Cloud reference | ACTIVE |
-| `E:\project\jovi-medusa-commerce-v1` | 正式 Commerce Runtime（Medusa v2.19.0） | ACTIVE；本地 main reported 已提升至 audited C3 closure |
-| `E:\project\jovi-modbus-diagnostic-toolkit-v1` | 第一真实 SKU 产品源 | ACTIVE；C3 作为 read-only product source |
-| `E:\project\jovi-commerce-engine-v1` | 早期纯 Python Commerce 试验 | LEGACY / ARCHIVE ONLY |
+| `E:\project\jovi-automation` | Governance / Decision / Audit mirror / Specs / Control Plane | ACTIVE；C4 Human Decision 前最终治理入口 |
+| `E:\project\jovi-medusa-commerce-v1` | 正式 Commerce Runtime（Medusa v2.19.0） | ACTIVE；C4 readiness 已提升到 Runtime main |
+| `E:\project\jovi-modbus-diagnostic-toolkit-v1` | 第一真实 SKU 产品源 | ACTIVE；Commerce 必须严格 read-only |
+| `E:\project\jovi-commerce-engine-v1` | 早期 Python Commerce 试验 | LEGACY / ARCHIVE ONLY |
 
-另有 `E:\project\xianyu-auto-reply`：独立外部适配器。当前 C4 真实发布、消息、付款确认、发货、退款仍由 Jovi 手工执行；Runtime 不读取其 SQLite、Cookie、Token 或浏览器 Profile。
+`E:\project\xianyu-auto-reply` 仍是独立平台适配器。C4 首轮不启用自动真实动作；Runtime 不读取其 SQLite、Cookie、Token 或浏览器 Profile。
 
-## 4. 已完成关键能力
+## 4. 当前权威锚点
 
 ### Commerce Runtime
-- Medusa v2.19.0 正式采用；
-- Product / Variant / Order / payment evidence；
-- Jovi Entitlement / DeliveryReceipt；
-- Redis replay / distributed locking / restart recovery；
-- Admin Cookie Session + Playwright；
-- Gitleaks / Syft；
-- source-tree / sidecar / lockfile / license / SBOM 证据。
 
-### C2 Synthetic Digital Commerce
-- immutable DigitalRelease；
-- private DeliveryAsset；
-- `C2_DETERMINISTIC_ZIP_V1`；
-- Python Oracle 与 TypeScript byte-for-byte 对齐；
-- DownloadGrant 与 Entitlement 分离；
-- replay / recovery / concurrency / negative tests；
-- `C2_INDEPENDENT_AUDIT_PASS`。
+GitHub：`Jovifei/jovi-medusa-commerce-v1`
 
-### C3 First Real SKU
-- Modbus 产品源资格化；
-- product repo `PASS_ZERO_WRITE`；
-- 40/40 reported product tests in sandbox；
-- installer / portable ZIP 原始字节 SHA 绑定；
-- 12 条 reported listing claims evidence-bound；
-- Real SKU + Synthetic Order/Payment E2E；
-- Entitlement=1 / Receipt=1 / DownloadGrant；
-- 25 negative cases；
-- `C3_REAL_SKU_STAGING_INDEPENDENT_AUDIT_PASS`；
-- Jovi Human Runtime Promotion Decision；
-- `C3_RUNTIME_PROMOTION_AUDIT_PASS`。
+- C3 baseline：`63db06e9628331982893929f39b1037077138480`
+- C4-readiness Runtime main：`b7ec762f29092106ad10c88d72bc682b5f9e7ac2`
+- Runtime PR #1：MERGED / FAST-FORWARD
+- Runtime final CI run：`34016366716` — PASS
+- current audited `audit-source` canonical SHA256：`3101604bf10c9c6ed3c9b67a23e5ef77a6704472835ccfd536c2cc0b6b8e568a`
+- `audit-source` file count：94
+- Jest unit：9/9 suites，41/41 tests PASS
+- synthetic terminal：`C4_RUNTIME_SYNTHETIC_REGRESSION_PASS`
 
-## 5. 当前关键锚点（新 Agent 必须重新核验）
+Governance 对上述远端锚点使用：
 
-Governance GitHub：`Jovifei/Automation_Seal`
+`reference/commerce/c4/C4_RUNTIME_REMOTE_BINDING_20260906.json`
 
-- 当前远端 `main`（本指南校准时核验）：`7f64add4f59af3de7f257c5ac3370b4a1e69cd8b`
-- 当前 C3/C4 分支：`commerce-c3-real-sku-readiness-20260905`
-- 文档校准前分支 HEAD：`ad0e72db7fd21e368ec25b257a0bc9539718fe85`
-- PR #5：当前状态必须现场重查；本轮文档校准继续提交到该分支。
+并在 C4 CI 中通过 `git ls-remote` 重新核验 Runtime `main`，不能再靠短 SHA 或 prose 推导完整 object ID。
 
-本地 Runtime reported：
-- C3 implementation `5b190edce6a530264560a6822b347255fba014ba`
-- C3 audited closure / promoted main `63db06e9fd2e1cbdf6e7926b48ba72d3fbe06cb1`
-- C3 audit SHA256 `7123e18295895b84b7ed24c75628822db76dba2f7ba6a04f3ad004348e7b79b4`
-- Product HEAD `25ef15386b21bcc53277c0d5af5973ad8ea272eb`
-- Delivery package SHA256 `4bd5703ae80fcea9c1dcf7d5d1ea2a02fe282a5cf6ef3f04a2c9703db5188e59`
+### Product
 
-Governance mirror 不能替代本地 Runtime 原始 evidence；解锁下一阶段前必须现场重算。
+- Product HEAD：`25ef15386b21bcc53277c0d5af5973ad8ea272eb`
+- Version：`0.2.0-dev`
+- Installer：UNSIGNED
+- Installer SHA256：`d86ccc3136bc2ed201622c5f961738e9e81762e74e71ac5772ea6d4b5a408e02`
+- Portable ZIP SHA256：`7525e4c8d4fd55900d46c51e075b92e47d61c7d8e1393383e2e92206855a9628`
+- Delivery package SHA256：`4bd5703ae80fcea9c1dcf7d5d1ea2a02fe282a5cf6ef3f04a2c9703db5188e59`
 
-## 6. 当前 C4 前置工作
+客户可见 alias 候选：
 
-在 Jovi 签发 C4 之前，优先完成：
+`JoviModbusDiagnosticToolkit-0.2.0-dev-Windows-x64.zip`
 
-1. 确认正式 Pilot ledger 从 0 条真实记录开始；
-2. 从本地 `governance/c3/C3_LISTING_CLAIM_EVIDENCE.json` 对发布文案逐条做 claim/evidence 绑定；
-3. 修正 CRC、SHA256、兼容性、源码交付、时间承诺等不精确措辞；
-4. 重新核验当前闲鱼数字/虚拟商品与退款规则；
-5. 明确这是 `0.2.0-dev` + unsigned beta Pilot，或由 Jovi 选择先做 stable/signing；
-6. 选择并冻结人工交付通道；
-7. 核对 Runtime dedicated Git remote；
-8. 清理并合并 PR #5，使 Governance main 与当前 C3/C4 状态一致；
-9. 启用/规划 GitHub branch protection；
-10. 生成最终 `issued_from_human=false` 的 C4 Decision Candidate 给 Jovi 审阅。
+只允许改展示文件名，不允许改变被审计 package bytes；每单仍记录权威 SHA256。
 
-## 7. 当前强制安全边界
+## 5. C4 发布前准备已经完成
 
-未经新的 Human Decision，至少以下保持 `false`：
+本地原始 evidence 已报告并远端固化以下结果：
 
-- `production_integration_allowed`
-- `real_payment`
-- `real_customer`
-- `xianyu`
-- `auto_delivery`
-- `n8n_production`
+- `C3_RUNTIME_GIT_RECONCILIATION_PASS`
+- `C4_LISTING_CLAIM_REVIEW_PASS`
+- `C4_CUSTOMER_PACKAGE_INVENTORY_PASS`
+- `C4_MANUAL_DELIVERY_TRANSPORT_FROZEN`
+- C4 privacy/minimization ready
+- C4 Pilot ledger 从 0 条真实订单开始
+- C4 readiness：`C4_PRE_PUBLISH_QA_READY_FOR_HUMAN_DECISION`
 
-C4 即使出现真人买家，仍可保持 `real_customer=false`：Runtime 只保存最小化、脱敏的订单/交付事实，不持久化原始买家 PII、完整聊天、Cookie/Token 或支付凭据。
+本地 Human-check evidence 还记录：
 
-## 8. 当前采用的 OSS 路线
+- release posture：`BETA_PILOT`
+- Xianyu human rule check：`C4_XIANYU_HUMAN_RULE_CHECK_PASS`
 
-- **Medusa v2.19.0**：正式 Commerce Core；
-- **Playwright**：Admin/UI 真实浏览器验收；
-- **Gitleaks v8.24.0**：secret scan；
-- **Syft v1.20.0**：source/image SBOM；
-- **Redis / PostgreSQL / Docker**：Runtime persistence / DB / isolation；
-- **makepay-apps/medusa-plugin-digital-downloads** commit `a5343ba18cee85b3eed674ed55d0de7e32aaa448`：只选择性借鉴 immutable release / private asset / DownloadGrant / idempotent delivery 模式，不接管 Jovi 的 payment/Entitlement/Receipt 权威；
-- **PyInstaller / Inno Setup**：只参考现有 Windows 产品打包配方，C3/C4 不因上游更新而升级已审计工具链。
+这些记录支持 readiness，但**不等价于最终 C4 Human Pilot Authorization**。
 
-Trivy、harden-runner、dependency-review、SLSA/cosign、n8n production 等均不是 C4 首单 Pilot 的前置条件。
+## 6. C4 文案与交付边界
 
-## 9. 文档阅读规则
+只允许发布 C3/C4 evidence 支持的 claim。
 
-- 当前路线：本文件、`docs/commerce/README.md`、`STATUS.md`、`PROJECT_STATE.json`、`NEXT_STEP_MAP.md`；
-- 已完成阶段的计划/审计：用于追溯，不当作当前执行 Prompt；
-- `docs/openspec/changes/archive/**`、`docs/superpowers/**`、历史 `MEDUSA_*AUDIT*`：历史证据，不重写、不作为当前阶段入口；
-- DOCX 是历史/人类阅读导出，**Markdown current docs 才是当前维护入口**。
+当前明确禁止无证据扩大为：
 
-详见 `docs/HISTORICAL_DOCUMENT_STATUS.md`。
+- 买家必须具备 Python 编程基础；
+- 买家普通使用必须预装 Python 3.10+；
+- 随包一定交付 Python 源码、QUICKSTART、requirements、com0com；
+- “3 分钟跑通”等固定时间承诺；
+- CRC-16“纠错”；
+- SHA256“数字签名”；
+- 100% / 所有设备 / 所有 Windows 通用兼容；
+- 永久更新、无限售后；
+- 绝对化“不退款”。
+
+正确边界包括：
+
+- 产品为 `0.2.0-dev` Beta Pilot；
+- installer 当前 unsigned；
+- SHA256 是完整性哈希；
+- CRC 是校验/错误检测；
+- 当前有 evidence 的系统要求为 Windows 10/11 x64 + 兼容 USB-RS485 适配器及厂商驱动；
+- 退款/争议按当前平台规则与实际情况人工处理。
+
+## 7. 当前仅剩 Human Decision
+
+技术侧不应继续扩展功能。下一步只需要 Jovi 对最终 Pilot 作显式商业绑定。
+
+推荐候选参数：
+
+- Release posture：`BETA_PILOT`（本地 human-check 已记录；最终 Decision 再确认）
+- Price：`99 CNY`
+- Pilot stop：**最多 10 个已付款 Pilot 订单，或自首次发布起 14 个自然日，先到者为准**
+- Channel：闲鱼，Jovi 手工发布
+- Publish / buyer communication / price change / payment confirmation / final delivery / refund-dispute：全部 Jovi 手工
+
+以上价格与 Pilot 范围在 Jovi 正式签发前仍只是 candidate。
+
+只有 Jovi 明确签发最终 Decision 后，才允许：
+
+`issued_from_human=true`
+
+然后开始统计真实 C4 Pilot。
+
+## 8. 六项强制边界
+
+最终 Human Decision 签发前以及首轮 Pilot 默认期间，除非另有逐项决策：
+
+- `production_integration_allowed=false`
+- `real_payment=false`
+- `real_customer=false`
+- `xianyu=false`
+- `auto_delivery=false`
+- `n8n_production=false`
+
+`real_customer=false` 并不禁止人工真人 Pilot；含义是 Runtime 不持久化原始买家 Profile/PII。只记录随机内部 `pilot_order_id`、必要时 keyed HMAC 平台引用、产品/版本、人工付款确认事实、Entitlement/Receipt/package SHA、support/refund 分类等最小审计数据。
+
+## 9. 新 Agent / 本地 Codex 唯一推荐入口
+
+先执行：
+
+`prompts/commerce/LOCAL_CODEX_C4_FINAL_RECEIVE_AND_VERIFY_20260906.txt`
+
+它的任务是：
+
+1. fetch Governance / Runtime；
+2. 保护 Jovi 的本地未提交修改，尤其已有 `AGENTS.md` 修改；
+3. 用本地 Git 和文件重新验证 Runtime/Product/Package 锚点；
+4. 运行 C4 verifier；
+5. 停在 `READY_FOR_JOVI_C4_HUMAN_PILOT_DECISION`；
+6. 不替 Jovi 签字，不执行真实平台动作。
+
+## 10. 不再重复的工作
+
+除非权威 invariant 实际失败，不要：
+
+- 重做 C2；
+- 重做 C3；
+- 重选 Commerce Core；
+- 恢复 legacy Python Commerce 作为主线；
+- 重写 Xianyu adapter；
+- 扩大开源/市场调研；
+- 从 Commerce 修改产品仓；
+- 为了匹配旧文档 force-push 或重写 Git 历史。
+
+C4 真人 Pilot 结束后的目标状态：
+
+`C4_HUMAN_PILOT_PASS_PENDING_PERMISSION_DECISION`
+
+Pilot PASS 也不自动开启任何新权限；后续仍由 Jovi 逐动作决定 Permission Expansion。
