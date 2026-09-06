@@ -1,32 +1,46 @@
 {
-  "schema_version": 1,
-  "package_version": "commerce-v1-c4-20260905",
-  "generated_at": "2026-09-05",
-  "final_goal": "Build an auditable digital-product Commerce system that automates product qualification, listings, orders, human-confirmed payment facts, entitlement, deterministic delivery preparation, support and evidence while keeping real platform actions human-controlled until explicitly authorized.",
-  "current_state": "C4_HUMAN_PILOT_DECISION_PENDING",
+  "schema_version": 2,
+  "package_version": "commerce-v1-c4-human-decision-ready-20260906",
+  "generated_at": "2026-09-06",
+  "final_goal": "Build an auditable digital-product Commerce system that automates product qualification, listing preparation, order evidence, entitlement, deterministic delivery preparation, support and audit evidence while keeping real platform actions human-controlled until explicitly authorized.",
+  "current_state": "READY_FOR_JOVI_C4_HUMAN_PILOT_DECISION",
   "current_stage": {
     "name": "C4_HUMAN_PILOT",
-    "phase": "PRE_PUBLISH_QA_AND_HUMAN_DECISION",
+    "phase": "HUMAN_DECISION_PENDING",
+    "pre_publish_qa": "C4_PRE_PUBLISH_QA_READY_FOR_HUMAN_DECISION",
     "decision_candidate": "docs/commerce/C4_HUMAN_PILOT_DECISION_CANDIDATE_V1.md",
     "issued_from_human": false,
     "success_state": "C4_HUMAN_PILOT_PASS_PENDING_PERMISSION_DECISION"
   },
-  "commerce_mainline": {
-    "status": "C3_TECHNICAL_CHAIN_CLOSED_C4_PENDING",
-    "gate_state": "C3_RUNTIME_PROMOTION_AUDIT_PASS_REPORTED",
-    "hook": "DO_NOT_TRUST",
-    "hook_runtime_dependency": false,
-    "real_platform_actions": false,
-    "modbus_role": "FIRST_REAL_SKU",
-    "videofactory_role": "SEPARATE_PROJECT"
+  "governance": {
+    "repository": "Jovifei/Automation_Seal",
+    "working_branch": "commerce-c3-real-sku-readiness-20260905",
+    "pull_request": 5,
+    "role": "CONTROL_PLANE_AND_GOVERNANCE"
   },
-  "control_plane": {
-    "canonical_state": "config/control-plane-state.json",
-    "stage": "C",
-    "phase_status": "APPLY",
-    "state_id": "commerce-c-apply-v16",
-    "state_revision": 3,
-    "note": "Historical governance control-plane state; current product execution stage is C4 Human Pilot preparation."
+  "commerce_runtime": {
+    "repository": "Jovifei/jovi-medusa-commerce-v1",
+    "status": "C4_PRE_PUBLISH_REMOTE_PROMOTION_CLOSED",
+    "c3_base_sha": "63db06e9628331982893929f39b1037077138480",
+    "main_sha": "b7ec762f29092106ad10c88d72bc682b5f9e7ac2",
+    "runtime_pr": 1,
+    "runtime_pr_state": "MERGED_FAST_FORWARD",
+    "ci_run": 34016366716,
+    "ci_state": "PASS",
+    "audit_source_tree_sha256": "3101604bf10c9c6ed3c9b67a23e5ef77a6704472835ccfd536c2cc0b6b8e568a",
+    "audit_source_file_count": 94,
+    "runtime_business_implementation_changed_by_c4": false
+  },
+  "first_real_sku": {
+    "product": "MODBUS_RTU_DIAGNOSTIC_TOOLKIT",
+    "version": "0.2.0-dev",
+    "product_head": "25ef15386b21bcc53277c0d5af5973ad8ea272eb",
+    "product_source_role": "READ_ONLY_AUTHORITATIVE_BYTES",
+    "installer_sha256": "d86ccc3136bc2ed201622c5f961738e9e81762e74e71ac5772ea6d4b5a408e02",
+    "installer_signing": "UNSIGNED",
+    "portable_zip_sha256": "7525e4c8d4fd55900d46c51e075b92e47d61c7d8e1393383e2e92206855a9628",
+    "delivery_package_sha256": "4bd5703ae80fcea9c1dcf7d5d1ea2a02fe282a5cf6ef3f04a2c9703db5188e59",
+    "customer_alias_candidate": "JoviModbusDiagnosticToolkit-0.2.0-dev-Windows-x64.zip"
   },
   "real_action_flags": {
     "production_integration_allowed": false,
@@ -39,13 +53,10 @@
   "completed": [
     "market_and_channel_research",
     "business_model_and_product_portfolio",
-    "copyright_and_risk_manual",
     "system_architecture_and_security_boundaries",
-    "governance_gate_a_and_c_apply",
     "medusa_v2_19_controlled_adoption",
     "r6_post_import_independent_audit_pass",
     "r2r3_admin_cookie_session_closed",
-    "gitleaks_and_syft_supply_chain_checks",
     "c2_synthetic_digital_commerce_e2e",
     "c2_independent_audit_pass",
     "c3_modbus_real_sku_qualification",
@@ -53,18 +64,40 @@
     "c3_real_sku_synthetic_commerce_e2e",
     "c3_independent_audit_pass",
     "c3_runtime_main_promotion",
-    "c3_runtime_promotion_audit_pass_reported"
+    "c3_runtime_git_reconciliation_pass",
+    "c4_listing_claim_review_pass",
+    "c4_customer_package_inventory_pass",
+    "c4_manual_delivery_transport_frozen",
+    "c4_privacy_minimization_ready",
+    "c4_local_pre_publish_readiness_pass",
+    "c4_runtime_remote_pr_and_ci_pass",
+    "c4_runtime_remote_fast_forward_promotion"
   ],
+  "human_evidence_reported_locally": {
+    "release_posture": "BETA_PILOT",
+    "xianyu_rule_check": "C4_XIANYU_HUMAN_RULE_CHECK_PASS",
+    "note": "These local human-check records support readiness but do not constitute the final C4 Human Pilot authorization."
+  },
   "decisions": {
     "broad_research": "FROZEN_UNLESS_REFRESH_TRIGGER",
     "commerce_core": "MEDUSA_V2_19_0",
     "first_product": "MODBUS_RTU_DIAGNOSTIC_TOOLKIT",
     "legacy_python_commerce": "ARCHIVE_ONLY",
-    "product_source_role": "READ_ONLY_AUTHORITATIVE_BYTES",
     "real_platform_actions": "HUMAN_CONTROLLED",
     "xianyu_integration": "SEPARATE_ADAPTER_HUMAN_CONTROLLED",
-    "current_pilot_mode": "AWAITING_JOVI_HUMAN_DECISION"
+    "final_c4_human_pilot_authorization": "PENDING_JOVI_EXPLICIT_DECISION"
   },
+  "recommended_human_decision_bindings": {
+    "price_cny_candidate": 99,
+    "pilot_stop_candidate": "MAX_10_PAID_ORDERS_OR_14_CALENDAR_DAYS_FROM_FIRST_LISTING_PUBLICATION_WHICHEVER_OCCURS_FIRST",
+    "binding_status": "PROPOSAL_ONLY_UNTIL_JOVI_SIGNS"
+  },
+  "current_required_work": [
+    "jovi_explicitly_bind_final_pilot_price",
+    "jovi_explicitly_bind_final_pilot_order_or_time_limit",
+    "jovi_issue_c4_human_pilot_decision_with_issued_from_human_true",
+    "only_after_signature_execute_human_controlled_c4_pilot"
+  ],
   "recommended_paths": {
     "project_root": "E:\\project\\jovi-automation",
     "commerce_runtime_root": "E:\\project\\jovi-medusa-commerce-v1",
@@ -72,37 +105,15 @@
     "legacy_commerce_root": "E:\\project\\jovi-commerce-engine-v1",
     "xianyu_adapter_root": "E:\\project\\xianyu-auto-reply"
   },
-  "reported_local_anchors_recompute_before_use": {
-    "runtime_c3_implementation_commit": "5b190edce6a530264560a6822b347255fba014ba",
-    "runtime_c3_audit_closure_and_promoted_main": "63db06e9fd2e1cbdf6e7926b48ba72d3fbe06cb1",
-    "c3_audit_result_sha256": "7123e18295895b84b7ed24c75628822db76dba2f7ba6a04f3ad004348e7b79b4",
-    "product_head": "25ef15386b21bcc53277c0d5af5973ad8ea272eb",
-    "delivery_package_sha256": "4bd5703ae80fcea9c1dcf7d5d1ea2a02fe282a5cf6ef3f04a2c9703db5188e59"
-  },
-  "current_required_work": [
-    "verify_governance_main_branch_pr_and_ci",
-    "recompute_runtime_c3_audit_and_promotion_evidence",
-    "clean_c4_example_ledger_rows",
-    "bind_c4_listing_claims_to_local_c3_claim_evidence",
-    "correct_crc_sha_compatibility_delivery_wording",
-    "refresh_current_xianyu_digital_goods_and_refund_rules",
-    "jovi_choose_beta_dev_unsigned_pilot_or_stable_first",
-    "freeze_manual_delivery_transport",
-    "verify_or_create_dedicated_runtime_git_remote",
-    "prepare_final_c4_human_decision_candidate"
-  ],
-  "historical_approvals": {
-    "track_p": "workspace/approvals/GATE_A.P.approval.json",
-    "track_i": "workspace/approvals/GATE_A.I.approval.json",
-    "note": "Historical governance artifacts; not the current next-step authority."
-  },
-  "first_codex_command": "Read docs/CURRENT_PROJECT_GUIDE.md and verify current Git/Runtime/Product anchors before any C4 action.",
+  "first_codex_command": "Read docs/CURRENT_PROJECT_GUIDE.md, fetch both Governance and Runtime remotes, preserve Jovi-owned local edits, and execute prompts/commerce/LOCAL_CODEX_C4_FINAL_RECEIVE_AND_VERIFY_20260906.txt.",
   "first_stop_condition": "READY_FOR_JOVI_C4_HUMAN_PILOT_DECISION",
-  "not_verified_or_still_external": [
-    "current_runtime_dedicated_git_remote",
-    "current_xianyu_platform_digital_goods_and_refund_rules",
-    "final_c4_listing_claim_review_against_local_c3_evidence",
-    "jovi_c4_human_pilot_decision",
-    "real_pilot_orders_and_commercial_validation"
+  "prohibited_without_new_human_decision": [
+    "real_xianyu_publish_or_message",
+    "real_payment_automation",
+    "raw_customer_pii_persistence",
+    "automatic_delivery",
+    "automatic_refund_or_dispute_action",
+    "n8n_production_action",
+    "force_push_or_history_rewrite"
   ]
 }
