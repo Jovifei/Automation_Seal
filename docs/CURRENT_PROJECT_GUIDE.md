@@ -1,5 +1,12 @@
 # Jovi Automation 当前项目指南
 
+> CURRENT OVERRIDE — 2026-10-02：Jovi已明确要求完全替换Medusa，并采用
+> 远端GitHub规划/实现/修复/提交 -> 本地接收/运行/修复/回传 -> 远端审核。
+> 先读[当前路线](commerce/CURRENT_ROUTE_OVERRIDE_AND_REPLACEMENT_HANDOFF_20261002.md)
+> 与[替代Runtime阶段计划](commerce/REPLACEMENT_RUNTIME_IMPLEMENTATION_STAGE_PLAN_20261002.md)。
+> 下文Medusa/C4事实仍是历史已审计基线，不是新核心已通过的证据。
+> 当前新Runtime GitHub源码接收尚未完成，真实平台权限继续关闭。
+
 **状态日期：2026-09-06**  
 **文档性质：CURRENT / LIVING / NEW-AGENT ENTRYPOINT**
 

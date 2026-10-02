@@ -51,7 +51,7 @@ The acceptance process is:
 1. Local Runtime pushes reviewed baseline.
 2. Governance records received SHA and source identity.
 3. Remote review checks uploaded baseline.
-4. Local Codex pulls review result.
+4. Remote ChatGPT implements/fixes the next bounded stage on a reviewable GitHub branch and returns its exact commit receipt; Local Codex pulls that code.
 5. Local Codex builds/tests and reports execution evidence.
 6. Remote review validates returned evidence.
 

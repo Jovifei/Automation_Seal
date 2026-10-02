@@ -1,5 +1,15 @@
 # AGENTS.md — Jovi Automation Commerce V1
 
+## 当前用户方向覆盖 — 2026-10-02
+
+Jovi已明确选择完全替换Medusa，并授权远端ChatGPT在当前项目GitHub仓库
+规划、实现、修复、提交和审核；本地Codex接收、运行/构建、修复并回传。
+本地只读连接不因此变成远程shell。先读
+docs/commerce/CURRENT_ROUTE_OVERRIDE_AND_REPLACEMENT_HANDOFF_20261002.md。
+下文Medusa选型冻结仅为历史基线，不能否定此新用户方向。
+Runtime源码仍与Governance分仓；真实平台Human Decision和六个商业开关
+保持原限制。本修改在隔离远端接收分支完成，不覆盖Owner本地AGENTS修改。
+
 **最后校准：2026-09-05**  
 **当前停点：`C4_HUMAN_PILOT_DECISION`**
 

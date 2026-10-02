@@ -10,7 +10,7 @@ This document is a current-route override layer. Historical Medusa/C4 audit reco
 
 Remote ChatGPT/Governance:
 - plan bounded stages;
-- implement governance/documentation changes;
+- implement and fix code in the appropriate authorized GitHub repository (Governance here; Runtime source in its own repository after intake);
 - review GitHub evidence;
 - commit reviewable changes.
 

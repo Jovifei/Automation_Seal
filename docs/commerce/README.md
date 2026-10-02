@@ -1,5 +1,16 @@
 # Commerce 专题文档导航
 
+## 当前入口覆盖 — 2026-10-02
+
+Jovi当前选择完全替换Medusa，采用GitHub双向代码接力。优先阅读：
+
+- [当前路线与分工](CURRENT_ROUTE_OVERRIDE_AND_REPLACEMENT_HANDOFF_20261002.md)
+- [双向接力契约](GITHUB_BIDIRECTIONAL_HANDOFF_CONTRACT_20261002.md)
+- [源码接收契约](REPLACEMENT_RUNTIME_SOURCE_RECEIVE_CONTRACT_20261002.md)
+- [下一阶段计划](REPLACEMENT_RUNTIME_IMPLEMENTATION_STAGE_PLAN_20261002.md)
+
+下文Medusa/C4为旧核心审计历史。新Runtime尚待GitHub基线接收，不宣称新核心审计PASS。
+
 **最后校准：2026-09-05**  
 **当前停点：`C4_HUMAN_PILOT_DECISION`**
 

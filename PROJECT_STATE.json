@@ -1,5 +1,17 @@
 {
   "schema_version": 2,
+  "active_route_override": {
+    "as_of": "2026-10-02",
+    "human_direction": "COMPLETE_MEDUSA_REPLACEMENT",
+    "workflow": "REMOTE_GITHUB_IMPLEMENT_FIX_COMMIT__LOCAL_RECEIVE_TEST_FIX_PUSH__REMOTE_REVIEW",
+    "phase": "REPLACEMENT_RUNTIME_GITHUB_SOURCE_INTAKE_PENDING",
+    "runtime_repository": "Jovifei/jovi-xianyu-commerce-v1",
+    "source_baseline_reported_local": "c091ac3f63ba96b37aba59d3f4184caf4659bff5",
+    "github_source_received": false,
+    "runtime_remote_review": "NOT_RUN",
+    "guide": "docs/commerce/CURRENT_ROUTE_OVERRIDE_AND_REPLACEMENT_HANDOFF_20261002.md",
+    "legacy_fields_note": "Existing Medusa/C4 fields below record the last audited old core, not the active replacement route or its acceptance."
+  },
   "package_version": "commerce-v1-c4-human-decision-ready-20260906",
   "generated_at": "2026-09-06",
   "final_goal": "Build an auditable digital-product Commerce system that automates product qualification, listing preparation, order evidence, entitlement, deterministic delivery preparation, support and audit evidence while keeping real platform actions human-controlled until explicitly authorized.",

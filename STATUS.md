@@ -1,5 +1,13 @@
 # STATUS
 
+## 当前路线覆盖 — 2026-10-02
+
+Jovi已选择完全替换Medusa。当前工作为GitHub替代Runtime源码接收；
+远端规划/实现/修复/提交，本地接收运行/修复/回传，远端再审核。
+新Runtime私有仓尚待创建及基线上传。旧Medusa审计保留，不代表新核心PASS。
+入口：docs/commerce/CURRENT_ROUTE_OVERRIDE_AND_REPLACEMENT_HANDOFF_20261002.md。
+真实权限未开放；issued_from_human=false。
+
 ## Commerce V1 V14 candidate closeout (2026-08-15)
 
 - Candidate-only closeout target: after the V14 facade/Framework rebind and the already-recorded V12 Post-Apply PASS, this exact three-file transaction changes the canonical control plane to `S1/CLOSED/2` with no blockers.
