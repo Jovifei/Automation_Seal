@@ -1,11 +1,14 @@
 # Jovi Automation 当前项目指南
 
-> CURRENT OVERRIDE — 2026-10-02：Jovi已明确要求完全替换Medusa，并采用
-> 远端GitHub规划/实现/修复/提交 -> 本地接收/运行/修复/回传 -> 远端审核。
-> 先读[当前路线](commerce/CURRENT_ROUTE_OVERRIDE_AND_REPLACEMENT_HANDOFF_20261002.md)
-> 与[替代Runtime阶段计划](commerce/REPLACEMENT_RUNTIME_IMPLEMENTATION_STAGE_PLAN_20261002.md)。
-> 下文Medusa/C4事实仍是历史已审计基线，不是新核心已通过的证据。
-> 当前新Runtime GitHub源码接收尚未完成，真实平台权限继续关闭。
+> CURRENT OVERRIDE — 2026-10-03：Jovi已再次明确要求**完全替换Medusa**。当前新核心目标仓为
+> `Jovifei/Automation_Jovi`；仓库已存在但仍是 **Public / empty**，源码尚未上传。允许接收的唯一已准备基线是
+> 独立根提交 `734949ba047d33c76fc9fee013b1373404c14a6f`：14个允许文件raw-blob逐项一致、
+> Python 3.14离线21测试PASS、Gitleaks v8.24.0对工作树与新历史均0 finding。
+> 旧候选 `c091ac3f63ba96b37aba59d3f4184caf4659bff5` 及其上游历史因仍有10项未资格化扫描finding，**禁止上传**。
+> 当前流程是：远端ChatGPT在GitHub规划/实现/修复/提交 → 本地Codex拉取/构建/测试/修复/push → 远端复审。
+> Private转换因GitHub页面提示Advanced Security变化，需Jovi对该具体安全影响确认后再执行；在源码上传前不得声称Runtime已审核。
+> 先读 [Clean Runtime Intake](commerce/CLEAN_RUNTIME_INTAKE_20261003.md)、[当前路线](commerce/CURRENT_ROUTE_OVERRIDE_AND_REPLACEMENT_HANDOFF_20261002.md)
+> 与 [下一Runtime实施阶段](commerce/REPLACEMENT_RUNTIME_IMPLEMENTATION_STAGE_PLAN_20261002.md)。下文Medusa/C4只保留历史审计意义。
 
 **状态日期：2026-09-06**  
 **文档性质：CURRENT / LIVING / NEW-AGENT ENTRYPOINT**
