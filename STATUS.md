@@ -5,9 +5,9 @@
 Jovi已再次确认**完全替换Medusa**。实际新Runtime目标仓为 `Jovifei/Automation_Jovi`。
 GitHub已核验该仓存在，当前 **Public / empty**；源码尚未上传。
 
-允许进入远端接收的唯一准备基线为独立根提交
-`734949ba047d33c76fc9fee013b1373404c14a6f`：
-14个允许文件raw-blob逐项一致、Python 3.14离线21测试PASS、
+独立根提交 `734949ba047d33c76fc9fee013b1373404c14a6f` 冻结14-file provenance；
+当前经独立review准备发布的HEAD为 `0cdf07ea99b05bb32ca517021357ee03c5ffc3ce`，是其直接后代且只修正文档，Runtime/tests不变。
+根提交14个允许文件raw-blob逐项一致、Python 3.14离线21测试PASS、
 Gitleaks v8.24.0对工作树与独立新历史均0 finding。
 旧候选 `c091ac3f63ba96b37aba59d3f4184caf4659bff5` 及其带10项未资格化scan finding的上游历史**禁止上传**。
 
