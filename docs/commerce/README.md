@@ -3,7 +3,7 @@
 ## 当前入口覆盖 — 2026-10-03
 
 Jovi当前选择完全替换Medusa，实际Runtime目标为 **`Jovifei/Automation_Jovi`**。仓库已存在但当前Public/empty；源码尚未上传。
-唯一允许发布的准备基线是独立根 `734949ba047d33c76fc9fee013b1373404c14a6f`。旧 `c091ac3...` 历史因仍带10项未资格化scan finding而禁止上传。
+provenance根为 `734949ba047d33c76fc9fee013b1373404c14a6f`；当前reviewed publication HEAD为其直接后代 `0cdf07ea99b05bb32ca517021357ee03c5ffc3ce`。14-file manifest在根提交冻结，后续文档/实现变化按显式diff审阅；旧 `c091ac3...` 历史因仍带10项未资格化scan finding而禁止上传。
 
 优先阅读：
 
