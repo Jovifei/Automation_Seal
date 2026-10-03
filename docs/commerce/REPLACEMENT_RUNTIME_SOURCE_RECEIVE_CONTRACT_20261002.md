@@ -16,6 +16,14 @@ Independent curated root:
 
 `734949ba047d33c76fc9fee013b1373404c14a6f`
 
+The prepared publication HEAD is `0cdf07ea99b05bb32ca517021357ee03c5ffc3ce`,
+a direct descendant of that root. Its independently reviewed documentation-only
+fix corrects SOURCE_NOTICE.md and OFFLINE_README.md and adds INTAKE_REVIEW_FIXES.md.
+It does not change Runtime/test blobs or rewrite the root/manifest.
+The 14-file raw-blob/hash/size comparison is performed at the immutable initial
+root, not incorrectly against amended HEAD documentation. Later changes must
+be reviewed as explicit diffs from that root; this is not a scan exclusion.
+
 Required source provenance:
 - 14 allowed files;
 - every allowed file raw-blob matches its selected source Git object;
@@ -37,7 +45,8 @@ Reject intake if:
 - the old commit becomes reachable;
 - an old upstream parent is grafted/merged;
 - the independent root unexpectedly has a parent;
-- any of the 14 allowed blobs differs from the intake manifest;
+- any of the 14 initial-root blobs differs from the frozen intake manifest;
+- a subsequent change lacks explicit scoped review and provenance;
 - a secret/credential appears;
 - any real-platform gate changes.
 

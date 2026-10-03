@@ -25,7 +25,7 @@ All must be true before remote implementation starts:
    `734949ba047d33c76fc9fee013b1373404c14a6f`.
 5. `c091ac3f63ba96b37aba59d3f4184caf4659bff5` and its inherited upstream history are not reachable.
 6. The independent root has the expected clean provenance; no graft/merge recreates rejected history.
-7. 14 allowed source files match `INTAKE_MANIFEST.json` by source blob / SHA256 / size.
+7. The 14 initial-root files match `INTAKE_MANIFEST.json` by source blob / SHA256 / size. Validate the immutable root; compare and review later HEAD changes separately.
 8. No secrets/credentials.
 9. All real-action flags remain false and `issued_from_human=false`.
 
@@ -56,6 +56,11 @@ Implement machine-verifiable intake checks that fail closed on:
 - real-action flag drift.
 
 CI must record the exact commit SHA and run on pull requests.
+
+The currently reviewed publication head `0cdf07ea99b05bb32ca517021357ee03c5ffc3ce`
+only amends intake documentation on top of the eligible root. CI must distinguish
+root provenance verification from intentional reviewed implementation/doc changes
+at HEAD; do not require HEAD to remain byte-identical forever or ignore mismatches.
 
 Security scanning:
 - Gitleaks v8.24.0 or the repository's accepted pinned equivalent;
