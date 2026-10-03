@@ -1,41 +1,84 @@
 # Replacement Runtime Source Receive Contract
 
-Date: 2026-10-02
+Updated: 2026-10-03
 
 ## Scope
 
-This contract defines how `jovi-xianyu-commerce-v1` is received.
+This contract governs source intake into the actual Runtime repository:
 
-It does not claim that Runtime code has been reviewed before baseline upload.
+`Jovifei/Automation_Jovi`
 
-## Required Before Review
+It does not claim Runtime source review before the eligible baseline is uploaded.
 
-Required:
+## Only eligible baseline
 
-- private GitHub repository exists;
-- uploaded baseline commit is identified;
-- commit SHA is immutable;
-- local and remote references match;
-- no secrets are included.
+Independent curated root:
 
-## Review Sequence
+`734949ba047d33c76fc9fee013b1373404c14a6f`
 
-After baseline upload:
+Required source provenance:
+- 14 allowed files;
+- every allowed file raw-blob matches its selected source Git object;
+- `INTAKE_MANIFEST.json` records source blob, SHA256 and size;
+- intake metadata (README/AGENTS/source convention/git attributes) is additive and must not be misrepresented as copied historical source;
+- Python 3.14 offline tests: at least the reported 21 PASS before upload;
+- Gitleaks v8.24.0 worktree scan: 0 findings;
+- Gitleaks v8.24.0 full **new-history** scan: 0 findings.
 
-1. inspect repository tree;
-2. inspect commit history;
-3. inspect build/test configuration;
-4. review security boundaries;
-5. create bounded implementation plan.
+## Explicitly rejected history
 
-## Not Allowed
+Do not upload or connect the old candidate/history:
+
+`c091ac3f63ba96b37aba59d3f4184caf4659bff5`
+
+The inherited two upstream commits still have 10 unresolved/unqualified scan findings.
+
+Reject intake if:
+- the old commit becomes reachable;
+- an old upstream parent is grafted/merged;
+- the independent root unexpectedly has a parent;
+- any of the 14 allowed blobs differs from the intake manifest;
+- a secret/credential appears;
+- any real-platform gate changes.
+
+## Repository visibility gate
+
+Current GitHub fact: `Automation_Jovi` exists, is Public and empty.
+
+Private conversion is pending Jovi's explicit confirmation because the GitHub confirmation UI reported an Advanced Security effect. No source is to be uploaded merely to bypass that decision.
+
+## Remote intake review after upload
+
+Remote ChatGPT must verify directly from GitHub:
+1. repository identity and visibility;
+2. exact root SHA and parentlessness/new-history provenance;
+3. tree/file inventory and intake manifest;
+4. absence of disallowed old history;
+5. build/test/CI entrypoints;
+6. security scans and real-action boundaries.
+
+Only then may status advance to:
+
+`REPLACEMENT_RUNTIME_BASELINE_RECEIVED_READY_FOR_REMOTE_IMPLEMENTATION`
+
+Source upload alone is not an acceptance verdict.
+
+## Post-intake execution
+
+After intake passes:
+- Remote ChatGPT creates a Runtime implementation branch and directly commits the bounded CI/build/restore stage.
+- Local Codex pulls that exact commit, builds/tests locally, fixes failures, and pushes back.
+- Remote ChatGPT re-reviews GitHub and released local evidence.
+
+No planner-only fallback.
+
+## Prohibited
 
 - no real Xianyu writes;
-- no payment enablement;
-- no credential import;
-- no overwrite of Governance main;
-- no replacement of historical audit evidence.
-
-## Current Status
-
-Waiting for Runtime repository baseline publication.
+- no real payment enablement;
+- no raw customer PII;
+- no credentials;
+- no auto delivery/refund;
+- no n8n production;
+- no Governance-source mixing;
+- no force push/history rewrite.
