@@ -1,15 +1,20 @@
 # Commerce 专题文档导航
 
-## 当前入口覆盖 — 2026-10-02
+## 当前入口覆盖 — 2026-10-03
 
-Jovi当前选择完全替换Medusa，采用GitHub双向代码接力。优先阅读：
+Jovi当前选择完全替换Medusa，实际Runtime目标为 **`Jovifei/Automation_Jovi`**。仓库已存在但当前Public/empty；源码尚未上传。
+唯一允许发布的准备基线是独立根 `734949ba047d33c76fc9fee013b1373404c14a6f`。旧 `c091ac3...` 历史因仍带10项未资格化scan finding而禁止上传。
 
+优先阅读：
+
+- [独立干净接收事实](CLEAN_RUNTIME_INTAKE_20261003.md)
 - [当前路线与分工](CURRENT_ROUTE_OVERRIDE_AND_REPLACEMENT_HANDOFF_20261002.md)
 - [双向接力契约](GITHUB_BIDIRECTIONAL_HANDOFF_CONTRACT_20261002.md)
 - [源码接收契约](REPLACEMENT_RUNTIME_SOURCE_RECEIVE_CONTRACT_20261002.md)
-- [下一阶段计划](REPLACEMENT_RUNTIME_IMPLEMENTATION_STAGE_PLAN_20261002.md)
+- [下一Runtime实施阶段](REPLACEMENT_RUNTIME_IMPLEMENTATION_STAGE_PLAN_20261002.md)
 
-下文Medusa/C4为旧核心审计历史。新Runtime尚待GitHub基线接收，不宣称新核心审计PASS。
+双向工作流：远端ChatGPT在GitHub实现/修复/提交，本地Codex拉取/构建/测试/修复/push，远端再审核。源码上传前不宣称新Runtime已审核。
+下文Medusa/C4仅为旧核心审计历史，真实平台门禁继续关闭。
 
 **最后校准：2026-09-05**  
 **当前停点：`C4_HUMAN_PILOT_DECISION`**
