@@ -1,28 +1,32 @@
 {
-  "schema_version": 2,
+  "schema_version": 3,
   "active_route_override": {
-    "as_of": "2026-10-02",
+    "as_of": "2026-10-03",
     "human_direction": "COMPLETE_MEDUSA_REPLACEMENT",
-    "workflow": "REMOTE_GITHUB_IMPLEMENT_FIX_COMMIT__LOCAL_RECEIVE_TEST_FIX_PUSH__REMOTE_REVIEW",
-    "phase": "REPLACEMENT_RUNTIME_GITHUB_SOURCE_INTAKE_PENDING",
-    "runtime_repository": "Jovifei/jovi-xianyu-commerce-v1",
-    "source_baseline_reported_local": "c091ac3f63ba96b37aba59d3f4184caf4659bff5",
+    "workflow": "REMOTE_GITHUB_PLAN_IMPLEMENT_FIX_COMMIT__LOCAL_PULL_BUILD_TEST_FIX_PUSH__REMOTE_REVIEW",
+    "phase": "CLEAN_RUNTIME_SOURCE_INTAKE_PENDING",
+    "runtime_repository": "Jovifei/Automation_Jovi",
+    "repository_visibility": "PUBLIC_EMPTY_PENDING_EXPLICIT_PRIVATE_SECURITY_EFFECTS_CONFIRMATION",
+    "source_baseline_required": "734949ba047d33c76fc9fee013b1373404c14a6f",
+    "prohibited_history_commit": "c091ac3f63ba96b37aba59d3f4184caf4659bff5",
+    "prohibited_history_reason": "inherits unresolved upstream scan findings; never upload that history",
+    "provenance": "INDEPENDENT_CURATED_ROOT__14_ALLOWED_RAW_BLOBS_MATCHED__INTAKE_MANIFEST_BOUND",
+    "local_validation": "PYTHON_3_14_OFFLINE_21_TESTS_PASS__GITLEAKS_V8_24_0_WORKTREE_AND_NEW_HISTORY_ZERO",
     "github_source_received": false,
     "runtime_remote_review": "NOT_RUN",
     "guide": "docs/commerce/CURRENT_ROUTE_OVERRIDE_AND_REPLACEMENT_HANDOFF_20261002.md",
-    "legacy_fields_note": "Existing Medusa/C4 fields below record the last audited old core, not the active replacement route or its acceptance."
+    "intake_contract": "docs/commerce/CLEAN_RUNTIME_INTAKE_20261003.md",
+    "legacy_fields_note": "Medusa/C4 fields below are preserved historical audit state and are not the active runtime acceptance route."
   },
-  "package_version": "commerce-v1-c4-human-decision-ready-20260906",
-  "generated_at": "2026-09-06",
+  "package_version": "commerce-replacement-runtime-github-intake-20261003",
+  "generated_at": "2026-10-03",
   "final_goal": "Build an auditable digital-product Commerce system that automates product qualification, listing preparation, order evidence, entitlement, deterministic delivery preparation, support and audit evidence while keeping real platform actions human-controlled until explicitly authorized.",
-  "current_state": "READY_FOR_JOVI_C4_HUMAN_PILOT_DECISION",
+  "current_state": "REPLACEMENT_RUNTIME_CLEAN_BASELINE_READY_FOR_GITHUB_INTAKE_PENDING_VISIBILITY_DECISION",
   "current_stage": {
-    "name": "C4_HUMAN_PILOT",
-    "phase": "HUMAN_DECISION_PENDING",
-    "pre_publish_qa": "C4_PRE_PUBLISH_QA_READY_FOR_HUMAN_DECISION",
-    "decision_candidate": "docs/commerce/C4_HUMAN_PILOT_DECISION_CANDIDATE_V1.md",
+    "name": "REPLACEMENT_RUNTIME_GITHUB_INTAKE",
+    "phase": "CLEAN_BASELINE_PENDING_SECURE_PUBLICATION",
     "issued_from_human": false,
-    "success_state": "C4_HUMAN_PILOT_PASS_PENDING_PERMISSION_DECISION"
+    "success_state": "REPLACEMENT_RUNTIME_BASELINE_RECEIVED_READY_FOR_REMOTE_IMPLEMENTATION"
   },
   "governance": {
     "repository": "Jovifei/Automation_Seal",
@@ -92,12 +96,12 @@
   },
   "decisions": {
     "broad_research": "FROZEN_UNLESS_REFRESH_TRIGGER",
-    "commerce_core": "MEDUSA_V2_19_0",
+    "commerce_core": "COMPLETE_MEDUSA_REPLACEMENT__AUTOMATION_JOVI_PENDING_SOURCE_INTAKE",
     "first_product": "MODBUS_RTU_DIAGNOSTIC_TOOLKIT",
     "legacy_python_commerce": "ARCHIVE_ONLY",
     "real_platform_actions": "HUMAN_CONTROLLED",
     "xianyu_integration": "SEPARATE_ADAPTER_HUMAN_CONTROLLED",
-    "final_c4_human_pilot_authorization": "PENDING_JOVI_EXPLICIT_DECISION"
+    "final_c4_human_pilot_authorization": "NOT_CURRENT_ROUTE__HISTORICAL_CANDIDATE_ONLY"
   },
   "recommended_human_decision_bindings": {
     "price_cny_candidate": 99,
@@ -105,10 +109,12 @@
     "binding_status": "PROPOSAL_ONLY_UNTIL_JOVI_SIGNS"
   },
   "current_required_work": [
-    "jovi_explicitly_bind_final_pilot_price",
-    "jovi_explicitly_bind_final_pilot_order_or_time_limit",
-    "jovi_issue_c4_human_pilot_decision_with_issued_from_human_true",
-    "only_after_signature_execute_human_controlled_c4_pilot"
+    "jovi_confirm_repository_visibility_security_effects_before_private_conversion",
+    "publish_only_clean_independent_root_734949ba_to_Jovifei_Automation_Jovi",
+    "remote_verify_exact_source_intake_and_provenance",
+    "remote_implement_runtime_ci_build_restore_stage_on_review_branch",
+    "local_pull_build_test_fix_and_push",
+    "remote_review_returned_git_and_execution_evidence"
   ],
   "recommended_paths": {
     "project_root": "E:\\project\\jovi-automation",
@@ -117,8 +123,8 @@
     "legacy_commerce_root": "E:\\project\\jovi-commerce-engine-v1",
     "xianyu_adapter_root": "E:\\project\\xianyu-auto-reply"
   },
-  "first_codex_command": "Read docs/CURRENT_PROJECT_GUIDE.md, fetch both Governance and Runtime remotes, preserve Jovi-owned local edits, and execute prompts/commerce/LOCAL_CODEX_C4_FINAL_RECEIVE_AND_VERIFY_20260906.txt.",
-  "first_stop_condition": "READY_FOR_JOVI_C4_HUMAN_PILOT_DECISION",
+  "first_codex_command": "Use docs/commerce/CLEAN_RUNTIME_INTAKE_20261003.md and REPLACEMENT_RUNTIME_SOURCE_RECEIVE_CONTRACT_20261002.md; never push c091ac3 history; after remote Runtime implementation, pull/test/fix/push the reviewed branch.",
+  "first_stop_condition": "REPLACEMENT_RUNTIME_BASELINE_RECEIVED_READY_FOR_REMOTE_IMPLEMENTATION",
   "prohibited_without_new_human_decision": [
     "real_xianyu_publish_or_message",
     "real_payment_automation",
@@ -127,5 +133,27 @@
     "automatic_refund_or_dispute_action",
     "n8n_production_action",
     "force_push_or_history_rewrite"
-  ]
+  ],
+  "replacement_runtime": {
+    "repository": "Jovifei/Automation_Jovi",
+    "status": "EMPTY_PUBLIC_REPO__CLEAN_BASELINE_PREPARED_LOCALLY_NOT_UPLOADED",
+    "clean_root_sha": "734949ba047d33c76fc9fee013b1373404c14a6f",
+    "prior_candidate_sha": "c091ac3f63ba96b37aba59d3f4184caf4659bff5",
+    "prior_candidate_history_allowed": false,
+    "allowed_source_files": 14,
+    "raw_blob_match": true,
+    "intake_manifest_required": true,
+    "offline_tests": {
+      "python": "3.14",
+      "passed": 21
+    },
+    "gitleaks": {
+      "version": "8.24.0",
+      "worktree_findings": 0,
+      "new_history_findings": 0
+    },
+    "upstream_history_findings": 10,
+    "visibility_change": "PENDING_JOVI_CONFIRMATION_OF_ADVANCED_SECURITY_EFFECTS",
+    "source_uploaded": false
+  }
 }
