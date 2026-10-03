@@ -1,5 +1,25 @@
 # STATUS
 
+## 当前路线覆盖 — 2026-10-03
+
+Jovi已再次确认**完全替换Medusa**。实际新Runtime目标仓为 `Jovifei/Automation_Jovi`。
+GitHub已核验该仓存在，当前 **Public / empty**；源码尚未上传。
+
+独立根提交 `734949ba047d33c76fc9fee013b1373404c14a6f` 冻结14-file provenance；
+当前经独立review准备发布的HEAD为 `0cdf07ea99b05bb32ca517021357ee03c5ffc3ce`，是其直接后代且只修正文档，Runtime/tests不变。
+根提交14个允许文件raw-blob逐项一致、Python 3.14离线21测试PASS、
+Gitleaks v8.24.0对工作树与独立新历史均0 finding。
+旧候选 `c091ac3f63ba96b37aba59d3f4184caf4659bff5` 及其带10项未资格化scan finding的上游历史**禁止上传**。
+
+仓库Private转换因GitHub确认页提示Advanced Security将发生变化，等待Jovi对该具体安全效果确认。
+Gitleaks CI不能被描述为secret scanning/push protection/Advanced Security的完整等价替代。
+
+当前双向接力：
+**远端ChatGPT GitHub规划/实现/修复/提交 → 本地Codex拉取/构建/测试/修复/push → 远端复审**。
+入口：`docs/commerce/CLEAN_RUNTIME_INTAKE_20261003.md`。
+旧Medusa/C4结果继续保留为历史审计，不定义新核心验收。
+真实权限未开放；`issued_from_human=false`；六个real-action flags继续为false。
+
 ## Commerce V1 V14 candidate closeout (2026-08-15)
 
 - Candidate-only closeout target: after the V14 facade/Framework rebind and the already-recorded V12 Post-Apply PASS, this exact three-file transaction changes the canonical control plane to `S1/CLOSED/2` with no blockers.

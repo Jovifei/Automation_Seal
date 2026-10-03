@@ -1,5 +1,13 @@
 # AGENTS.md — Jovi Automation Commerce V1
 
+## 当前用户方向覆盖 — 2026-10-03
+
+Jovi已明确选择完全替换Medusa。实际新Runtime仓是 `Jovifei/Automation_Jovi`；当前Public/empty且尚未接收源码。
+provenance根为 `734949ba047d33c76fc9fee013b1373404c14a6f`，当前reviewed publication HEAD为直接后代 `0cdf07ea99b05bb32ca517021357ee03c5ffc3ce`；冻结manifest在根验证，后续变化按显式diff审阅。旧 `c091ac3...` 及其未解决上游扫描历史禁止上传。
+远端ChatGPT获授权在GitHub上规划、实现、修复、提交并复审；本地Codex拉取、构建/测试、修复并push回审查分支。
+本地只读连接不因此变成远程shell。先读 `docs/commerce/CLEAN_RUNTIME_INTAKE_20261003.md` 与当前route override。
+下文Medusa选型冻结只作为历史审计基线，不能否定此新方向。Runtime源码与Governance继续分仓；真实平台Human Decision、`issued_from_human=false` 和六个商业开关保持原限制。
+
 **最后校准：2026-09-05**  
 **当前停点：`C4_HUMAN_PILOT_DECISION`**
 
