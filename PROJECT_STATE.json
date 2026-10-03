@@ -112,8 +112,8 @@
   },
   "current_required_work": [
     "jovi_confirm_repository_visibility_security_effects_before_private_conversion",
-    "publish_only_clean_independent_root_734949ba_to_Jovifei_Automation_Jovi",
-    "remote_verify_exact_source_intake_and_provenance",
+    "publish_reviewed_head_0cdf07ea_to_Jovifei_Automation_Jovi_with_root_734949ba_preserved_as_provenance_anchor",
+    "remote_verify_root_734949ba_parentlessness_manifest_and_review_explicit_diff_to_publication_head_0cdf07ea",
     "remote_implement_runtime_ci_build_restore_stage_on_review_branch",
     "local_pull_build_test_fix_and_push",
     "remote_review_returned_git_and_execution_evidence"
@@ -125,7 +125,7 @@
     "legacy_commerce_root": "E:\\project\\jovi-commerce-engine-v1",
     "xianyu_adapter_root": "E:\\project\\xianyu-auto-reply"
   },
-  "first_codex_command": "Use docs/commerce/CLEAN_RUNTIME_INTAKE_20261003.md and REPLACEMENT_RUNTIME_SOURCE_RECEIVE_CONTRACT_20261002.md; never push c091ac3 history; after remote Runtime implementation, pull/test/fix/push the reviewed branch.",
+  "first_codex_command": "Use docs/commerce/CLEAN_RUNTIME_INTAKE_20261003.md and REPLACEMENT_RUNTIME_SOURCE_RECEIVE_CONTRACT_20261002.md; publish only the reviewed independent lineage rooted at 734949ba with prepared publication HEAD 0cdf07ea; never push c091ac3 history; after remote Runtime implementation, pull/test/fix/push the reviewed branch.",
   "first_stop_condition": "REPLACEMENT_RUNTIME_BASELINE_RECEIVED_READY_FOR_REMOTE_IMPLEMENTATION",
   "prohibited_without_new_human_decision": [
     "real_xianyu_publish_or_message",
