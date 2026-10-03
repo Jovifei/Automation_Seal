@@ -1,10 +1,10 @@
 # Jovi Automation 当前项目指南
 
 > CURRENT OVERRIDE — 2026-10-03：Jovi已再次明确要求**完全替换Medusa**。当前新核心目标仓为
-> `Jovifei/Automation_Jovi`；仓库已存在但仍是 **Public / empty**，源码尚未上传。允许接收的唯一已准备基线是
-> 独立根提交 `734949ba047d33c76fc9fee013b1373404c14a6f`：14个允许文件raw-blob逐项一致、
+> `Jovifei/Automation_Jovi`；仓库已存在但仍是 **Public / empty**，源码尚未上传。provenance冻结在独立根提交 `734949ba047d33c76fc9fee013b1373404c14a6f`；当前经本地独立复核的准备发布HEAD为
+> `0cdf07ea99b05bb32ca517021357ee03c5ffc3ce`（其直接后代，仅修正3个接收文档，Runtime/tests不变）。根提交的14个允许文件raw-blob逐项一致、
 > Python 3.14离线21测试PASS、Gitleaks v8.24.0对工作树与新历史均0 finding。
-> 旧候选 `c091ac3f63ba96b37aba59d3f4184caf4659bff5` 及其上游历史因仍有10项未资格化扫描finding，**禁止上传**。
+> CI必须在根提交验证冻结manifest，再对 `734949b..0cdf07e` 及后续HEAD做显式diff审阅；不得要求HEAD永久与根文档字节相同。旧候选 `c091ac3f63ba96b37aba59d3f4184caf4659bff5` 及其上游历史因仍有10项未资格化扫描finding，**禁止上传**。
 > 当前流程是：远端ChatGPT在GitHub规划/实现/修复/提交 → 本地Codex拉取/构建/测试/修复/push → 远端复审。
 > Private转换因GitHub页面提示Advanced Security变化，需Jovi对该具体安全影响确认后再执行；在源码上传前不得声称Runtime已审核。
 > 先读 [Clean Runtime Intake](commerce/CLEAN_RUNTIME_INTAKE_20261003.md)、[当前路线](commerce/CURRENT_ROUTE_OVERRIDE_AND_REPLACEMENT_HANDOFF_20261002.md)
