@@ -1,5 +1,12 @@
 # Jovi Automation 当前项目指南
 
+## 最新事实纠偏 — 2026-10-22
+
+截至北京时间 00:40，Automation_Jovi 已是 private / 非空仓库，PR6 固定 HEAD 为 ba6813a82dd22e129daffc0637214146211ae022，保持 Draft / 未合并；同 SHA 的 GitHub Actions 均失败，原因尚未核实。不能继续按下方 2026-10-03 的 Public / empty、源码未上传描述执行初始化或可见性变更。
+
+详见[只读远端事实核对](commerce/RUNTIME_REMOTE_STATUS_20261022.md)。下方旧 intake、Medusa/C4 和 PROJECT_STATE.json 的旧状态保留作历史，不代表当前验收。此纠偏不更改机器控制面、真实权限、人审状态、历史证据或部署状态。本轮未启动 Codex、未重跑测试、未声明 CI 通过。
+
+
 > CURRENT OVERRIDE — 2026-10-03：Jovi已再次明确要求**完全替换Medusa**。当前新核心目标仓为
 > `Jovifei/Automation_Jovi`；仓库已存在但仍是 **Public / empty**，源码尚未上传。provenance冻结在独立根提交 `734949ba047d33c76fc9fee013b1373404c14a6f`；当前经本地独立复核的准备发布HEAD为
 > `0cdf07ea99b05bb32ca517021357ee03c5ffc3ce`（其直接后代，仅修正3个接收文档，Runtime/tests不变）。根提交的14个允许文件raw-blob逐项一致、
@@ -198,3 +205,4 @@ C4 真人 Pilot 结束后的目标状态：
 `C4_HUMAN_PILOT_PASS_PENDING_PERMISSION_DECISION`
 
 Pilot PASS 也不自动开启任何新权限；后续仍由 Jovi 逐动作决定 Permission Expansion。
+

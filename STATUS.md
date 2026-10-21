@@ -1,5 +1,12 @@
 # STATUS
 
+## 最新事实纠偏 — 2026-10-22
+
+截至北京时间 00:40，Automation_Jovi 已是 private / 非空仓库，PR6 固定 HEAD 为 ba6813a82dd22e129daffc0637214146211ae022，保持 Draft / 未合并；同 SHA 的 GitHub Actions 均失败，原因尚未核实。不能继续按下方 2026-10-03 的 Public / empty、源码未上传描述执行初始化或可见性变更。
+
+详见[只读远端事实核对](docs/commerce/RUNTIME_REMOTE_STATUS_20261022.md)。下方旧 intake、Medusa/C4 和 PROJECT_STATE.json 的旧状态保留作历史，不代表当前验收。此纠偏不更改机器控制面、真实权限、人审状态、历史证据或部署状态。本轮未启动 Codex、未重跑测试、未声明 CI 通过。
+
+
 ## 当前路线覆盖 — 2026-10-03
 
 Jovi已再次确认**完全替换Medusa**。实际新Runtime目标仓为 `Jovifei/Automation_Jovi`。
@@ -146,3 +153,4 @@ Gitleaks CI不能被描述为secret scanning/push protection/Advanced Security�
 - Governance mirror: docs/commerce/C3_LOCAL_AUDIT_CLOSURE_MIRROR_20260905.md.
 - Pilot Operational Kit: docs/commerce/C4_PILOT_OPERATIONAL_KIT_V1.md (listing copy card, pre-sale qualifying scripts, delivery SOP, 10-order sanitized ledger template, support taxonomy).
 - Current stop state: Stopped at C4_HUMAN_PILOT_DECISION awaiting human pilot authorization.
+
