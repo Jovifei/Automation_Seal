@@ -153,4 +153,3 @@ Gitleaks CI不能被描述为secret scanning/push protection/Advanced Security�
 - Governance mirror: docs/commerce/C3_LOCAL_AUDIT_CLOSURE_MIRROR_20260905.md.
 - Pilot Operational Kit: docs/commerce/C4_PILOT_OPERATIONAL_KIT_V1.md (listing copy card, pre-sale qualifying scripts, delivery SOP, 10-order sanitized ledger template, support taxonomy).
 - Current stop state: Stopped at C4_HUMAN_PILOT_DECISION awaiting human pilot authorization.
-
